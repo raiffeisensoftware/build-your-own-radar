@@ -15,6 +15,9 @@
     "assess",
     "hold"
   ],
-  "logoUrl": "example.com"
-
+  "logoUrl": "example.com",
+  
+  "radarBaseUrl": "myfilehoster.com/user/files/CSVs/[VERSION]/[PLATFORM].csv",
+  "CsvQueryParams": {"VERSION": "latest", "PLATFORM": ""}
+  
 }

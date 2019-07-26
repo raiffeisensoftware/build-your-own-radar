@@ -25,7 +25,7 @@ const ExceptionMessages = require('./exceptionMessages')
 const GoogleAuth = require('./googleAuth')
 
 const plotRadar = function (title, blips, currentRadarName, alternativeRadars) {
-  document.title = title
+  document.title = title.replace(/\.csv/, '')
   d3.selectAll('.loading').remove()
   const normalizedConfig = getConfig(blips)
 
@@ -208,14 +208,18 @@ const GoogleSheetInput = function () {
 
   self.build = function () {
     var domainName = DomainName(window.location.search.substring(1))
-    var queryString = window.location.href.match(/sheetId(.*)/)
-    var queryParams = queryString ? QueryParams(queryString[0]) : {}
+    var queryString = window.location.href.match(/\?(.*)/)
+    var queryParams = queryString ? QueryParams(queryString[1]) : {}
+    var sheetId = queryParams.sheetId // is the url for the csv file
+    if (!sheetId) {
+      sheetId = (getConfig()).generateCsvUrl(queryParams)
+    }
 
-    if (domainName && queryParams.sheetId.endsWith('csv')) {
-      sheet = CSVDocument(queryParams.sheetId)
+    if (((queryParams.sheetId && domainName) || Object.keys(queryParams).length) && sheetId.endsWith('csv')) {
+      sheet = CSVDocument(sheetId)
       sheet.init().build()
-    } else if (domainName && domainName.endsWith('google.com') && queryParams.sheetId) {
-      sheet = GoogleSheet(queryParams.sheetId, queryParams.sheetName)
+    } else if (domainName && domainName.endsWith('google.com') && sheetId) {
+      sheet = GoogleSheet(sheetId, queryParams.sheetName)
 
       sheet.init().build()
     } else {

@@ -45,6 +45,19 @@ function createConfig (blips) {
     configuration.rings = configuration.rings.map(el => el.toLowerCase())
   }
 
+  configuration.generateCsvUrl = (queryParams) => {
+    if (!configuration.radarBaseUrl) throw new Error('No "radarBaseUrl" exists in config')
+    if (!Object.keys(configuration.CsvQueryParams).length) throw new Error('No "CsvQueryParams" exist in config')
+
+    let url = configuration.radarBaseUrl
+    for (const [param, defaultVal] of Object.entries(configuration.CsvQueryParams)) {
+      const regexp = new RegExp(`\\[${param}\\]`)
+      url = url.replace(regexp, queryParams[param] || defaultVal)
+    }
+
+    return url
+  }
+
   return configuration
 }
 
