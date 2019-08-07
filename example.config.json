@@ -19,5 +19,5 @@
   
   "radarBaseUrl": "myfilehoster.com/user/files/CSVs/[VERSION]/[PLATFORM].csv",
   "CsvQueryParams": {"VERSION": "latest", "PLATFORM": ""},
-  "footerText": "Technologie-Radar der Raiffeisen Software zur Visualisierung des <a href=\"https://collab.r-software.at/confluence/display/RSGWMTECH/Technologieradar\">Technologie-Managments</a>.<br>Sourcecode und Lizenz auf <a href=\"https://github.com/raiffeisensoftware/build-your-own-radar\">Github</a>."
+  "footerText": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et<br>dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata"
 }
