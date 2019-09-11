@@ -445,8 +445,7 @@ const Radar = function (size, radar) {
       header.select('.radar-title')
         .append('div')
         .attr('class', 'radar-title__logo')
-        .html('<a href="#" style="margin-right: 15px;"><img src="' + logoSource + '" /></a>' +
-        '<a href="https://www.thoughtworks.com"> <img src="/images/logo.png" /></a>')
+        .html('<a href="#" style="margin-right: 15px;"><img src="' + logoSource + '" /></a>')
     }
     buttonsGroup = header.append('div')
       .classed('buttons-group', true)
@@ -510,10 +509,7 @@ const Radar = function (size, radar) {
       .append('div')
       .attr('class', 'footer-content')
       .append('p')
-      .html('Powered by <a href="https://www.thoughtworks.com"> ThoughtWorks</a>. ' +
-      'By using this service you agree to <a href="https://www.thoughtworks.com/radar/tos">ThoughtWorks\' terms of use</a>. ' +
-      'You also agree to our <a href="https://www.thoughtworks.com/privacy-policy">privacy policy</a>, which describes how we will gather, use and protect any personal data contained in your public Google Sheet. ' +
-      'This software is <a href="https://github.com/thoughtworks/build-your-own-radar">open source</a> and available for download and self-hosting.')
+      .html(normalizedConfig.footerText)
   }
 
   function mouseoverQuadrant (order) {
@@ -546,7 +542,7 @@ const Radar = function (size, radar) {
     var translateXAll = (1 - adjustX) / 2 * size * scale / 2 + ((1 - adjustX) / 2 * (1 - scale / 2) * size)
     var translateYAll = (1 + adjustY) / 2 * size * scale / 2
 
-    var moveRight = (1 + adjustX) * (0.8 * window.innerWidth - size) / 2
+    var moveRight = (1 + adjustX) * (0.8 * window.innerWidth - size) / 2 + 500
     var moveLeft = (1 - adjustX) * (0.8 * window.innerWidth - size) / 2
 
     var blipScale = 3 / 4
@@ -597,7 +593,6 @@ const Radar = function (size, radar) {
       .append('div')
       .classed('multiple-sheet-button-group', true)
 
-    alternativeSheetButton.append('p').text('Choose a sheet to populate radar')
     alternatives.forEach(function (alternative) {
       alternativeSheetButton
         .append('div:a')
