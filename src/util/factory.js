@@ -164,7 +164,7 @@ const CSVDocument = function (url) {
     var self = {};
 
     self.build = function () {
-        d3.csv(url, createBlips)
+        d3.csv(url).then(createBlips);
     };
 
     var createBlips = function (data) {
