@@ -1,12 +1,9 @@
-[![Build Status](https://travis-ci.org/thoughtworks/build-your-own-radar.svg?branch=master)](https://travis-ci.org/thoughtworks/build-your-own-radar)
-[![Stars](https://badgen.net/github/stars/thoughtworks/build-your-own-radar)](https://github.com/thoughtworks/build-your-own-radar)
-[![dependencies Status](https://david-dm.org/thoughtworks/build-your-own-radar/status.svg)](https://david-dm.org/thoughtworks/build-your-own-radar)
-[![devDependencies Status](https://david-dm.org/thoughtworks/build-your-own-radar/dev-status.svg)](https://david-dm.org/thoughtworks/build-your-own-radar?type=dev)
-[![peerDependencies Status](https://david-dm.org/thoughtworks/build-your-own-radar/peer-status.svg)](https://david-dm.org/thoughtworks/build-your-own-radar?type=peer)
-[![Docker Hub Pulls](https://img.shields.io/docker/pulls/wwwthoughtworks/build-your-own-radar.svg)](https://hub.docker.com/r/wwwthoughtworks/build-your-own-radar)
-[![GitHub contributors](https://badgen.net/github/contributors/thoughtworks/build-your-own-radar?color=cyan)](https://github.com/thoughtworks/build-your-own-radar/graphs/contributors)
+[![dependencies Status](https://david-dm.org/raiffeisensoftware/build-your-own-radar/status.svg)](https://david-dm.org/raiffeisensoftware/build-your-own-radar)
+[![devDependencies Status](https://david-dm.org/raiffeisensoftware/build-your-own-radar/dev-status.svg)](https://david-dm.org/raiffeisensoftware/build-your-own-radar?type=dev)
+[![peerDependencies Status](https://david-dm.org/raiffeisensoftware/build-your-own-radar/peer-status.svg)](https://david-dm.org/raiffeisensoftware/build-your-own-radar?type=peer)
+[![GitHub contributors](https://badgen.net/github/contributors/raiffeisensoftware/build-your-own-radar?color=cyan)](https://github.com/raiffeisensoftware/build-your-own-radar/graphs/contributors)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-[![AGPL License](https://badgen.net/github/license/thoughtworks/build-your-own-radar)](https://github.com/thoughtworks/build-your-own-radar)
+[![AGPL License](https://badgen.net/github/license/raiffeisensoftware/build-your-own-radar)](https://github.com/raiffeisensoftware/build-your-own-radar)
 
 
 A library that generates an interactive radar, inspired by [thoughtworks.com/radar](http://thoughtworks.com/radar).
