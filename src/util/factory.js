@@ -177,33 +177,32 @@ const CSVDocument = function (url) {
             var blips = _.map(data, new InputSanitizer().sanitize);
             plotRadar(FileName(url), blips, 'CSV File', [])
         } catch (exception) {
-            throw exception
+            throw exception;
             // plotErrorMessage(exception) prevents us from getting the real error?
         }
     };
 
     self.init = function () {
         plotLoading();
-        return self
+        return self;
     };
 
-    return self
+    return self;
 };
 
 const DomainName = function (url) {
     var search = /.+:\/\/([^\\/]+)/;
     var match = search.exec(decodeURIComponent(url.replace(/\+/g, ' ')));
-    return match == null ? null : match[1]
+    return match == null ? null : match[1];
 };
 
 const FileName = function (url) {
     var search = /([^\\/]+)$/;
     var match = search.exec(decodeURIComponent(url.replace(/\+/g, ' ')));
     if (match != null) {
-        var str = match[1];
-        return str
+        return match[1];
     }
-    return url
+    return url;
 };
 
 const GoogleSheetInput = function () {
@@ -269,9 +268,11 @@ function plotLoading(content) {
 }
 
 function plotLogo(content) {
-    content.append('div')
-        .attr('class', 'input-sheet__logo')
-        .html('<a href="https://www.thoughtworks.com"><img src="/images/tw-logo.png" / ></a>')
+    if (getConfig().logo) {
+        content.append('div')
+            .attr('class', 'input-sheet__logo')
+            .html('<a href="#"><img src="/images/' + getConfig().logo + '" alt="Logo"/></a>');
+    }
 }
 
 function plotFooter(content) {
@@ -326,8 +327,8 @@ function plotErrorMessage(exception) {
 
     plotLogo(content);
 
-    var bannerText = '<div><h1>Build your own radar</h1><p>Once you\'ve <a href ="https://www.thoughtworks.com/radar/byor">created your Radar</a>, you can use this service' +
-        ' to generate an <br />interactive version of your Technology Radar. Not sure how? <a href ="https://www.thoughtworks.com/radar/how-to-byor">Read this first.</a></p></div>';
+    var bannerText = '<div><h1>Build your own radar</h1><p>Once you\'ve <a href="https://www.thoughtworks.com/radar/byor">created your Radar</a>, you can use this service' +
+        ' to generate an <br />interactive version of your Technology Radar. Not sure how? <a href="https://www.thoughtworks.com/radar/how-to-byor">Read this first.</a></p></div>';
 
     plotBanner(content, bannerText);
 
@@ -401,7 +402,7 @@ function plotUnauthorizedErrorMessage() {
         var queryParams = queryString ? QueryParams(queryString[0]) : {};
         const sheet = GoogleSheet(queryParams.sheetId, queryParams.sheetName);
         sheet.authenticate(true, _ => {
-            content.remove()
+            content.remove();
         })
     })
 }
