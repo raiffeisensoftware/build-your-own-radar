@@ -82,7 +82,7 @@ module.exports = {
                             [
                                 '@babel/preset-env',
                                 {
-                                    targets: "last 2 versions",
+                                    targets: ">0.25%",
                                     useBuiltIns: 'usage',
                                     corejs: 3,
                                     debug: true
@@ -106,7 +106,7 @@ module.exports = {
                         options: {
                             ident: 'postcss',
                             plugins: () => [
-                                postcssPresetEnv({browsers: 'last 2 versions'}),
+                                postcssPresetEnv({browsers: '>0.25%'}),
                                 cssnano({preset: ['default', {discardComments: {removeAll: true}}]})
                             ]
                         }
