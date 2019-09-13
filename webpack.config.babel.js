@@ -82,10 +82,7 @@ module.exports = {
                             [
                                 '@babel/preset-env',
                                 {
-                                    targets: {
-                                        firefox: 24,
-                                        ie: 11
-                                    },
+                                    targets: "last 2 versions",
                                     useBuiltIns: 'usage',
                                     corejs: 3,
                                     debug: true
