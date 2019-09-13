@@ -1,5 +1,6 @@
+import * as d3Tip from 'd3-tip';
+
 const d3 = require('d3');
-const d3tip = require('d3-tip');
 const Chance = require('chance');
 const _ = require('lodash/core');
 const $ = require('jquery');
@@ -15,7 +16,8 @@ const ANIMATION_DURATION = 1000;
 const Radar = function (size, radar) {
     var svg, radarElement, quadrantButtons, buttonsGroup, header, alternativeDiv;
     const normalizedConfig = getConfig();
-    var tip = d3tip().attr('class', 'd3-tip').html(function (text) {
+
+    var tip = d3Tip.default().attr('class', 'd3-tip').html(function (text) {
         return text
     });
 
