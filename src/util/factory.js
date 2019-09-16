@@ -46,8 +46,8 @@ const plotRadar = function (title, blips, currentRadarName, alternativeRadars) {
 
     blips.forEach((blip) => {
         // errorhandling in case
-        const currentQuadrant = quadrants[blip.quadrant];
-        const currentRing = ringMap[blip.ring.toLowerCase()];
+        const currentQuadrant = quadrants[blip.quadrant] || quadrants[blip.quadrant.toLowerCase()];
+        const currentRing = ringMap[blip.ring] || ringMap[blip.ring.toLowerCase()];
         if (!currentQuadrant) {
             throw new Error(`Invalid Quadrant ${blip.quadrant} in Sheet entry ${blip.name}`);
         } else if (!currentRing) {
