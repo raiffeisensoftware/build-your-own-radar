@@ -1,14 +1,9 @@
 /* eslint no-constant-condition: "off" */
 
-const d3 = require('d3');
-const Tabletop = require('tabletop');
-const _ = {
-    map: require('lodash/map'),
-    uniqBy: require('lodash/uniqBy'),
-    capitalize: require('lodash/capitalize'),
-    each: require('lodash/each')
-};
-const {getConfig} = require('../util/normalizedConfig');
+import {getConfig} from '../util/normalizedConfig';
+import {capitalize} from "./helperFunctions";
+import * as d3 from 'd3';
+import * as Tabletop from 'tabletop';
 
 const InputSanitizer = require('./inputSanitizer');
 const Radar = require('../models/radar');
@@ -33,47 +28,47 @@ const plotRadar = function (title, blips, currentRadarName, alternativeRadars) {
     var ringMap = {};
     var maxRings = 4;
 
-    _.each(rings, function (ringName, i) {
+    rings.forEach(function (ringName, i) {
         if (i === maxRings) {
-            throw new MalformedDataError(ExceptionMessages.TOO_MANY_RINGS)
+            throw new MalformedDataError(ExceptionMessages.TOO_MANY_RINGS);
         }
-        ringMap[ringName] = new Ring(ringName, i)
+        ringMap[ringName] = new Ring(ringName, i);
     });
     var quadrants = {};
     normalizedConfig.quadrants.forEach(function (name) {
-        quadrants[name] = new Quadrant(_.capitalize(name))
+        quadrants[name] = new Quadrant(capitalize(name));
     });
 
-    _.each(blips, function (blip) {
+    blips.forEach(function (blip) {
         // errorhandling in case
         const currentQuadrant = quadrants[blip.quadrant.toLowerCase()];
         const currentRing = ringMap[blip.ring.toLowerCase()];
         if (!currentQuadrant) {
-            throw new Error(`Invalid Quadrant ${blip.quadrant} in Sheet enty ${blip.name}`)
+            throw new Error(`Invalid Quadrant ${blip.quadrant} in Sheet enty ${blip.name}`);
         } else if (!currentRing) {
-            throw new Error(`Invalid ring ${blip.ring} in Sheet enty ${blip.name}`)
+            throw new Error(`Invalid ring ${blip.ring} in Sheet enty ${blip.name}`);
         }
-        currentQuadrant.add(new Blip(blip.name, currentRing, blip.isNew.toLowerCase() === 'true', blip.topic, blip.description))
+        currentQuadrant.add(new Blip(blip.name, currentRing, blip.isNew.toLowerCase() === 'true', blip.topic, blip.description));
     });
 
     var radar = new Radar();
-    _.each(quadrants, function (quadrant) {
-        radar.addQuadrant(quadrant)
+    Object.keys(quadrants).forEach(function (key) {
+        radar.addQuadrant(quadrants[key]);
     });
 
     if (alternativeRadars !== undefined || true) {
         alternativeRadars.forEach(function (sheetName) {
-            radar.addAlternative(sheetName)
-        })
+            radar.addAlternative(sheetName);
+        });
     }
 
     if (currentRadarName !== undefined || true) {
-        radar.setCurrentSheet(currentRadarName)
+        radar.setCurrentSheet(currentRadarName);
     }
 
     var size = (window.innerHeight - 133) < 620 ? 620 : window.innerHeight - 133;
 
-    new GraphingRadar(size, radar).init().plot()
+    new GraphingRadar(size, radar).init().plot();
 };
 
 const GoogleSheet = function (sheetReference, sheetName) {
@@ -87,20 +82,20 @@ const GoogleSheet = function (sheetReference, sheetName) {
                     key: sheet.id,
                     callback: createBlips
                 });
-                return
+                return;
             }
 
             if (error instanceof SheetNotFoundError) {
                 plotErrorMessage(error);
-                return
+                return;
             }
-            self.authenticate(false)
+            self.authenticate(false);
         });
 
         function createBlips(__, tabletop) {
             try {
                 if (!sheetName) {
-                    sheetName = tabletop.foundSheetNames[0]
+                    sheetName = tabletop.foundSheetNames[0];
                 }
                 var columnNames = tabletop.sheets(sheetName).columnNames;
 
@@ -109,55 +104,55 @@ const GoogleSheet = function (sheetReference, sheetName) {
                 contentValidator.verifyHeaders();
 
                 var all = tabletop.sheets(sheetName).all();
-                var blips = _.map(all, new InputSanitizer().sanitize);
+                var blips = all.map(new InputSanitizer().sanitize);
 
-                plotRadar(tabletop.googleSheetName + ' - ' + sheetName, blips, sheetName, tabletop.foundSheetNames)
+                plotRadar(tabletop.googleSheetName + ' - ' + sheetName, blips, sheetName, tabletop.foundSheetNames);
             } catch (exception) {
-                plotErrorMessage(exception)
+                plotErrorMessage(exception);
             }
         }
     };
 
     function createBlipsForProtectedSheet(documentTitle, values, sheetNames) {
         if (!sheetName) {
-            sheetName = sheetNames[0]
+            sheetName = sheetNames[0];
         }
         values.forEach(function (value) {
             var contentValidator = new ContentValidator(values[0]);
             contentValidator.verifyContent();
-            contentValidator.verifyHeaders()
+            contentValidator.verifyHeaders();
         });
 
         const all = values;
         const header = all.shift();
-        var blips = _.map(all, blip => new InputSanitizer().sanitizeForProtectedSheet(blip, header));
-        plotRadar(documentTitle + ' - ' + sheetName, blips, sheetName, sheetNames)
+        var blips = all.map(blip => new InputSanitizer().sanitizeForProtectedSheet(blip, header));
+        plotRadar(documentTitle + ' - ' + sheetName, blips, sheetName, sheetNames);
     }
 
     self.authenticate = function (force = false, callback) {
         GoogleAuth.loadGoogle(function (e) {
-            GoogleAuth.login(_ => {
+            GoogleAuth.login(() => {
                 var sheet = new Sheet(sheetReference);
                 sheet.processSheetResponse(sheetName, createBlipsForProtectedSheet, error => {
                     if (error.status === 403) {
-                        plotUnauthorizedErrorMessage()
+                        plotUnauthorizedErrorMessage();
                     } else {
-                        plotErrorMessage(error)
+                        plotErrorMessage(error);
                     }
                 });
                 if (callback) {
-                    callback()
+                    callback();
                 }
-            }, force)
-        })
+            }, force);
+        });
     };
 
     self.init = function () {
         plotLoading();
-        return self
+        return self;
     };
 
-    return self
+    return self;
 };
 
 const CSVDocument = function (url) {
@@ -174,8 +169,8 @@ const CSVDocument = function (url) {
             var contentValidator = new ContentValidator(columnNames);
             contentValidator.verifyContent();
             contentValidator.verifyHeaders();
-            var blips = _.map(data, new InputSanitizer().sanitize);
-            plotRadar(FileName(url), blips, 'CSV File', [])
+            var blips = data.map(new InputSanitizer().sanitize);
+            plotRadar(FileName(url), blips, 'CSV File', []);
         } catch (exception) {
             throw exception;
             // plotErrorMessage(exception) prevents us from getting the real error?
@@ -215,16 +210,16 @@ const GoogleSheetInput = function () {
         var queryParams = queryString ? QueryParams(queryString[1]) : {};
         var sheetId = queryParams.sheetId; // is the url for the csv file
         if (!sheetId) {
-            sheetId = (getConfig()).generateCsvUrl(queryParams)
+            sheetId = (getConfig()).generateCsvUrl(queryParams);
         }
 
         if (((queryParams.sheetId && domainName) || Object.keys(queryParams).length) && sheetId.endsWith('csv')) {
             sheet = CSVDocument(sheetId);
-            sheet.init().build()
+            sheet.init().build();
         } else if (domainName && domainName.endsWith('google.com') && sheetId) {
             sheet = GoogleSheet(sheetId, queryParams.sheetName);
 
-            sheet.init().build()
+            sheet.init().build();
         } else {
             var content = d3.select('body')
                 .append('div')
@@ -240,15 +235,15 @@ const GoogleSheetInput = function () {
 
             plotForm(content);
 
-            plotFooter(content)
+            plotFooter(content);
         }
     };
 
-    return self
+    return self;
 };
 
 function setDocumentTitle() {
-    document.title = 'Build your own Radar'
+    document.title = 'Build your own Radar';
 }
 
 function plotLoading(content) {
@@ -264,7 +259,7 @@ function plotLoading(content) {
 
     var bannerText = '<h1>Building your radar...</h1><p>Your Technology Radar will be available in just a few seconds</p>';
     plotBanner(content, bannerText);
-    plotFooter(content)
+    plotFooter(content);
 }
 
 function plotLogo(content) {
@@ -284,13 +279,13 @@ function plotFooter(content) {
         .append('div')
         .attr('class', 'footer-content')
         .append('p')
-        .html(config.footerText)
+        .html(config.footerText);
 }
 
 function plotBanner(content, text) {
     content.append('div')
         .attr('class', 'input-sheet__banner')
-        .html(text)
+        .html(text);
 }
 
 function plotForm(content) {
@@ -314,7 +309,7 @@ function plotForm(content) {
         .attr('class', 'button')
         .text('Build my radar');
 
-    form.append('p').html("<a href='https://www.thoughtworks.com/radar/how-to-byor'>Need help?</a>")
+    form.append('p').html("<a href='https://www.thoughtworks.com/radar/how-to-byor'>Need help?</a>");
 }
 
 function plotErrorMessage(exception) {
@@ -336,11 +331,11 @@ function plotErrorMessage(exception) {
     message = "Oops! We can't find the Google Sheet you've entered";
     var faqMessage = 'Please check <a href="https://www.thoughtworks.com/radar/how-to-byor">FAQs</a> for possible solutions.';
     if (exception instanceof MalformedDataError) {
-        message = message.concat(exception.message)
+        message = message.concat(exception.message);
     } else if (exception instanceof SheetNotFoundError) {
-        message = exception.message
+        message = exception.message;
     } else {
-        console.error(exception)
+        console.error(exception);
     }
 
     const container = content.append('div').attr('class', 'error-container');
@@ -358,7 +353,7 @@ function plotErrorMessage(exception) {
     errorContainer.append('div').append('p')
         .html(homePage);
 
-    plotFooter(content)
+    plotFooter(content);
 }
 
 function plotUnauthorizedErrorMessage() {
@@ -397,14 +392,14 @@ function plotUnauthorizedErrorMessage() {
         .attr('class', 'error-subtitle')
         .html(`or ${goBack} to try a different sheet.`);
 
-    button.on('click', _ => {
+    button.on('click', () => {
         var queryString = window.location.href.match(/sheetId(.*)/);
         var queryParams = queryString ? QueryParams(queryString[0]) : {};
         const sheet = GoogleSheet(queryParams.sheetId, queryParams.sheetName);
-        sheet.authenticate(true, _ => {
+        sheet.authenticate(true, () => {
             content.remove();
-        })
-    })
+        });
+    });
 }
 
 module.exports = GoogleSheetInput;

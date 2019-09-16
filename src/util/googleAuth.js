@@ -1,5 +1,5 @@
 /* global gapi */
-const d3 = require('d3');
+import * as d3 from 'd3';
 
 // Client ID and API key from the Developer Console
 var CLIENT_ID = process.env.CLIENT_ID;
@@ -20,7 +20,7 @@ const GoogleAuth = function () {
     self._updateProfile = function () {
         const profile = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile();
         if (!profile) {
-            return
+            return;
         }
         self.profile = {
             id: profile.getId(),
@@ -29,7 +29,7 @@ const GoogleAuth = function () {
             familyName: profile.getFamilyName(),
             imageUrl: profile.getImageUrl(),
             email: profile.getEmail()
-        }
+        };
     };
 
     self.loadGoogle = function (callback) {
@@ -39,32 +39,32 @@ const GoogleAuth = function () {
             .append('script')
             .attr('src', 'https://apis.google.com/js/api.js')
             .on('load', function () {
-                self.handleClientLoad()
-            })
+                self.handleClientLoad();
+            });
     };
 
     self.isLoggedInCallback = function (isLoggedIn) {
         self.isLoggedIn = isLoggedIn;
         self._updateProfile();
         self.isAuthorizedCallbacks.forEach(function (callback) {
-            callback(isLoggedIn)
-        })
+            callback(isLoggedIn);
+        });
     };
 
     self.handleClientLoad = function () {
         gapi.load('client:auth2', function () {
-            self.initClient()
-        })
+            self.initClient();
+        });
     };
 
     self.updateSigninStatus = function (isSignedIn) {
-        self.isLoggedInCallback(isSignedIn)
+        self.isLoggedInCallback(isSignedIn);
     };
 
     self.isAuthorized = function (callback) {
         self.isAuthorizedCallbacks.push(callback);
         if (self.isLoggedIn !== undefined) {
-            callback(self.isLoggedIn)
+            callback(self.isLoggedIn);
         }
     };
 
@@ -78,40 +78,40 @@ const GoogleAuth = function () {
             self.loadedCallback();
             // Listen for sign-in state changes.
             gapi.auth2.getAuthInstance().isSignedIn.listen(function (data) {
-                self.updateSigninStatus(data)
+                self.updateSigninStatus(data);
             });
 
             // Handle the initial sign-in state.
-            self.updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get())
-        })
+            self.updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+        });
     };
 
     self.logout = function () {
-        gapi.auth2.getAuthInstance().signOut()
+        gapi.auth2.getAuthInstance().signOut();
     };
 
-    self.geEmail = _ => {
+    self.geEmail = () => {
         const isLoggedIn = gapi.auth2.getAuthInstance().isSignedIn.get();
         if (isLoggedIn) {
-            return gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getEmail()
+            return gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getEmail();
         }
     };
 
     self.login = function (callback, force = false) {
         if (force) {
             gapi.auth2.getAuthInstance().signIn({prompt: 'select_account'}).then(callback);
-            return
+            return;
         }
 
         const isLoggedIn = gapi.auth2.getAuthInstance().isSignedIn.get();
         if (isLoggedIn) {
-            callback()
+            callback();
         } else {
-            gapi.auth2.getAuthInstance().signIn().then(callback)
+            gapi.auth2.getAuthInstance().signIn().then(callback);
         }
     };
 
-    return self
+    return self;
 };
 
 module.exports = new GoogleAuth();

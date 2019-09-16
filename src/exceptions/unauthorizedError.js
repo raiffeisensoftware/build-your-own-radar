@@ -1,5 +1,5 @@
 const UnauthorizedError = function (message) {
-    this.message = message
+    this.message = message;
 };
 
 Object.setPrototypeOf(UnauthorizedError, Error);

@@ -1,5 +1,5 @@
 const SheetNotFoundError = function (message) {
-    this.message = message
+    this.message = message;
 };
 
 Object.setPrototypeOf(SheetNotFoundError, Error);
