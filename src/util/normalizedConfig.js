@@ -1,8 +1,8 @@
 let config;
 try {
-    config = require('../../config.json')
+    config = require('../../config.json');
 } catch (e) {
-    console.log('no config.json available.')
+    console.log('no config.json available.');
 }
 let normalizedConfig = {};
 
@@ -12,7 +12,7 @@ function getConfig(blips = []) {
     // create a config if we dont have one.
     const configuration = createConfig(blips);
     normalizedConfig = configuration;
-    return normalizedConfig
+    return normalizedConfig;
 }
 
 function createConfig(blips) {
@@ -32,17 +32,17 @@ function createConfig(blips) {
 
         blips.forEach((blip) => {
             if (!configuration.quadrants.includes(blip.quadrant)) {
-                configuration.quadrants.push(blip.quadrant)
+                configuration.quadrants.push(blip.quadrant);
             }
             if (!configuration.rings.includes(blip.ring)) {
-                configuration.rings.push(blip.ring)
+                configuration.rings.push(blip.ring);
             }
-        })
+        });
     }
 
     if ((normalizedConfig.quadrants || []).length && (normalizedConfig.rings || []).length) {
         configuration.quadrants = configuration.quadrants.map(el => el.toLowerCase());
-        configuration.rings = configuration.rings.map(el => el.toLowerCase())
+        configuration.rings = configuration.rings.map(el => el.toLowerCase());
     }
 
     configuration.generateCsvUrl = (queryParams) => {
@@ -52,13 +52,13 @@ function createConfig(blips) {
         let url = configuration.radarBaseUrl;
         for (const [param, defaultVal] of Object.entries(configuration.CsvQueryParams)) {
             const regexp = new RegExp(`\\[${param}\\]`);
-            url = url.replace(regexp, queryParams[param] || defaultVal)
+            url = url.replace(regexp, queryParams[param] || defaultVal);
         }
 
-        return url
+        return url;
     };
 
-    return configuration
+    return configuration;
 }
 
 module.exports = {getConfig};

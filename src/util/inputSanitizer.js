@@ -13,16 +13,16 @@ const InputSanitizer = function () {
         allowedTags: [],
         allowedAttributes: {},
         textFilter: function (text) {
-            return text.replace(/&amp;/, '&')
+            return text.replace(/&amp;/, '&');
         }
     };
 
     function trimWhiteSpaces(blip) {
         var processedBlip = {};
         Object.entries(blip).forEach(function ([key, value]) {
-            processedBlip[key.trim()] = value.trim()
+            processedBlip[key.trim()] = value.trim();
         });
-        return processedBlip
+        return processedBlip;
     }
 
     var self = {};
@@ -34,7 +34,7 @@ const InputSanitizer = function () {
         blip.ring = sanitizeHtml(blip.ring, restrictedOptions);
         blip.quadrant = sanitizeHtml(blip.quadrant, restrictedOptions);
 
-        return blip
+        return blip;
     };
 
     self.sanitizeForProtectedSheet = function (rawBlip, header) {
@@ -58,10 +58,10 @@ const InputSanitizer = function () {
         blip.ring = sanitizeHtml(ring, restrictedOptions);
         blip.quadrant = sanitizeHtml(quadrant, restrictedOptions);
 
-        return blip
+        return blip;
     };
 
-    return self
+    return self;
 };
 
 module.exports = InputSanitizer;

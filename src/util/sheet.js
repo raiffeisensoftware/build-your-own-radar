@@ -8,7 +8,7 @@ const Sheet = function (sheetReference) {
 
     (function () {
         var matches = sheetReference.match('https:\\/\\/docs.google.com\\/spreadsheets\\/d\\/(.*?)($|\\/$|\\/.*|\\?.*)');
-        self.id = matches !== null ? matches[1] : sheetReference
+        self.id = matches !== null ? matches[1] : sheetReference;
     })();
 
     self.validate = function (callback) {
@@ -20,30 +20,30 @@ const Sheet = function (sheetReference) {
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
-                    return callback()
+                    return callback();
                 } else if (xhr.status === 404) {
-                    return callback(new SheetNotFoundError(ExceptionMessages.SHEET_NOT_FOUND))
+                    return callback(new SheetNotFoundError(ExceptionMessages.SHEET_NOT_FOUND));
                 } else {
-                    return callback(new UnauthorizedError(ExceptionMessages.UNAUTHORIZED))
+                    return callback(new UnauthorizedError(ExceptionMessages.UNAUTHORIZED));
                 }
             }
         };
-        xhr.send(null)
+        xhr.send(null);
     };
 
     self.getSheet = function () {
-        return gapi.client.sheets.spreadsheets.get({spreadsheetId: self.id})
+        return gapi.client.sheets.spreadsheets.get({spreadsheetId: self.id});
     };
 
     self.getData = function (range) {
         return gapi.client.sheets.spreadsheets.values.get({
             spreadsheetId: self.id,
             range: range
-        })
+        });
     };
 
     self.processSheetResponse = function (sheetName, createBlips, handleError) {
-        self.getSheet().then(response => processSheetData(sheetName, response, createBlips, handleError)).catch(handleError)
+        self.getSheet().then(response => processSheetData(sheetName, response, createBlips, handleError)).catch(handleError);
     };
 
     function processSheetData(sheetName, sheetResponse, createBlips, handleError) {
@@ -51,10 +51,10 @@ const Sheet = function (sheetReference) {
         sheetName = !sheetName ? sheetNames[0] : sheetName;
         self.getData(sheetName + '!A1:E')
             .then(r => createBlips(sheetResponse.result.properties.title, r.result.values, sheetNames))
-            .catch(handleError)
+            .catch(handleError);
     }
 
-    return self
+    return self;
 };
 
 module.exports = Sheet;

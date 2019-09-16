@@ -20,47 +20,47 @@ const Radar = function () {
 
     function setNumbers(blips) {
         blips.forEach(function (blip) {
-            blip.setNumber(++blipNumber)
-        })
+            blip.setNumber(++blipNumber);
+        });
     }
 
     self.addAlternative = function (sheetName) {
-        alternatives.push(sheetName)
+        alternatives.push(sheetName);
     };
 
     self.getAlternatives = function () {
-        return alternatives
+        return alternatives;
     };
 
     self.setCurrentSheet = function (sheetName) {
-        currentSheetName = sheetName
+        currentSheetName = sheetName;
     };
 
     self.getCurrentSheet = function () {
-        return currentSheetName
+        return currentSheetName;
     };
 
     self.addQuadrant = function (quadrant) {
         if (addingQuadrant >= 4) {
-            throw new MalformedDataError(ExceptionMessages.TOO_MANY_QUADRANTS)
+            throw new MalformedDataError(ExceptionMessages.TOO_MANY_QUADRANTS);
         }
         quadrants[addingQuadrant].quadrant = quadrant;
         setNumbers(quadrant.blips());
-        addingQuadrant++
+        addingQuadrant++;
     };
 
     self.rings = function () {
         if (addingQuadrant !== 4) throw new MalformedDataError(ExceptionMessages.LESS_THAN_FOUR_QUADRANTS);
         return (getConfig()).rings.map(function (el, i) {
-            return new Ring(el, i)
-        })
+            return new Ring(el, i);
+        });
     };
 
     self.quadrants = function () {
-        return quadrants
+        return quadrants;
     };
 
-    return self
+    return self;
 };
 
 module.exports = Radar;

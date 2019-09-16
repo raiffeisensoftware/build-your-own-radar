@@ -8,34 +8,34 @@ const Blip = function (name, ring, isNew, topic, description) {
     self.width = IDEAL_BLIP_WIDTH;
 
     self.name = function () {
-        return name
+        return name;
     };
 
     self.topic = function () {
-        return topic || ''
+        return topic || '';
     };
 
     self.description = function () {
-        return description || ''
+        return description || '';
     };
 
     self.isNew = function () {
-        return isNew
+        return isNew;
     };
 
     self.ring = function () {
-        return ring
+        return ring;
     };
 
     self.number = function () {
-        return number
+        return number;
     };
 
     self.setNumber = function (newNumber) {
-        number = newNumber
+        number = newNumber;
     };
 
-    return self
+    return self;
 };
 
 module.exports = Blip;
