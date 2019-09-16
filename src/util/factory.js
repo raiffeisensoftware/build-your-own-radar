@@ -2,12 +2,6 @@
 
 const d3 = require('d3');
 const Tabletop = require('tabletop');
-const _ = {
-    map: require('lodash/map'),
-    uniqBy: require('lodash/uniqBy'),
-    capitalize: require('lodash/capitalize'),
-    each: require('lodash/each')
-};
 const {getConfig} = require('../util/normalizedConfig');
 
 const InputSanitizer = require('./inputSanitizer');
@@ -33,18 +27,19 @@ const plotRadar = function (title, blips, currentRadarName, alternativeRadars) {
     var ringMap = {};
     var maxRings = 4;
 
-    _.each(rings, function (ringName, i) {
+    rings.forEach(function (ringName, i) {
         if (i === maxRings) {
             throw new MalformedDataError(ExceptionMessages.TOO_MANY_RINGS)
         }
         ringMap[ringName] = new Ring(ringName, i)
     });
     var quadrants = {};
+    // TODO: Handle multiple words
     normalizedConfig.quadrants.forEach(function (name) {
-        quadrants[name] = new Quadrant(_.capitalize(name))
+        quadrants[name] = new Quadrant(name[0].toUpperCase() + name.substring(1).toLowerCase());
     });
 
-    _.each(blips, function (blip) {
+    blips.forEach(function (blip) {
         // errorhandling in case
         const currentQuadrant = quadrants[blip.quadrant.toLowerCase()];
         const currentRing = ringMap[blip.ring.toLowerCase()];
@@ -57,8 +52,8 @@ const plotRadar = function (title, blips, currentRadarName, alternativeRadars) {
     });
 
     var radar = new Radar();
-    _.each(quadrants, function (quadrant) {
-        radar.addQuadrant(quadrant)
+    Object.keys(quadrants).forEach(function (key) {
+        radar.addQuadrant(quadrants[key]);
     });
 
     if (alternativeRadars !== undefined || true) {
@@ -109,7 +104,7 @@ const GoogleSheet = function (sheetReference, sheetName) {
                 contentValidator.verifyHeaders();
 
                 var all = tabletop.sheets(sheetName).all();
-                var blips = _.map(all, new InputSanitizer().sanitize);
+                var blips = all.map(new InputSanitizer().sanitize);
 
                 plotRadar(tabletop.googleSheetName + ' - ' + sheetName, blips, sheetName, tabletop.foundSheetNames)
             } catch (exception) {
@@ -130,7 +125,7 @@ const GoogleSheet = function (sheetReference, sheetName) {
 
         const all = values;
         const header = all.shift();
-        var blips = _.map(all, blip => new InputSanitizer().sanitizeForProtectedSheet(blip, header));
+        var blips = all.map(blip => new InputSanitizer().sanitizeForProtectedSheet(blip, header));
         plotRadar(documentTitle + ' - ' + sheetName, blips, sheetName, sheetNames)
     }
 
@@ -174,7 +169,7 @@ const CSVDocument = function (url) {
             var contentValidator = new ContentValidator(columnNames);
             contentValidator.verifyContent();
             contentValidator.verifyHeaders();
-            var blips = _.map(data, new InputSanitizer().sanitize);
+            var blips = data.map(new InputSanitizer().sanitize);
             plotRadar(FileName(url), blips, 'CSV File', [])
         } catch (exception) {
             throw exception;
@@ -401,7 +396,7 @@ function plotUnauthorizedErrorMessage() {
         var queryString = window.location.href.match(/sheetId(.*)/);
         var queryParams = queryString ? QueryParams(queryString[0]) : {};
         const sheet = GoogleSheet(queryParams.sheetId, queryParams.sheetName);
-        sheet.authenticate(true, _ => {
+        sheet.authenticate(true, () => {
             content.remove();
         })
     })

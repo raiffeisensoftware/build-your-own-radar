@@ -2,7 +2,6 @@ import * as d3Tip from 'd3-tip';
 
 const d3 = require('d3');
 const Chance = require('chance');
-const _ = require('lodash/core');
 const $ = require('jquery');
 require('jquery-ui/ui/widgets/autocomplete');
 const {getConfig} = require('../util/normalizedConfig');
@@ -479,7 +478,7 @@ const Radar = function (size, radar) {
                 .on('click', selectQuadrant.bind({}, quadrant.order, quadrant.startAngle))
         }
 
-        _.each([0, 1, 2, 3], function (i) {
+        [0, 1, 2, 3].forEach(function (i) {
             addButton(quadrants[i])
         });
 
@@ -498,12 +497,12 @@ const Radar = function (size, radar) {
             .classed('search-radar', true);
 
         $('#auto-complete').autocomplete({
-            source: _.flatten(_.map(quadrants, function (q, i) {
-                return _.map(q.quadrant.blips(), function (b) {
+            source: quadrants.map(function (q, i) {
+                return q.quadrant.blips().map(function (b) {
                     const name = b.name();
                     return {label: name, value: name, blip: b, quadrant: q}
                 })
-            })),
+            }).flat(),
             select: searchBlip.bind({})
         })
     }
@@ -631,7 +630,7 @@ const Radar = function (size, radar) {
         svg = radarElement.append('svg').call(tip);
         svg.attr('id', 'radar-plot').attr('width', size).attr('height', size + 14);
 
-        _.each(quadrants, function (quadrant) {
+        quadrants.forEach(function (quadrant) {
             var quadrantGroup = plotQuadrant(rings, quadrant);
             plotLines(quadrantGroup, quadrant);
             plotTexts(quadrantGroup, rings, quadrant);

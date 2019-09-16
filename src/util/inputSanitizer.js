@@ -1,7 +1,4 @@
 const sanitizeHtml = require('sanitize-html');
-const _ = {
-    forOwn: require('lodash/forOwn')
-};
 
 const InputSanitizer = function () {
     var relaxedOptions = {
@@ -22,7 +19,7 @@ const InputSanitizer = function () {
 
     function trimWhiteSpaces(blip) {
         var processedBlip = {};
-        _.forOwn(blip, function (value, key) {
+        Object.entries(blip).forEach(function ([key, value]) {
             processedBlip[key.trim()] = value.trim()
         });
         return processedBlip
