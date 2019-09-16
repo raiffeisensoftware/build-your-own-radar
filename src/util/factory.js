@@ -4,6 +4,7 @@ import {getConfig} from '../util/normalizedConfig';
 import {capitalize} from "./helperFunctions";
 import * as d3 from 'd3';
 import * as Tabletop from 'tabletop';
+import ContentValidator from './contentValidator';
 
 const InputSanitizer = require('./inputSanitizer');
 const Radar = require('../models/radar');
@@ -14,7 +15,7 @@ const GraphingRadar = require('../graphing/radar');
 const QueryParams = require('./queryParamProcessor');
 const MalformedDataError = require('../exceptions/malformedDataError');
 const SheetNotFoundError = require('../exceptions/sheetNotFoundError');
-const ContentValidator = require('./contentValidator');
+
 const Sheet = require('./sheet');
 const ExceptionMessages = require('./exceptionMessages');
 const GoogleAuth = require('./googleAuth');
