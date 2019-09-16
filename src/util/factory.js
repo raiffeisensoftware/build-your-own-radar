@@ -1,5 +1,7 @@
 /* eslint no-constant-condition: "off" */
 
+import {capitalize} from "./helperFunctions";
+
 const d3 = require('d3');
 const Tabletop = require('tabletop');
 const {getConfig} = require('../util/normalizedConfig');
@@ -34,9 +36,8 @@ const plotRadar = function (title, blips, currentRadarName, alternativeRadars) {
         ringMap[ringName] = new Ring(ringName, i)
     });
     var quadrants = {};
-    // TODO: Handle multiple words
     normalizedConfig.quadrants.forEach(function (name) {
-        quadrants[name] = new Quadrant(name[0].toUpperCase() + name.substring(1).toLowerCase());
+        quadrants[name] = new Quadrant(capitalize(name));
     });
 
     blips.forEach(function (blip) {
