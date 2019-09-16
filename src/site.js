@@ -1,3 +1,5 @@
+require('./common');
+
 const normalizedConfig = require('./util/normalizedConfig');
 
 if (normalizedConfig.logo && !normalizedConfig.logo.match(/http(s)?:/i)) {

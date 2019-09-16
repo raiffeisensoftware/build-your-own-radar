@@ -90,7 +90,7 @@ const GoogleAuth = function () {
         gapi.auth2.getAuthInstance().signOut()
     };
 
-    self.geEmail = _ => {
+    self.geEmail = () => {
         const isLoggedIn = gapi.auth2.getAuthInstance().isSignedIn.get();
         if (isLoggedIn) {
             return gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getEmail()

@@ -132,7 +132,7 @@ const GoogleSheet = function (sheetReference, sheetName) {
 
     self.authenticate = function (force = false, callback) {
         GoogleAuth.loadGoogle(function (e) {
-            GoogleAuth.login(_ => {
+            GoogleAuth.login(() => {
                 var sheet = new Sheet(sheetReference);
                 sheet.processSheetResponse(sheetName, createBlipsForProtectedSheet, error => {
                     if (error.status === 403) {
@@ -393,7 +393,7 @@ function plotUnauthorizedErrorMessage() {
         .attr('class', 'error-subtitle')
         .html(`or ${goBack} to try a different sheet.`);
 
-    button.on('click', _ => {
+    button.on('click', () => {
         var queryString = window.location.href.match(/sheetId(.*)/);
         var queryParams = queryString ? QueryParams(queryString[0]) : {};
         const sheet = GoogleSheet(queryParams.sheetId, queryParams.sheetName);
