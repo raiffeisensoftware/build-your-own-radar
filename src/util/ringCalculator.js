@@ -1,5 +1,4 @@
 export default class RingCalculator {
-
     constructor(numberOfRings, maxRadius) {
         this._sequence = [0, 6, 5, 3, 2, 1, 1, 1];
         this._maxRadius = maxRadius;
@@ -35,5 +34,3 @@ export default class RingCalculator {
         this._maxRadius = value;
     }
 }
-
-module.exports = RingCalculator;

@@ -35,19 +35,19 @@ export default class Sheet {
 
     getData(range) {
         return gapi.client.sheets.spreadsheets.values.get({
-            spreadsheetId: self.id,
+            spreadsheetId: this.id,
             range: range
         });
     };
 
     processSheetResponse(sheetName, createBlips, handleError) {
-        self.getSheet().then(response => processSheetData(sheetName, response, createBlips, handleError)).catch(handleError);
+        this.getSheet().then(response => processSheetData(sheetName, response, createBlips, handleError)).catch(handleError);
     };
 
     processSheetData(sheetName, sheetResponse, createBlips, handleError) {
         const sheetNames = sheetResponse.result.sheets.map(s => s.properties.title);
         sheetName = !sheetName ? sheetNames[0] : sheetName;
-        self.getData(sheetName + '!A1:E')
+        this.getData(sheetName + '!A1:E')
             .then(r => createBlips(sheetResponse.result.properties.title, r.result.values, sheetNames))
             .catch(handleError);
     }
