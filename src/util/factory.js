@@ -5,12 +5,13 @@ import {capitalize} from "./helperFunctions";
 import * as d3 from 'd3';
 import * as Tabletop from 'tabletop';
 import ContentValidator from './contentValidator';
+import Quadrant from '../models/quadrant';
+import Ring from '../models/ring';
+import Blip from '../models/blip';
+import Radar from '../models/radar';
 
 const InputSanitizer = require('./inputSanitizer');
-const Radar = require('../models/radar');
-const Quadrant = require('../models/quadrant');
-const Ring = require('../models/ring');
-const Blip = require('../models/blip');
+
 const GraphingRadar = require('../graphing/radar');
 const QueryParams = require('./queryParamProcessor');
 const MalformedDataError = require('../exceptions/malformedDataError');
@@ -20,51 +21,54 @@ const Sheet = require('./sheet');
 const ExceptionMessages = require('./exceptionMessages');
 const GoogleAuth = require('./googleAuth');
 
+var normalizedConfig;
+
 const plotRadar = function (title, blips, currentRadarName, alternativeRadars) {
     document.title = title.replace(/\.csv/, '');
     d3.selectAll('.loading').remove();
-    const normalizedConfig = getConfig(blips);
+    normalizedConfig = getConfig(blips);
 
     var rings = normalizedConfig.rings;
     var ringMap = {};
     var maxRings = 4;
 
-    rings.forEach(function (ringName, i) {
+    rings.forEach((ringName, i) => {
         if (i === maxRings) {
             throw new MalformedDataError(ExceptionMessages.TOO_MANY_RINGS);
         }
         ringMap[ringName] = new Ring(ringName, i);
     });
+
     var quadrants = {};
-    normalizedConfig.quadrants.forEach(function (name) {
+    normalizedConfig.quadrants.forEach((name) => {
         quadrants[name] = new Quadrant(capitalize(name));
     });
 
-    blips.forEach(function (blip) {
+    blips.forEach((blip) => {
         // errorhandling in case
-        const currentQuadrant = quadrants[blip.quadrant.toLowerCase()];
+        const currentQuadrant = quadrants[blip.quadrant];
         const currentRing = ringMap[blip.ring.toLowerCase()];
         if (!currentQuadrant) {
-            throw new Error(`Invalid Quadrant ${blip.quadrant} in Sheet enty ${blip.name}`);
+            throw new Error(`Invalid Quadrant ${blip.quadrant} in Sheet entry ${blip.name}`);
         } else if (!currentRing) {
-            throw new Error(`Invalid ring ${blip.ring} in Sheet enty ${blip.name}`);
+            throw new Error(`Invalid ring ${blip.ring} in Sheet entry ${blip.name}`);
         }
         currentQuadrant.add(new Blip(blip.name, currentRing, blip.isNew.toLowerCase() === 'true', blip.topic, blip.description));
     });
 
     var radar = new Radar();
-    Object.keys(quadrants).forEach(function (key) {
+    Object.keys(quadrants).forEach((key) => {
         radar.addQuadrant(quadrants[key]);
     });
 
     if (alternativeRadars !== undefined || true) {
-        alternativeRadars.forEach(function (sheetName) {
+        alternativeRadars.forEach((sheetName) => {
             radar.addAlternative(sheetName);
         });
     }
 
     if (currentRadarName !== undefined || true) {
-        radar.setCurrentSheet(currentRadarName);
+        radar.currentSheetName = currentRadarName;
     }
 
     var size = (window.innerHeight - 133) < 620 ? 620 : window.innerHeight - 133;
@@ -272,15 +276,17 @@ function plotLogo(content) {
 }
 
 function plotFooter(content) {
-    const config = require('../../config.json');
+    // const config = require('../../config.json');
 
-    content
-        .append('div')
-        .attr('id', 'footer')
-        .append('div')
-        .attr('class', 'footer-content')
-        .append('p')
-        .html(config.footerText);
+    if (normalizedConfig !== undefined) {
+        content
+            .append('div')
+            .attr('id', 'footer')
+            .append('div')
+            .attr('class', 'footer-content')
+            .append('p')
+            .html(normalizedConfig.footerText);
+    }
 }
 
 function plotBanner(content, text) {

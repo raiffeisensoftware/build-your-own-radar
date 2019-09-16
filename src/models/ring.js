@@ -1,15 +1,15 @@
-const Ring = function (name, order) {
-    var self = {};
+export default class Ring {
 
-    self.name = function () {
-        return name;
+    constructor(name, order) {
+        this._name = name;
+        this._order = order;
+    }
+
+    get name() {
+        return this._name;
     };
 
-    self.order = function () {
-        return order;
+    get order() {
+        return this._order;
     };
-
-    return self;
-};
-
-module.exports = Ring;
+}

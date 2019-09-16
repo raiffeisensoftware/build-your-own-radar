@@ -16,7 +16,7 @@ const Radar = function (size, radar) {
     var svg, radarElement, quadrantButtons, buttonsGroup, header, alternativeDiv;
     const normalizedConfig = getConfig();
 
-    var tip = d3Tip.default().attr('class', 'd3-tip').html(function (text) {
+    var tip = d3Tip.default().attr('class', 'd3-tip').html((text) => {
         return text;
     });
 
@@ -76,7 +76,7 @@ const Radar = function (size, radar) {
             .on('mouseout', mouseoutQuadrant.bind({}, quadrant.order))
             .on('click', selectQuadrant.bind({}, quadrant.order, quadrant.startAngle));
 
-        rings.forEach(function (ring, i) {
+        rings.forEach((ring, i) => {
             var arc = d3.arc()
                 .innerRadius(ringCalculator.getRadius(i))
                 .outerRadius(ringCalculator.getRadius(i + 1))
@@ -85,7 +85,7 @@ const Radar = function (size, radar) {
 
             quadrantGroup.append('path')
                 .attr('d', arc)
-                .attr('class', 'ring-arc-' + ring.order())
+                .attr('class', 'ring-arc-' + ring.order)
                 .attr('transform', 'translate(' + center() + ', ' + center() + ')');
         });
 
@@ -93,21 +93,21 @@ const Radar = function (size, radar) {
     }
 
     function plotTexts(quadrantGroup, rings, quadrant) {
-        rings.forEach(function (ring, i) {
+        rings.forEach((ring, i) => {
             if (quadrant.order === 'first' || quadrant.order === 'fourth') {
                 quadrantGroup.append('text')
                     .attr('class', 'line-text')
                     .attr('y', center() + 4)
                     .attr('x', center() + (ringCalculator.getRadius(i) + ringCalculator.getRadius(i + 1)) / 2)
                     .attr('text-anchor', 'middle')
-                    .text(ring.name());
+                    .text(ring.name);
             } else {
                 quadrantGroup.append('text')
                     .attr('class', 'line-text')
                     .attr('y', center() + 4)
                     .attr('x', center() - (ringCalculator.getRadius(i) + ringCalculator.getRadius(i + 1)) / 2)
                     .attr('text-anchor', 'middle')
-                    .text(ring.name());
+                    .text(ring.name);
             }
         });
     }
@@ -158,7 +158,7 @@ const Radar = function (size, radar) {
     }
 
     function thereIsCollision(blip, coordinates, allCoordinates) {
-        return allCoordinates.some(function (currentCoordinates) {
+        return allCoordinates.some((currentCoordinates) => {
             return (Math.abs(currentCoordinates[0] - coordinates[0]) < blip.width) && (Math.abs(currentCoordinates[1] - coordinates[1]) < blip.width);
         });
     }
@@ -173,11 +173,12 @@ const Radar = function (size, radar) {
         d3.select('.quadrant-table.' + order)
             .append('h2')
             .attr('class', 'quadrant-table__name')
-            .text(quadrant.name());
-        blips = quadrant.blips();
-        rings.forEach(function (ring, i) {
-            var ringBlips = blips.filter(function (blip) {
-                return blip.ring().name() === ring.name();
+            .text(quadrant.name);
+        blips = quadrant.blips;
+        rings.forEach((ring, i) => {
+
+            var ringBlips = blips.filter((blip) => {
+                return blip.ring.name === ring.name;
             });
 
             if (ringBlips.length === 0) {
@@ -189,18 +190,20 @@ const Radar = function (size, radar) {
             minRadius = ringCalculator.getRadius(i);
             maxRadius = ringCalculator.getRadius(i + 1);
 
-            var sumRing = ring.name().split('').reduce(function (p, c) {
+            var sumRing = ring.name.split('').reduce((p, c) => {
                 return p + c.charCodeAt(0);
             }, 0);
-            var sumQuadrant = quadrant.name().split('').reduce(function (p, c) {
-                return p + c.charCodeAt(0);
-            }, 0);
-            chance = new Chance(Math.PI * sumRing * ring.name().length * sumQuadrant * quadrant.name().length);
 
-            var ringList = addRing(ring.name(), order);
+            var sumQuadrant = quadrant.name.split('').reduce((p, c) => {
+                return p + c.charCodeAt(0);
+            }, 0);
+
+            chance = new Chance(Math.PI * sumRing * ring.name.length * sumQuadrant * quadrant.name.length);
+
+            var ringList = addRing(ring.name, order);
             var allBlipCoordinatesInRing = [];
 
-            ringBlips.forEach(function (blip) {
+            ringBlips.forEach((blip) => {
                 const coordinates = findBlipCoordinates(blip,
                     minRadius,
                     maxRadius,
@@ -241,9 +244,9 @@ const Radar = function (size, radar) {
         var x = coordinates[0];
         var y = coordinates[1];
 
-        var group = quadrantGroup.append('g').attr('class', 'blip-link').attr('id', 'blip-link-' + blip.number());
+        var group = quadrantGroup.append('g').attr('class', 'blip-link').attr('id', 'blip-link-' + blip.number);
 
-        if (blip.isNew()) {
+        if (blip.isNew) {
             triangle(blip, x, y, order, group);
         } else {
             circle(blip, x, y, order, group);
@@ -256,27 +259,27 @@ const Radar = function (size, radar) {
             // derive font-size from current blip width
             .style('font-size', ((blip.width * 10) / 22) + 'px')
             .attr('text-anchor', 'middle')
-            .text(blip.number());
+            .text(blip.number);
 
         var blipListItem = ringList.append('li');
-        var blipText = blip.number() + '. ' + blip.name() + (blip.topic() ? ('. - ' + blip.topic()) : '');
+        var blipText = blip.number + '. ' + blip.name + (blip.topic ? ('. - ' + blip.topic) : '');
         blipListItem.append('div')
             .attr('class', 'blip-list-item')
-            .attr('id', 'blip-list-item-' + blip.number())
+            .attr('id', 'blip-list-item-' + blip.number)
             .text(blipText);
 
         var blipItemDescription = blipListItem.append('div')
-            .attr('id', 'blip-description-' + blip.number())
+            .attr('id', 'blip-description-' + blip.number)
             .attr('class', 'blip-item-description');
-        if (blip.description()) {
-            blipItemDescription.append('p').html(blip.description());
+        if (blip.description) {
+            blipItemDescription.append('p').html(blip.description);
         }
 
         var mouseOver = function () {
             d3.selectAll('g.blip-link').attr('opacity', 0.3);
             group.attr('opacity', 1.0);
             blipListItem.selectAll('.blip-list-item').classed('highlight', true);
-            tip.show(blip.name(), group.node());
+            tip.show(blip.name, group.node());
         };
 
         var mouseOut = function () {
@@ -293,7 +296,7 @@ const Radar = function (size, radar) {
             d3.select('.blip-item-description.expanded').classed('expanded', false);
             blipItemDescription.classed('expanded', !blipItemDescription.classed('expanded'));
 
-            blipItemDescription.on('click', function () {
+            blipItemDescription.on('click', () => {
                 d3.event.stopPropagation();
             });
         };
@@ -412,24 +415,24 @@ const Radar = function (size, radar) {
         const {blip, quadrant} = ui.item;
         const isQuadrantSelected = d3.select('div.button.' + quadrant.order).classed('selected');
         selectQuadrant.bind({}, quadrant.order, quadrant.startAngle)();
-        const selectedDesc = d3.select('#blip-description-' + blip.number());
+        const selectedDesc = d3.select('#blip-description-' + blip.number);
         d3.select('.blip-item-description.expanded').node() !== selectedDesc.node() &&
         d3.select('.blip-item-description.expanded').classed('expanded', false);
         selectedDesc.classed('expanded', true);
 
         d3.selectAll('g.blip-link').attr('opacity', 0.3);
-        const group = d3.select('#blip-link-' + blip.number());
+        const group = d3.select('#blip-link-' + blip.number);
         group.attr('opacity', 1.0);
         d3.selectAll('.blip-list-item').classed('highlight', false);
-        d3.select('#blip-list-item-' + blip.number()).classed('highlight', true);
+        d3.select('#blip-list-item-' + blip.number).classed('highlight', true);
         if (isQuadrantSelected) {
-            tip.show(blip.name(), group.node());
+            tip.show(blip.name, group.node());
         } else {
             // need to account for the animation time associated with selecting a quadrant
             tip.hide();
 
-            setTimeout(function () {
-                tip.show(blip.name(), group.node());
+            setTimeout(() => {
+                tip.show(blip.name, group.node());
             }, ANIMATION_DURATION);
         }
     }
@@ -472,13 +475,13 @@ const Radar = function (size, radar) {
 
             quadrantButtons.append('div')
                 .attr('class', 'button ' + quadrant.order + ' full-view')
-                .text(quadrant.quadrant.name())
+                .text(quadrant.quadrant.name)
                 .on('mouseover', mouseoverQuadrant.bind({}, quadrant.order))
                 .on('mouseout', mouseoutQuadrant.bind({}, quadrant.order))
                 .on('click', selectQuadrant.bind({}, quadrant.order, quadrant.startAngle));
         }
 
-        [0, 1, 2, 3].forEach(function (i) {
+        [0, 1, 2, 3].forEach((i) => {
             addButton(quadrants[i]);
         });
 
@@ -497,9 +500,9 @@ const Radar = function (size, radar) {
             .classed('search-radar', true);
 
         $('#auto-complete').autocomplete({
-            source: quadrants.map(function (q, i) {
-                return q.quadrant.blips().map(function (b) {
-                    const name = b.name();
+            source: quadrants.map(function (q) {
+                return q.quadrant.blips.map((b) => {
+                    const name = b.name;
                     return {label: name, value: name, blip: b, quadrant: q};
                 });
             }).flat(),
@@ -558,10 +561,11 @@ const Radar = function (size, radar) {
             .transition()
             .duration(ANIMATION_DURATION)
             .attr('transform', 'translate(' + translateX + ',' + translateY + ')scale(' + scale + ')');
-        d3.selectAll('.quadrant-group-' + order + ' .blip-link text').each(function () {
-            var x = d3.select(this).attr('x');
-            var y = d3.select(this).attr('y');
-            d3.select(this.parentNode)
+
+        d3.selectAll('.quadrant-group-' + order + ' .blip-link text').each((d, i, nodes) => {
+            var x = d3.select(nodes[i]).attr('x');
+            var y = d3.select(nodes[i]).attr('y');
+            d3.select(nodes[i].parentNode)
                 .transition()
                 .duration(ANIMATION_DURATION)
                 .attr('transform', 'scale(' + blipScale + ')translate(' + blipTranslate * x + ',' + blipTranslate * y + ')');
@@ -597,7 +601,7 @@ const Radar = function (size, radar) {
             .append('div')
             .classed('multiple-sheet-button-group', true);
 
-        alternatives.forEach(function (alternative) {
+        alternatives.forEach((alternative) => {
             alternativeSheetButton
                 .append('div:a')
                 .attr('class', 'first full-view alternative multiple-sheet-button')
@@ -605,8 +609,8 @@ const Radar = function (size, radar) {
                 .text(alternative);
 
             if (alternative === currentSheet) {
-                d3.selectAll('.alternative').filter(function () {
-                    return d3.select(this).text() === alternative;
+                d3.selectAll('.alternative').filter((d, i, nodes) => {
+                    return d3.select(nodes[i]).text() === alternative;
                 }).attr('class', 'highlight multiple-sheet-button');
             }
         });
@@ -615,10 +619,10 @@ const Radar = function (size, radar) {
     self.plot = function () {
         var rings, quadrants, alternatives, currentSheet;
 
-        rings = radar.rings();
-        quadrants = radar.quadrants();
-        alternatives = radar.getAlternatives();
-        currentSheet = radar.getCurrentSheet();
+        rings = radar.rings;
+        quadrants = radar.quadrants;
+        alternatives = radar.alternatives;
+        currentSheet = radar.currentSheetName;
         var header = plotRadarHeader();
 
         plotAlternativeRadars(alternatives, currentSheet);

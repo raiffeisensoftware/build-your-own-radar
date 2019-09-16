@@ -10,8 +10,7 @@ function getConfig(blips = []) {
     if ((normalizedConfig.quadrants || []).length === 4 && (normalizedConfig.rings || []).length) return normalizedConfig;
 
     // create a config if we dont have one.
-    const configuration = createConfig(blips);
-    normalizedConfig = configuration;
+    normalizedConfig = createConfig(blips);
     return normalizedConfig;
 }
 
@@ -19,15 +18,15 @@ function createConfig(blips) {
     let configuration = config;
 
     // if we have no config, get our config from the google doc or csv
-    if (!configuration && blips.length) {
-        console.log('no config.json available.');
+    if (!configuration) {
         configuration = {
             quadrants: [],
             rings: [],
             legend: {
                 triangleKey: 'New or moved',
                 circleKey: 'No change'
-            }
+            },
+            footerText: "footerText"
         };
 
         blips.forEach((blip) => {

@@ -1,26 +1,22 @@
-const Quadrant = function (name) {
-    var self, blips;
+export default class Quadrant {
+    constructor(name) {
+        this._name = name;
+        this._blips = [];
+    }
 
-    self = {};
-    blips = [];
-
-    self.name = function () {
-        return name;
+    get name() {
+        return this._name;
     };
 
-    self.add = function (newBlips) {
+    add(newBlips) {
         if (Array.isArray(newBlips)) {
-            blips = blips.concat(newBlips);
+            this._blips = this._blips.concat(newBlips);
         } else {
-            blips.push(newBlips);
+            this._blips.push(newBlips);
         }
     };
 
-    self.blips = function () {
-        return blips.slice(0);
+    get blips() {
+        return this._blips.slice(0);
     };
-
-    return self;
-};
-
-module.exports = Quadrant;
+}
