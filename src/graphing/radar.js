@@ -1,13 +1,13 @@
 import * as d3Tip from 'd3-tip';
+import * as d3 from 'd3';
+import {Chance} from 'chance';
+import {getConfig} from '../util/normalizedConfig';
+import RingCalculator from '../util/ringCalculator';
+import {QueryParams} from '../util/queryParamProcessor';
 
-const d3 = require('d3');
-const Chance = require('chance');
 const $ = require('jquery');
 require('jquery-ui/ui/widgets/autocomplete');
-const {getConfig} = require('../util/normalizedConfig');
 
-const RingCalculator = require('../util/ringCalculator');
-const QueryParams = require('../util/queryParamProcessor');
 
 const MIN_BLIP_WIDTH = 12;
 const ANIMATION_DURATION = 1000;
@@ -589,8 +589,7 @@ const Radar = function (size, radar) {
     function constructSheetUrl(sheetName) {
         var noParamUrl = window.location.href.substring(0, window.location.href.indexOf(window.location.search));
         var queryParams = QueryParams(window.location.search.substring(1));
-        var sheetUrl = noParamUrl + '?sheetId=' + queryParams.sheetId + '&sheetName=' + encodeURIComponent(sheetName);
-        return sheetUrl
+        return noParamUrl + '?sheetId=' + queryParams.sheetId + '&sheetName=' + encodeURIComponent(sheetName);
     }
 
     function plotAlternativeRadars(alternatives, currentSheet) {

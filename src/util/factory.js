@@ -1,10 +1,9 @@
 /* eslint no-constant-condition: "off" */
 
+import {getConfig} from '../util/normalizedConfig';
 import {capitalize} from "./helperFunctions";
-
-const d3 = require('d3');
-const Tabletop = require('tabletop');
-const {getConfig} = require('../util/normalizedConfig');
+import * as d3 from 'd3';
+import * as Tabletop from 'tabletop';
 
 const InputSanitizer = require('./inputSanitizer');
 const Radar = require('../models/radar');

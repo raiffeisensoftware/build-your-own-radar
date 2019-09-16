@@ -1,5 +1,5 @@
 /* global gapi */
-const d3 = require('d3');
+import * as d3 from 'd3';
 
 // Client ID and API key from the Developer Console
 var CLIENT_ID = process.env.CLIENT_ID;
