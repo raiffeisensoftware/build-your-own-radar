@@ -1,7 +1,7 @@
 /* eslint no-constant-condition: "off" */
 
 import {getConfig} from '../util/normalizedConfig';
-import {capitalize} from "./helperFunctions";
+import {capitalize} from "./util";
 import * as d3 from 'd3';
 import * as Tabletop from 'tabletop';
 import ContentValidator from './contentValidator';
