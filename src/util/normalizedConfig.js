@@ -6,7 +6,7 @@ try {
 }
 let normalizedConfig = {};
 
-function getConfig(blips = []) {
+export function getConfig(blips = []) {
     if ((normalizedConfig.quadrants || []).length === 4 && (normalizedConfig.rings || []).length) return normalizedConfig;
 
     // create a config if we dont have one.
@@ -59,5 +59,3 @@ function createConfig(blips) {
 
     return configuration;
 }
-
-module.exports = {getConfig};

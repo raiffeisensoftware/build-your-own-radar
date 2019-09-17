@@ -9,15 +9,14 @@ import Quadrant from '../models/quadrant';
 import Ring from '../models/ring';
 import Blip from '../models/blip';
 import Radar from '../models/radar';
+import Sheet from "./sheet";
+import GraphingRadar from '../graphing/radar';
 
 const InputSanitizer = require('./inputSanitizer');
-
-const GraphingRadar = require('../graphing/radar');
 const QueryParams = require('./queryParamProcessor');
 const MalformedDataError = require('../exceptions/malformedDataError');
-const SheetNotFoundError = require('../exceptions/sheetNotFoundError');
 
-const Sheet = require('./sheet');
+const SheetNotFoundError = require('../exceptions/sheetNotFoundError');
 const ExceptionMessages = require('./exceptionMessages');
 const GoogleAuth = require('./googleAuth');
 
@@ -73,7 +72,9 @@ const plotRadar = function (title, blips, currentRadarName, alternativeRadars) {
 
     var size = (window.innerHeight - 133) < 620 ? 620 : window.innerHeight - 133;
 
-    new GraphingRadar(size, radar).init().plot();
+    var graphingRadar = new GraphingRadar(size, radar);
+    graphingRadar.init();
+    graphingRadar.plot();
 };
 
 const GoogleSheet = function (sheetReference, sheetName) {
@@ -122,7 +123,7 @@ const GoogleSheet = function (sheetReference, sheetName) {
         if (!sheetName) {
             sheetName = sheetNames[0];
         }
-        values.forEach(function (value) {
+        values.forEach(() => {
             var contentValidator = new ContentValidator(values[0]);
             contentValidator.verifyContent();
             contentValidator.verifyHeaders();
@@ -276,8 +277,6 @@ function plotLogo(content) {
 }
 
 function plotFooter(content) {
-    // const config = require('../../config.json');
-
     if (normalizedConfig !== undefined) {
         content
             .append('div')
