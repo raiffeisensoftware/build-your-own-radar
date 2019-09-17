@@ -8,11 +8,10 @@ import QueryParams from '../util/queryParamProcessor';
 const $ = require('jquery');
 require('jquery-ui/ui/widgets/autocomplete');
 
-
 const MIN_BLIP_WIDTH = 12;
 const ANIMATION_DURATION = 1000;
 
-export default class Radar {
+export default class Graphing {
     constructor(size, radar) {
         this._size = size;
         this._radar = radar;

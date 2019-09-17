@@ -10,7 +10,7 @@ import Ring from '../models/ring';
 import Blip from '../models/blip';
 import Radar from '../models/radar';
 import Sheet from "./sheet";
-import GraphingRadar from '../graphing/radar';
+import GraphingRadar from '../graphing/graphing';
 
 const InputSanitizer = require('./inputSanitizer');
 const QueryParams = require('./queryParamProcessor');
