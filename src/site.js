@@ -2,8 +2,8 @@ import {getConfig} from "./util/normalizedConfig";
 import {select} from "d3-selection";
 import {extractDomainName, extractQueryParams} from "./util/util";
 import {plotBanner, plotFooter, plotForm, plotLogo, setDocumentTitle} from "./util/factory";
-import GoogleSheet from "./util/GoogleSheet";
-import CSVDocument from "./util/CSVDocument";
+import GoogleSheet from "./util/googleSheet";
+import CsvDocument from "./util/csvDocument";
 
 require('./common');
 
@@ -24,7 +24,7 @@ if (!sheetId) {
 }
 
 if (((queryParams.sheetId && domainName) || Object.keys(queryParams).length) && sheetId.endsWith('csv')) {
-    sheet = new CSVDocument(sheetId);
+    sheet = new CsvDocument(sheetId);
     sheet.createBlips();
 } else if (domainName && domainName.endsWith('google.com') && sheetId) {
     sheet = new GoogleSheet(sheetId, queryParams.sheetName);
