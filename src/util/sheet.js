@@ -3,21 +3,19 @@ const SheetNotFoundError = require('../../src/exceptions/sheetNotFoundError');
 const UnauthorizedError = require('../../src/exceptions/unauthorizedError');
 const ExceptionMessages = require('./exceptionMessages');
 
-const Sheet = function (sheetReference) {
-    var self = {};
+export default class Sheet {
+    constructor(sheetReference) {
+        let matches = sheetReference.match('https:\\/\\/docs.google.com\\/spreadsheets\\/d\\/(.*?)($|\\/$|\\/.*|\\?.*)');
+        this.id = matches !== null ? matches[1] : sheetReference;
+    };
 
-    (function () {
-        var matches = sheetReference.match('https:\\/\\/docs.google.com\\/spreadsheets\\/d\\/(.*?)($|\\/$|\\/.*|\\?.*)');
-        self.id = matches !== null ? matches[1] : sheetReference;
-    })();
-
-    self.validate = function (callback) {
-        var feedURL = 'https://spreadsheets.google.com/feeds/worksheets/' + self.id + '/public/basic?alt=json';
+    validate(callback) {
+        let feedURL = 'https://spreadsheets.google.com/feeds/worksheets/' + self.id + '/public/basic?alt=json';
 
         // TODO: Move this out (as HTTPClient)
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open('GET', feedURL, true);
-        xhr.onreadystatechange = function () {
+        xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
                     return callback();
@@ -31,30 +29,26 @@ const Sheet = function (sheetReference) {
         xhr.send(null);
     };
 
-    self.getSheet = function () {
+    getSheet() {
         return gapi.client.sheets.spreadsheets.get({spreadsheetId: self.id});
     };
 
-    self.getData = function (range) {
+    getData(range) {
         return gapi.client.sheets.spreadsheets.values.get({
-            spreadsheetId: self.id,
+            spreadsheetId: this.id,
             range: range
         });
     };
 
-    self.processSheetResponse = function (sheetName, createBlips, handleError) {
-        self.getSheet().then(response => processSheetData(sheetName, response, createBlips, handleError)).catch(handleError);
+    processSheetResponse(sheetName, createBlips, handleError) {
+        this.getSheet().then(response => processSheetData(sheetName, response, createBlips, handleError)).catch(handleError);
     };
 
-    function processSheetData(sheetName, sheetResponse, createBlips, handleError) {
+    processSheetData(sheetName, sheetResponse, createBlips, handleError) {
         const sheetNames = sheetResponse.result.sheets.map(s => s.properties.title);
         sheetName = !sheetName ? sheetNames[0] : sheetName;
-        self.getData(sheetName + '!A1:E')
+        this.getData(sheetName + '!A1:E')
             .then(r => createBlips(sheetResponse.result.properties.title, r.result.values, sheetNames))
             .catch(handleError);
     }
-
-    return self;
-};
-
-module.exports = Sheet;
+}

@@ -1,41 +1,41 @@
 const IDEAL_BLIP_WIDTH = 22;
-const Blip = function (name, ring, isNew, topic, description) {
-    var self, number;
 
-    self = {};
-    number = -1;
+export default class Blip {
+    constructor(name, ring, isNew, topic, description) {
+        this.number = -1;
+        this.width = IDEAL_BLIP_WIDTH;
+        this._name = name;
+        this._ring = ring;
+        this._isNew = isNew;
+        this._topic = topic;
+        this._description = description;
+    }
 
-    self.width = IDEAL_BLIP_WIDTH;
-
-    self.name = function () {
-        return name;
+    get name() {
+        return this._name;
     };
 
-    self.topic = function () {
-        return topic || '';
+    get topic() {
+        return this._topic || '';
     };
 
-    self.description = function () {
-        return description || '';
+    get description() {
+        return this._description || '';
     };
 
-    self.isNew = function () {
-        return isNew;
+    get isNew() {
+        return this._isNew;
     };
 
-    self.ring = function () {
-        return ring;
+    get ring() {
+        return this._ring;
     };
 
-    self.number = function () {
-        return number;
+    get number() {
+        return this._number;
     };
 
-    self.setNumber = function (newNumber) {
-        number = newNumber;
+    set number(newNumber) {
+        this._number = newNumber;
     };
-
-    return self;
-};
-
-module.exports = Blip;
+}

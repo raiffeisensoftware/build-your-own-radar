@@ -1,22 +1,36 @@
-const RingCalculator = function (numberOfRings, maxRadius) {
-    var sequence = [0, 6, 5, 3, 2, 1, 1, 1];
+export default class RingCalculator {
+    constructor(numberOfRings, maxRadius) {
+        this._sequence = [0, 6, 5, 3, 2, 1, 1, 1];
+        this._maxRadius = maxRadius;
+        this._numberOfRings = numberOfRings;
+    }
 
-    var self = {};
-
-    self.sum = function (length) {
-        return sequence.slice(0, length + 1).reduce(function (previous, current) {
+    sum(length) {
+        return this._sequence.slice(0, length + 1).reduce((previous, current) => {
             return previous + current;
         }, 0);
     };
 
-    self.getRadius = function (ring) {
-        var total = self.sum(numberOfRings);
-        var sum = self.sum(ring);
+    getRadius(ring) {
+        let total = this.sum(this._numberOfRings);
+        let sum = this.sum(ring);
 
-        return maxRadius * sum / total;
+        return this._maxRadius * sum / total;
     };
 
-    return self;
-};
+    get numberOfRings() {
+        return this._numberOfRings;
+    }
 
-module.exports = RingCalculator;
+    set numberOfRings(value) {
+        this._numberOfRings = value;
+    }
+
+    get maxRadius() {
+        return this._maxRadius;
+    }
+
+    set maxRadius(value) {
+        this._maxRadius = value;
+    }
+}

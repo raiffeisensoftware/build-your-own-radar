@@ -1,66 +1,62 @@
 const MalformedDataError = require('../exceptions/malformedDataError');
 const ExceptionMessages = require('../util/exceptionMessages');
-const {getConfig} = require('../util/normalizedConfig');
-const Ring = require('../models/ring');
+import {getConfig} from '../util/normalizedConfig';
+import Ring from '../models/ring';
 
-const Radar = function () {
-    var self, quadrants, blipNumber, addingQuadrant, alternatives, currentSheetName;
+export default class Radar {
 
-    blipNumber = 0;
-    addingQuadrant = 0;
-    quadrants = [
-        {order: 'first', startAngle: 90},
-        {order: 'second', startAngle: 0},
-        {order: 'third', startAngle: -90},
-        {order: 'fourth', startAngle: -180}
-    ];
-    alternatives = [];
-    currentSheetName = '';
-    self = {};
+    constructor() {
+        this._blipNumber = 0;
+        this._addingQuadrant = 0;
+        this._quadrants = [
+            {order: 'first', startAngle: 90},
+            {order: 'second', startAngle: 0},
+            {order: 'third', startAngle: -90},
+            {order: 'fourth', startAngle: -180}
+        ];
+        this._alternatives = [];
+        this._currentSheetName = '';
+    }
 
-    function setNumbers(blips) {
-        blips.forEach(function (blip) {
-            blip.setNumber(++blipNumber);
+    setNumbers(blips) {
+        blips.forEach((blip) => {
+            blip.number = ++this._blipNumber;
         });
     }
 
-    self.addAlternative = function (sheetName) {
-        alternatives.push(sheetName);
+    addAlternative(sheetName) {
+        this_.alternatives.push(sheetName);
     };
 
-    self.getAlternatives = function () {
-        return alternatives;
+    get alternatives() {
+        return this._alternatives;
     };
 
-    self.setCurrentSheet = function (sheetName) {
-        currentSheetName = sheetName;
+    set currentSheetName(sheetName) {
+        this._currentSheetName = sheetName;
     };
 
-    self.getCurrentSheet = function () {
-        return currentSheetName;
+    get currentSheetName() {
+        return this._currentSheetName;
     };
 
-    self.addQuadrant = function (quadrant) {
-        if (addingQuadrant >= 4) {
+    addQuadrant(quadrant) {
+        if (this._addingQuadrant >= 4) {
             throw new MalformedDataError(ExceptionMessages.TOO_MANY_QUADRANTS);
         }
-        quadrants[addingQuadrant].quadrant = quadrant;
-        setNumbers(quadrant.blips());
-        addingQuadrant++;
+        this._quadrants[this._addingQuadrant].quadrant = quadrant;
+        this.setNumbers(quadrant.blips);
+        this._addingQuadrant++;
     };
 
-    self.rings = function () {
-        if (addingQuadrant !== 4) throw new MalformedDataError(ExceptionMessages.LESS_THAN_FOUR_QUADRANTS);
-        return (getConfig()).rings.map(function (el, i) {
+    get rings() {
+        if (this._addingQuadrant !== 4) throw new MalformedDataError(ExceptionMessages.LESS_THAN_FOUR_QUADRANTS);
+        return (getConfig()).rings.map((el, i) => {
             return new Ring(el, i);
         });
     };
 
-    self.quadrants = function () {
-        return quadrants;
+    get quadrants() {
+        return this._quadrants;
     };
-
-    return self;
-};
-
-module.exports = Radar;
+}

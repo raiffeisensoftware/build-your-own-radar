@@ -16,7 +16,7 @@ let isDev = args.dev;
 let env = args.envFile;
 if (env) {
     // Load env file
-    require('dotenv').config({path: env})
+    require('dotenv').config({path: env});
 }
 
 let main = ['./src/site.js'];
@@ -25,7 +25,7 @@ let devtool;
 
 if (isDev) {
     main.push('webpack-dev-server/client?http://0.0.0.0:8080');
-    devtool = 'source-map'
+    devtool = 'source-map';
 }
 
 let plugins = [
@@ -47,12 +47,6 @@ let plugins = [
     }),
     new CleanWebpackPlugin()
 ];
-
-if (isProd) {
-    plugins.push(
-        new webpack.NoEmitOnErrorsPlugin()
-    )
-}
 
 module.exports = {
     entry: {
@@ -128,6 +122,10 @@ module.exports = {
                 use: [{loader: 'expose-loader', options: 'jQuery'}, {loader: 'expose-loader', options: '$'}]
             }
         ]
+    },
+
+    optimization: {
+        noEmitOnErrors: !!isProd
     },
 
     plugins: plugins,

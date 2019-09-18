@@ -1,6 +1,6 @@
 // This references very old code that no longer exists
 // the tests for graphing will have to be rewritten
-require('../../src/graphing/radar.js')
+require('../../src/graphing/graphing.js')
 
 xdescribe('tr.graphing.Radar', function () {
   var radar

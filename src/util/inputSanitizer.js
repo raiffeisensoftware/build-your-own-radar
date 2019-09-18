@@ -1,33 +1,24 @@
 const sanitizeHtml = require('sanitize-html');
 
-const InputSanitizer = function () {
-    var relaxedOptions = {
-        allowedTags: ['b', 'i', 'em', 'strong', 'a', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li', 'ul',
-            'br', 'p', 'u'],
-        allowedAttributes: {
-            'a': ['href', 'target']
-        }
-    };
-
-    var restrictedOptions = {
-        allowedTags: [],
-        allowedAttributes: {},
-        textFilter: function (text) {
-            return text.replace(/&amp;/, '&');
-        }
-    };
-
-    function trimWhiteSpaces(blip) {
-        var processedBlip = {};
-        Object.entries(blip).forEach(function ([key, value]) {
-            processedBlip[key.trim()] = value.trim();
-        });
-        return processedBlip;
+const relaxedOptions = {
+    allowedTags: ['b', 'i', 'em', 'strong', 'a', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li', 'ul',
+        'br', 'p', 'u'],
+    allowedAttributes: {
+        'a': ['href', 'target']
     }
+};
 
-    var self = {};
-    self.sanitize = function (rawBlip) {
-        var blip = trimWhiteSpaces(rawBlip);
+const restrictedOptions = {
+    allowedTags: [],
+    allowedAttributes: {},
+    textFilter: function (text) {
+        return text.replace(/&amp;/, '&');
+    }
+};
+
+export default class InputSanitizer {
+    sanitize(rawBlip) {
+        let blip = this.trimWhiteSpaces(rawBlip);
         blip.description = sanitizeHtml(blip.description, relaxedOptions);
         blip.name = sanitizeHtml(blip.name, restrictedOptions);
         blip.isNew = sanitizeHtml(blip.isNew, restrictedOptions);
@@ -37,8 +28,8 @@ const InputSanitizer = function () {
         return blip;
     };
 
-    self.sanitizeForProtectedSheet = function (rawBlip, header) {
-        var blip = trimWhiteSpaces(rawBlip);
+    sanitizeForProtectedSheet(rawBlip, header) {
+        let blip = this.trimWhiteSpaces(rawBlip);
 
         const descriptionIndex = header.indexOf('description');
         const nameIndex = header.indexOf('name');
@@ -61,7 +52,12 @@ const InputSanitizer = function () {
         return blip;
     };
 
-    return self;
-};
-
-module.exports = InputSanitizer;
+    trimWhiteSpaces(blip) {
+        return JSON.parse(JSON.stringify(blip).replace(/"\s+|\s+"/g, '"'));
+        /*        let processedBlip = {};
+        Object.entries(blip).forEach(([key, value]) => {
+            processedBlip[key.trim()] = Object.keys(value).map(k => value[k] = value[k].trim());
+        });
+        return processedBlip;*/
+    }
+}
