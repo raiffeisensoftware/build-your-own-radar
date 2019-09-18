@@ -14,7 +14,7 @@ export function getConfig(blips = []) {
     return normalizedConfig;
 }
 
-function createConfig(blips) {
+export function createConfig(blips) {
     let configuration = config;
 
     // if we have no config, get our config from the google doc or csv

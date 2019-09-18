@@ -5,15 +5,15 @@ const ExceptionMessages = require('./exceptionMessages');
 
 export default class Sheet {
     constructor(sheetReference) {
-        var matches = sheetReference.match('https:\\/\\/docs.google.com\\/spreadsheets\\/d\\/(.*?)($|\\/$|\\/.*|\\?.*)');
+        let matches = sheetReference.match('https:\\/\\/docs.google.com\\/spreadsheets\\/d\\/(.*?)($|\\/$|\\/.*|\\?.*)');
         this.id = matches !== null ? matches[1] : sheetReference;
     };
 
     validate(callback) {
-        var feedURL = 'https://spreadsheets.google.com/feeds/worksheets/' + self.id + '/public/basic?alt=json';
+        let feedURL = 'https://spreadsheets.google.com/feeds/worksheets/' + self.id + '/public/basic?alt=json';
 
         // TODO: Move this out (as HTTPClient)
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open('GET', feedURL, true);
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {

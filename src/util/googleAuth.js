@@ -1,16 +1,17 @@
 /* global gapi */
-import * as d3 from 'd3';
+import {select} from "d3-selection";
+
 
 // Client ID and API key from the Developer Console
-var CLIENT_ID = process.env.CLIENT_ID;
-var API_KEY = process.env.API_KEY;
+const CLIENT_ID = process.env.CLIENT_ID;
+const API_KEY = process.env.API_KEY;
 
 // Array of API discovery doc URLs for APIs used by the quickstart
-var DISCOVERY_DOCS = ['https://sheets.googleapis.com/$discovery/rest?version=v4'];
+const DISCOVERY_DOCS = ['https://sheets.googleapis.com/$discovery/rest?version=v4'];
 
 // Authorization scopes required by the API multiple scopes can be
 // included, separated by spaces.
-var SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly';
+const SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly';
 
 const GoogleAuth = function () {
     const self = {};
@@ -34,7 +35,7 @@ const GoogleAuth = function () {
 
     self.loadGoogle = function (callback) {
         self.loadedCallback = callback;
-        var content = d3.select('body');
+        let content = select('body');
         content
             .append('script')
             .attr('src', 'https://apis.google.com/js/api.js')

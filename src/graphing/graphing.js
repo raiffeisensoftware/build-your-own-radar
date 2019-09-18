@@ -1,9 +1,11 @@
 import * as d3Tip from 'd3-tip';
-import * as d3 from 'd3';
+import {event, select, selectAll} from "d3-selection";
+import {arc} from 'd3-shape';
 import {Chance} from 'chance';
+import 'd3-transition';
 import {getConfig} from '../util/normalizedConfig';
 import RingCalculator from '../util/ringCalculator';
-import QueryParams from '../util/queryParamProcessor';
+import {extractQueryParams} from "../util/util";
 
 const $ = require('jquery');
 require('jquery-ui/ui/widgets/autocomplete');
@@ -75,14 +77,14 @@ export default class Graphing {
             });
 
         rings.forEach((ring, i) => {
-            let arc = d3.arc()
+            let ringArc = new arc()
                 .innerRadius(this.ringCalculator.getRadius(i))
                 .outerRadius(this.ringCalculator.getRadius(i + 1))
                 .startAngle(this.toRadian(quadrant.startAngle))
                 .endAngle(this.toRadian(quadrant.startAngle - 90));
 
             quadrantGroup.append('path')
-                .attr('d', arc)
+                .attr('d', ringArc)
                 .attr('class', 'ring-arc-' + ring.order)
                 .attr('transform', 'translate(' + this.center() + ', ' + this.center() + ')');
         });
@@ -135,7 +137,7 @@ export default class Graphing {
     }
 
     addRing(ring, order) {
-        let table = d3.select('.quadrant-table.' + order);
+        let table = select('.quadrant-table.' + order);
         table.append('h3').text(ring);
         return table.append('ul');
     }
@@ -168,7 +170,7 @@ export default class Graphing {
         startAngle = quadrantWrapper.startAngle;
         order = quadrantWrapper.order;
 
-        d3.select('.quadrant-table.' + order)
+        select('.quadrant-table.' + order)
             .append('h2')
             .attr('class', 'quadrant-table__name')
             .text(quadrant.name);
@@ -274,14 +276,14 @@ export default class Graphing {
         }
 
         let mouseOver = () => {
-            d3.selectAll('g.blip-link').attr('opacity', 0.3);
+            selectAll('g.blip-link').attr('opacity', 0.3);
             group.attr('opacity', 1.0);
             blipListItem.selectAll('.blip-list-item').classed('highlight', true);
             this.tip.show(blip.name, group.node());
         };
 
         let mouseOut = () => {
-            d3.selectAll('g.blip-link').attr('opacity', 1.0);
+            selectAll('g.blip-link').attr('opacity', 1.0);
             blipListItem.selectAll('.blip-list-item').classed('highlight', false);
             this.tip.hide().style('left', 0).style('top', 0);
         };
@@ -290,12 +292,12 @@ export default class Graphing {
         group.on('mouseover', mouseOver).on('mouseout', mouseOut);
 
         let clickBlip = () => {
-            d3.select('.blip-item-description.expanded').node() !== blipItemDescription.node() &&
-            d3.select('.blip-item-description.expanded').classed('expanded', false);
+            select('.blip-item-description.expanded').node() !== blipItemDescription.node() &&
+            select('.blip-item-description.expanded').classed('expanded', false);
             blipItemDescription.classed('expanded', !blipItemDescription.classed('expanded'));
 
             blipItemDescription.on('click', () => {
-                d3.event.stopPropagation();
+                event.stopPropagation();
             });
         };
 
@@ -303,7 +305,7 @@ export default class Graphing {
     }
 
     removeHomeLink() {
-        d3.select('.home-link').remove();
+        select('.home-link').remove();
     }
 
     createHomeLink(pageElement) {
@@ -323,7 +325,7 @@ export default class Graphing {
     }
 
     removeRadarLegend() {
-        d3.select('.legend').remove();
+        select('.legend').remove();
     }
 
     drawLegend(order) {
@@ -332,7 +334,7 @@ export default class Graphing {
         let triangleKey = this.normalizedConfig.legend.triangleKey;
         let circleKey = this.normalizedConfig.legend.circleKey;
 
-        let container = d3.select('svg').append('g')
+        let container = select('svg').append('g')
             .attr('class', 'legend legend' + '-' + order);
 
         let x = 10;
@@ -358,7 +360,7 @@ export default class Graphing {
             y = 4 * this._size / 5;
         }
 
-        d3.select('.legend')
+        select('.legend')
             .attr('class', 'legend legend-' + order)
             .transition()
             .style('visibility', 'visible');
@@ -386,45 +388,45 @@ export default class Graphing {
         this.removeHomeLink();
         this.removeRadarLegend();
         this.tip.hide();
-        d3.selectAll('g.blip-link').attr('opacity', 1.0);
+        selectAll('g.blip-link').attr('opacity', 1.0);
 
         this.svg.style('left', 0).style('right', 0);
 
-        d3.selectAll('.button')
+        selectAll('.button')
             .classed('selected', false)
             .classed('full-view', true);
 
-        d3.selectAll('.quadrant-table').classed('selected', false);
-        d3.selectAll('.home-link').classed('selected', false);
+        selectAll('.quadrant-table').classed('selected', false);
+        selectAll('.home-link').classed('selected', false);
 
-        d3.selectAll('.quadrant-group')
+        selectAll('.quadrant-group')
             .transition()
             .duration(ANIMATION_DURATION)
             .attr('transform', 'scale(1)');
 
-        d3.selectAll('.quadrant-group .blip-link')
+        selectAll('.quadrant-group .blip-link')
             .transition()
             .duration(ANIMATION_DURATION)
             .attr('transform', 'scale(1)');
 
-        d3.selectAll('.quadrant-group')
+        selectAll('.quadrant-group')
             .style('pointer-events', 'auto');
     }
 
     searchBlip(_e, ui) {
         const {blip, quadrant} = ui.item;
-        const isQuadrantSelected = d3.select('div.button.' + quadrant.order).classed('selected');
+        const isQuadrantSelected = select('div.button.' + quadrant.order).classed('selected');
         this.selectQuadrant(quadrant.order, quadrant.startAngle);
-        const selectedDesc = d3.select('#blip-description-' + blip.number);
-        d3.select('.blip-item-description.expanded').node() !== selectedDesc.node() &&
-        d3.select('.blip-item-description.expanded').classed('expanded', false);
+        const selectedDesc = select('#blip-description-' + blip.number);
+        select('.blip-item-description.expanded').node() !== selectedDesc.node() &&
+        select('.blip-item-description.expanded').classed('expanded', false);
         selectedDesc.classed('expanded', true);
 
-        d3.selectAll('g.blip-link').attr('opacity', 0.3);
-        const group = d3.select('#blip-link-' + blip.number);
+        selectAll('g.blip-link').attr('opacity', 0.3);
+        const group = select('#blip-link-' + blip.number);
         group.attr('opacity', 1.0);
-        d3.selectAll('.blip-list-item').classed('highlight', false);
-        d3.select('#blip-list-item-' + blip.number).classed('highlight', true);
+        selectAll('.blip-list-item').classed('highlight', false);
+        select('#blip-list-item-' + blip.number).classed('highlight', true);
         if (isQuadrantSelected) {
             this.tip.show(blip.name, group.node());
         } else {
@@ -438,7 +440,7 @@ export default class Graphing {
     }
 
     plotRadarHeader() {
-        this.header = d3.select('body').insert('header', '#radar');
+        this.header = select('body').insert('header', '#radar');
         this.header.append('div')
             .attr('class', 'radar-title')
             .append('div')
@@ -520,7 +522,7 @@ export default class Graphing {
     }
 
     plotRadarFooter() {
-        d3.select('body')
+        select('body')
             .insert('div', '#radar-plot + *')
             .attr('id', 'footer')
             .append('div')
@@ -530,24 +532,24 @@ export default class Graphing {
     }
 
     mouseoverQuadrant(order) {
-        d3.select('.quadrant-group-' + order).style('opacity', 1);
-        d3.selectAll('.quadrant-group:not(.quadrant-group-' + order + ')').style('opacity', 0.3);
+        select('.quadrant-group-' + order).style('opacity', 1);
+        selectAll('.quadrant-group:not(.quadrant-group-' + order + ')').style('opacity', 0.3);
     }
 
     mouseoutQuadrant(order) {
-        d3.selectAll('.quadrant-group:not(.quadrant-group-' + order + ')').style('opacity', 1);
+        selectAll('.quadrant-group:not(.quadrant-group-' + order + ')').style('opacity', 1);
     }
 
     selectQuadrant(order, startAngle) {
-        d3.selectAll('.home-link').classed('selected', false);
+        selectAll('.home-link').classed('selected', false);
 
-        this.createHomeLink(d3.select('header'));
+        this.createHomeLink(select('header'));
 
-        d3.selectAll('.button').classed('selected', false).classed('full-view', false);
-        d3.selectAll('.button.' + order).classed('selected', true);
-        d3.selectAll('.quadrant-table').classed('selected', false);
-        d3.selectAll('.quadrant-table.' + order).classed('selected', true);
-        d3.selectAll('.blip-item-description').classed('expanded', false);
+        selectAll('.button').classed('selected', false).classed('full-view', false);
+        selectAll('.button.' + order).classed('selected', true);
+        selectAll('.quadrant-table').classed('selected', false);
+        selectAll('.quadrant-table.' + order).classed('selected', true);
+        selectAll('.blip-item-description').classed('expanded', false);
 
         let scale = 2;
 
@@ -568,41 +570,41 @@ export default class Graphing {
 
         this.svg.style('left', moveLeft + 'px').style('right', moveRight + 'px');
 
-        d3.select('.quadrant-group-' + order)
+        select('.quadrant-group-' + order)
             .transition()
             .duration(ANIMATION_DURATION)
             .attr('transform', 'translate(' + translateX + ',' + translateY + ')scale(' + scale + ')');
 
-        d3.selectAll('.quadrant-group-' + order + ' .blip-link text').each((d, i, nodes) => {
-            let x = d3.select(nodes[i]).attr('x');
-            let y = d3.select(nodes[i]).attr('y');
-            d3.select(nodes[i].parentNode)
+        selectAll('.quadrant-group-' + order + ' .blip-link text').each((d, i, nodes) => {
+            let x = select(nodes[i]).attr('x');
+            let y = select(nodes[i]).attr('y');
+            select(nodes[i].parentNode)
                 .transition()
                 .duration(ANIMATION_DURATION)
                 .attr('transform', 'scale(' + blipScale + ')translate(' + blipTranslate * x + ',' + blipTranslate * y + ')');
         });
 
-        d3.selectAll('.quadrant-group')
+        selectAll('.quadrant-group')
             .style('pointer-events', 'auto');
 
-        d3.selectAll('.quadrant-group:not(.quadrant-group-' + order + ')')
+        selectAll('.quadrant-group:not(.quadrant-group-' + order + ')')
             .transition()
             .duration(ANIMATION_DURATION)
             .style('pointer-events', 'none')
             .attr('transform', 'translate(' + translateXAll + ',' + translateYAll + ')scale(0)');
 
-        if (d3.select('.legend.legend-' + order).empty()) {
+        if (select('.legend.legend-' + order).empty()) {
             this.drawLegend(order);
         }
     }
 
     init() {
-        this.radarElement = d3.select('body').append('div').attr('id', 'radar');
+        this.radarElement = select('body').append('div').attr('id', 'radar');
     };
 
     constructSheetUrl(sheetName) {
         let noParamUrl = window.location.href.substring(0, window.location.href.indexOf(window.location.search));
-        let queryParams = QueryParams(window.location.search.substring(1));
+        let queryParams = extractQueryParams(window.location.search.substring(1));
         return noParamUrl + '?sheetId=' + queryParams.sheetId + '&sheetName=' + encodeURIComponent(sheetName);
     }
 
@@ -619,8 +621,8 @@ export default class Graphing {
                 .text(alternative);
 
             if (alternative === currentSheet) {
-                d3.selectAll('.alternative').filter((d, i, nodes) => {
-                    return d3.select(nodes[i]).text() === alternative;
+                selectAll('.alternative').filter((d, i, nodes) => {
+                    return select(nodes[i]).text() === alternative;
                 }).attr('class', 'highlight multiple-sheet-button');
             }
         });
