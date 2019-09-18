@@ -617,7 +617,7 @@ export default class Graphing {
             alternativeSheetButton
                 .append('div:a')
                 .attr('class', 'first full-view alternative multiple-sheet-button')
-                .attr('href', constructSheetUrl(alternative))
+                .attr('href', this.constructSheetUrl(alternative))
                 .text(alternative);
 
             if (alternative === currentSheet) {
