@@ -341,23 +341,23 @@ export default class Graphing {
         let y = 10;
 
         if (order === 'first') {
-            x = 4 * this._size / 5;
-            y = 1 * this._size / 5;
+            x = 3.5 * this._size / 5;
+            y = 0.6 * this._size / 5;
         }
 
         if (order === 'second') {
-            x = 1 * this._size / 5 - 15;
-            y = 1 * this._size / 5 - 20;
+            x = 0.6 * this._size / 5 - 15;
+            y = 0.6 * this._size / 5 - 20;
         }
 
         if (order === 'third') {
-            x = 1 * this._size / 5 - 15;
-            y = 4 * this._size / 5 + 15;
+            x = 0.6 * this._size / 5 - 15;
+            y = 4.5 * this._size / 5 + 15;
         }
 
         if (order === 'fourth') {
-            x = 4 * this._size / 5;
-            y = 4 * this._size / 5;
+            x = 3 * this._size / 5;
+            y = 4.5 * this._size / 5;
         }
 
         select('.legend')
