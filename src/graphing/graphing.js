@@ -453,11 +453,11 @@ export default class Graphing {
             });
 
         if (this.normalizedConfig.logo) {
-            const logoSource = ((this.normalizedConfig.logo && !this.normalizedConfig.logo.match(/http(s):/)) ? '/images/' : '') + this.normalizedConfig.logo;
+            const logoSource = ((this.normalizedConfig.logo && !this.normalizedConfig.logo.match(/http(s):/)) ? 'images/' : '') + this.normalizedConfig.logo;
             this.header.select('.radar-title')
                 .append('div')
                 .attr('class', 'radar-title__logo')
-                .html('<a href="#" style="margin-right: 15px;"><img src="' + logoSource + '" /></a>');
+                .html('<img src="' + logoSource + '" alt="Logo"/>');
         }
         this.buttonsGroup = this.header.append('div')
             .classed('buttons-group', true);

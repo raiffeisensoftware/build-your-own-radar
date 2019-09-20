@@ -95,7 +95,7 @@ export function plotLogo(content) {
     if (getConfig().logo) {
         content.append('div')
             .attr('class', 'input-sheet__logo')
-            .html('<a href="#"><img src="images/' + getConfig().logo + '" alt="Logo"/></a>');
+            .html('<img src="images/' + getConfig().logo + '" alt="Logo"/>');
     }
 }
 
