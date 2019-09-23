@@ -26,7 +26,9 @@ export function createConfig(blips) {
                 triangleKey: 'New or moved',
                 circleKey: 'No change'
             },
-            footerText: "footerText"
+            footerText: "footerText",
+            radarBaseUrl: " ",
+            CsvQueryParams: {test: "test"}
         };
 
         blips.forEach((blip) => {

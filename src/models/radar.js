@@ -25,7 +25,7 @@ export default class Radar {
     }
 
     addAlternative(sheetName) {
-        this_.alternatives.push(sheetName);
+        this._alternatives.push(sheetName);
     };
 
     get alternatives() {
