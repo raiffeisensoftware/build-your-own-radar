@@ -12,7 +12,7 @@ export default class CsvDocument {
 
     createBlips() {
         let that = this;
-        csv(this._url, {credentials: 'include'}
+        csv(this._url, {credentials: 'same-origin'}
         ).then((data) => {
             try {
                 let columnNames = data['columns'];
