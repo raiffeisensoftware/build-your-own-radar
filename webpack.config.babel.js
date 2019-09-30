@@ -19,8 +19,8 @@ if (env) {
     require('dotenv').config({path: env});
 }
 
-let main = ['./src/site.js'];
-let common = ['./src/common.js'];
+let main = ['whatwg-fetch', './src/site.js'];
+let common = ['whatwg-fetch', './src/common.js'];
 let devtool;
 
 if (isDev) {

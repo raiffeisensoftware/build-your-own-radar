@@ -1,3 +1,5 @@
+require('es6-promise/auto');
+
 import {getConfig} from "./util/normalizedConfig";
 import {select} from "d3-selection";
 import {extractDomainName, extractQueryParams} from "./util/util";
