@@ -323,8 +323,11 @@ export default class Graphing {
         }
     }
 
-    createCustomHomeLink(pageElement, customLink) {
-        if (pageElement.select('.home-link').empty() && this.normalizedConfig.homeLink) {
+    createCustomHomeLink(pageElement) {
+        if (pageElement.select('.home-link').empty()
+            && this.normalizedConfig.homeLink
+            && this.normalizedConfig.homeLink.displayText
+            && this.normalizedConfig.homeLink.link) {
             pageElement.insert('div', 'div#alternative-buttons')
                 .html('&#171; ' + this.normalizedConfig.homeLink.displayText)
                 .classed('home-link', true)
@@ -401,7 +404,7 @@ export default class Graphing {
 
     redrawFullRadar() {
         this.removeHomeLink();
-        this.createCustomHomeLink(select('header'), 'bla');
+        this.createCustomHomeLink(select('header'));
         this.removeRadarLegend();
         this.tip.hide();
         selectAll('g.blip-link').attr('opacity', 1.0);
