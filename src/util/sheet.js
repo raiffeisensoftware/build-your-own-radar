@@ -1,8 +1,4 @@
 /* global gapi */
-const SheetNotFoundError = require('../../src/exceptions/sheetNotFoundError');
-const UnauthorizedError = require('../../src/exceptions/unauthorizedError');
-const ExceptionMessages = require('./exceptionMessages');
-
 export default class Sheet {
     constructor(sheetReference) {
         let matches = sheetReference.match('https:\\/\\/docs.google.com\\/spreadsheets\\/d\\/(.*?)($|\\/$|\\/.*|\\?.*)');

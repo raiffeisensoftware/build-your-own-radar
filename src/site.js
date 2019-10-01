@@ -1,15 +1,11 @@
-require('es6-promise/auto');
-
-import {getConfig} from "./util/normalizedConfig";
+import 'es6-promise/auto';
+import './common';
+import {getConfig, normalizedConfig} from "./util/normalizedConfig";
 import {select} from "d3-selection";
 import {extractDomainName, extractQueryParams} from "./util/util";
 import {plotBanner, plotFooter, plotForm, plotLogo, setDocumentTitle} from "./util/factory";
 import GoogleSheet from "./util/googleSheet";
 import CsvDocument from "./util/csvDocument";
-
-require('./common');
-
-const normalizedConfig = require('./util/normalizedConfig');
 
 if (normalizedConfig.logo && !normalizedConfig.logo.match(/http(s)?:/i)) {
     require('./images/' + normalizedConfig.logo);

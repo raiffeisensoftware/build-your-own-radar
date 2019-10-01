@@ -1,4 +1,4 @@
-const sanitizeHtml = require('sanitize-html');
+import sanitizeHtml from 'sanitize-html';
 
 const relaxedOptions = {
     allowedTags: ['b', 'i', 'em', 'strong', 'a', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li', 'ul',
@@ -54,10 +54,5 @@ export default class InputSanitizer {
 
     trimWhiteSpaces(blip) {
         return JSON.parse(JSON.stringify(blip).replace(/"\s+|\s+"/g, '"'));
-        /*        let processedBlip = {};
-        Object.entries(blip).forEach(([key, value]) => {
-            processedBlip[key.trim()] = Object.keys(value).map(k => value[k] = value[k].trim());
-        });
-        return processedBlip;*/
     }
 }

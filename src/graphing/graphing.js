@@ -6,9 +6,8 @@ import 'd3-transition';
 import {getConfig} from '../util/normalizedConfig';
 import RingCalculator from '../util/ringCalculator';
 import {extractQueryParams} from "../util/util";
-
-const $ = require('jquery');
-require('jquery-ui/ui/widgets/autocomplete');
+import $ from 'jquery';
+import 'jquery-ui/ui/widgets/autocomplete';
 
 const MIN_BLIP_WIDTH = 12;
 const ANIMATION_DURATION = 1000;

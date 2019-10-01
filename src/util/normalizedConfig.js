@@ -4,7 +4,7 @@ try {
 } catch (e) {
     console.log('no config.json available.');
 }
-let normalizedConfig = {};
+export let normalizedConfig = {};
 
 export function getConfig(blips = []) {
     if ((normalizedConfig.quadrants || []).length === 4 && (normalizedConfig.rings || []).length) return normalizedConfig;
