@@ -19,8 +19,8 @@ if (env) {
     require('dotenv').config({path: env});
 }
 
-let main = ['./src/site.js'];
-let common = ['./src/common.js'];
+let main = ['whatwg-fetch', './src/site.js'];
+let common = ['whatwg-fetch', './src/common.js'];
 let devtool;
 
 if (isDev) {
@@ -62,7 +62,6 @@ module.exports = {
 
     output: {
         path: buildPath,
-        publicPath: '/',
         filename: '[name].[hash].js'
     },
 
@@ -80,8 +79,7 @@ module.exports = {
                                 {
                                     targets: ">0.25%",
                                     useBuiltIns: 'usage',
-                                    corejs: 3,
-                                    debug: true
+                                    corejs: 3
                                 }
                             ]
                         ],
@@ -109,11 +107,11 @@ module.exports = {
                     }, 'sass-loader']
             },
             {
-                test: /\.(eot|svg|ttf|woff|woff2)$/,
-                loader: 'file-loader?name=images/[name].[ext]'
+                test: /\.(eot|ttf|woff|woff2)$/,
+                loader: 'file-loader?name=fonts/[name].[ext]'
             },
             {
-                test: /\.(png|jpg|ico)$/,
+                test: /\.(png|jpg|ico|svg)$/,
                 exclude: /node_modules/,
                 use: [{loader: 'file-loader?name=images/[name].[ext]&context=./src/images'}]
             },

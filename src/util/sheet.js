@@ -1,32 +1,8 @@
 /* global gapi */
-const SheetNotFoundError = require('../../src/exceptions/sheetNotFoundError');
-const UnauthorizedError = require('../../src/exceptions/unauthorizedError');
-const ExceptionMessages = require('./exceptionMessages');
-
 export default class Sheet {
     constructor(sheetReference) {
         let matches = sheetReference.match('https:\\/\\/docs.google.com\\/spreadsheets\\/d\\/(.*?)($|\\/$|\\/.*|\\?.*)');
         this.id = matches !== null ? matches[1] : sheetReference;
-    };
-
-    validate(callback) {
-        let feedURL = 'https://spreadsheets.google.com/feeds/worksheets/' + self.id + '/public/basic?alt=json';
-
-        // TODO: Move this out (as HTTPClient)
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', feedURL, true);
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    return callback();
-                } else if (xhr.status === 404) {
-                    return callback(new SheetNotFoundError(ExceptionMessages.SHEET_NOT_FOUND));
-                } else {
-                    return callback(new UnauthorizedError(ExceptionMessages.UNAUTHORIZED));
-                }
-            }
-        };
-        xhr.send(null);
     };
 
     getSheet() {

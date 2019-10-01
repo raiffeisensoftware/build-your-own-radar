@@ -1,5 +1,5 @@
-const MalformedDataError = require('../exceptions/malformedDataError');
-const ExceptionMessages = require('../util/exceptionMessages');
+import MalformedDataError from '../exceptions/malformedDataError';
+import ExceptionMessages from '../util/exceptionMessages';
 import {getConfig} from '../util/normalizedConfig';
 import Ring from '../models/ring';
 
@@ -25,7 +25,7 @@ export default class Radar {
     }
 
     addAlternative(sheetName) {
-        this_.alternatives.push(sheetName);
+        this._alternatives.push(sheetName);
     };
 
     get alternatives() {

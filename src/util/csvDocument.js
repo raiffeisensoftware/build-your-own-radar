@@ -12,7 +12,8 @@ export default class CsvDocument {
 
     createBlips() {
         let that = this;
-        csv(this._url).then((data) => {
+        csv(this._url, {credentials: 'same-origin'}
+        ).then((data) => {
             try {
                 let columnNames = data['columns'];
                 delete data['columns'];

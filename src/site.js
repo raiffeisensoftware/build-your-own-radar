@@ -1,19 +1,15 @@
-import {getConfig} from "./util/normalizedConfig";
+import 'es6-promise/auto';
+import './common';
+import {getConfig, normalizedConfig} from "./util/normalizedConfig";
 import {select} from "d3-selection";
 import {extractDomainName, extractQueryParams} from "./util/util";
 import {plotBanner, plotFooter, plotForm, plotLogo, setDocumentTitle} from "./util/factory";
 import GoogleSheet from "./util/googleSheet";
 import CsvDocument from "./util/csvDocument";
 
-require('./common');
-
-const normalizedConfig = require('./util/normalizedConfig');
-
 if (normalizedConfig.logo && !normalizedConfig.logo.match(/http(s)?:/i)) {
     require('./images/' + normalizedConfig.logo);
 }
-
-let sheet;
 let domainName = extractDomainName(window.location.search.substring(1));
 let queryString = window.location.href.match(/\?(.*)/);
 let queryParams = queryString ? extractQueryParams(queryString[1]) : {};
@@ -24,11 +20,11 @@ if (!sheetId) {
 }
 
 if (((queryParams.sheetId && domainName) || Object.keys(queryParams).length) && sheetId.endsWith('csv')) {
-    sheet = new CsvDocument(sheetId);
+    let sheet = new CsvDocument(sheetId);
     sheet.createBlips();
 } else if (domainName && domainName.endsWith('google.com') && sheetId) {
-    sheet = new GoogleSheet(sheetId, queryParams.sheetName);
-    sheet.createBlips();
+    let googleSheet = new GoogleSheet(sheetId, queryParams.sheetName);
+    googleSheet.build();
 } else {
     let content = select('body')
         .append('div')

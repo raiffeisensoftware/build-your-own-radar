@@ -18,43 +18,34 @@ export default class GoogleSheet {
     }
 
     build() {
-        let sheet = new Sheet(this._sheetReference);
-        sheet.validate(function (error) {
-            if (!error) {
-                Tabletop.init({
-                    key: sheet.id,
-                    callback: createBlips
-                });
-                return;
-            }
-
-            if (error instanceof SheetNotFoundError) {
-                plotErrorMessage(error);
-                return;
-            }
-            self.authenticate(false);
+        Tabletop.init({
+            key: this._sheetReference,
+            callback: (data, tabletop) => {
+                this.createBlips(tabletop);
+            },
+            simpleSheet: true
         });
+    }
 
-        function createBlips(__, tabletop) {
-            try {
-                if (!this._sheetName) {
-                    this._sheetName = tabletop.foundSheetNames[0];
-                }
-                let columnNames = tabletop.sheets(this._sheetName).columnNames;
-
-                let contentValidator = new ContentValidator(columnNames);
-                contentValidator.verifyContent();
-                contentValidator.verifyHeaders();
-
-                let all = tabletop.sheets(this._sheetName).all();
-                let blips = new InputSanitizer().sanitize(all);
-
-                plotRadar(tabletop.googleSheetName + ' - ' + this._sheetName, blips, this._sheetName, tabletop.foundSheetNames);
-            } catch (exception) {
-                plotErrorMessage(exception);
+    createBlips(tabletop) {
+        try {
+            if (!this._sheetName) {
+                this._sheetName = tabletop.foundSheetNames[0];
             }
+            let columnNames = tabletop.sheets(this._sheetName).columnNames;
+
+            let contentValidator = new ContentValidator(columnNames);
+            contentValidator.verifyContent();
+            contentValidator.verifyHeaders();
+
+            let all = tabletop.sheets(this._sheetName).all();
+            let blips = new InputSanitizer().sanitize(all);
+
+            plotRadar(tabletop.googleSheetName + ' - ' + this._sheetName, blips, this._sheetName, tabletop.foundSheetNames);
+        } catch (exception) {
+            plotErrorMessage(exception);
         }
-    };
+    }
 
     createBlipsForProtectedSheet(documentTitle, values, sheetNames) {
         if (!this._sheetName) {

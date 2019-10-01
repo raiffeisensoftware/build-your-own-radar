@@ -4,7 +4,7 @@ try {
 } catch (e) {
     console.log('no config.json available.');
 }
-let normalizedConfig = {};
+export let normalizedConfig = {};
 
 export function getConfig(blips = []) {
     if ((normalizedConfig.quadrants || []).length === 4 && (normalizedConfig.rings || []).length) return normalizedConfig;
@@ -26,7 +26,9 @@ export function createConfig(blips) {
                 triangleKey: 'New or moved',
                 circleKey: 'No change'
             },
-            footerText: "footerText"
+            footerText: "footerText",
+            radarBaseUrl: " ",
+            CsvQueryParams: {test: "test"}
         };
 
         blips.forEach((blip) => {

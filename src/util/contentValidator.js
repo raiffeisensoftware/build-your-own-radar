@@ -1,5 +1,5 @@
-const MalformedDataError = require('../../src/exceptions/malformedDataError');
-const ExceptionMessages = require('./exceptionMessages');
+import MalformedDataError from '../../src/exceptions/malformedDataError';
+import ExceptionMessages from './exceptionMessages';
 
 export default class ContentValidator {
     constructor(columnNames) {

@@ -8,11 +8,10 @@ import Ring from '../models/ring';
 import Blip from '../models/blip';
 import Radar from '../models/radar';
 import GraphingRadar from '../graphing/graphing';
+import MalformedDataError from '../exceptions/malformedDataError';
 
-const MalformedDataError = require('../exceptions/malformedDataError');
-
-const SheetNotFoundError = require('../exceptions/sheetNotFoundError');
-const ExceptionMessages = require('./exceptionMessages');
+import SheetNotFoundError from '../exceptions/sheetNotFoundError';
+import ExceptionMessages from './exceptionMessages';
 
 let normalizedConfig;
 
@@ -95,7 +94,7 @@ export function plotLogo(content) {
     if (getConfig().logo) {
         content.append('div')
             .attr('class', 'input-sheet__logo')
-            .html('<a href="#"><img src="/images/' + getConfig().logo + '" alt="Logo"/></a>');
+            .html('<img src="images/' + getConfig().logo + '" alt="Logo"/>');
     }
 }
 

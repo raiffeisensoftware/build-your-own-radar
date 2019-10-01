@@ -6,9 +6,8 @@ import 'd3-transition';
 import {getConfig} from '../util/normalizedConfig';
 import RingCalculator from '../util/ringCalculator';
 import {extractQueryParams} from "../util/util";
-
-const $ = require('jquery');
-require('jquery-ui/ui/widgets/autocomplete');
+import $ from 'jquery';
+import 'jquery-ui/ui/widgets/autocomplete';
 
 const MIN_BLIP_WIDTH = 12;
 const ANIMATION_DURATION = 1000;
@@ -341,23 +340,23 @@ export default class Graphing {
         let y = 10;
 
         if (order === 'first') {
-            x = 4 * this._size / 5;
-            y = 1 * this._size / 5;
+            x = 3.5 * this._size / 5;
+            y = 0.6 * this._size / 5;
         }
 
         if (order === 'second') {
-            x = 1 * this._size / 5 - 15;
-            y = 1 * this._size / 5 - 20;
+            x = 0.6 * this._size / 5 - 15;
+            y = 0.6 * this._size / 5 - 20;
         }
 
         if (order === 'third') {
-            x = 1 * this._size / 5 - 15;
-            y = 4 * this._size / 5 + 15;
+            x = 0.6 * this._size / 5 - 15;
+            y = 4.5 * this._size / 5 + 15;
         }
 
         if (order === 'fourth') {
-            x = 4 * this._size / 5;
-            y = 4 * this._size / 5;
+            x = 3 * this._size / 5;
+            y = 4.5 * this._size / 5;
         }
 
         select('.legend')
@@ -453,11 +452,11 @@ export default class Graphing {
             });
 
         if (this.normalizedConfig.logo) {
-            const logoSource = ((this.normalizedConfig.logo && !this.normalizedConfig.logo.match(/http(s):/)) ? '/images/' : '') + this.normalizedConfig.logo;
+            const logoSource = ((this.normalizedConfig.logo && !this.normalizedConfig.logo.match(/http(s):/)) ? 'images/' : '') + this.normalizedConfig.logo;
             this.header.select('.radar-title')
                 .append('div')
                 .attr('class', 'radar-title__logo')
-                .html('<a href="#" style="margin-right: 15px;"><img src="' + logoSource + '" /></a>');
+                .html('<img src="' + logoSource + '" alt="Logo"/>');
         }
         this.buttonsGroup = this.header.append('div')
             .classed('buttons-group', true);
@@ -617,7 +616,7 @@ export default class Graphing {
             alternativeSheetButton
                 .append('div:a')
                 .attr('class', 'first full-view alternative multiple-sheet-button')
-                .attr('href', constructSheetUrl(alternative))
+                .attr('href', this.constructSheetUrl(alternative))
                 .text(alternative);
 
             if (alternative === currentSheet) {
