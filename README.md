@@ -30,7 +30,7 @@ config.json properties:
 - `footerText` Sets the text for the footer allowing customization.
 - `homeLink` When set, creates a link when the full radar is shown. 
     - `displayText` is the text to display.
-    - `link` is the link to redirect to.
+    - `link` is the link to redirect to. If no Link is specified, it loads the previous url in the history list.
 
 ## How To Use
 

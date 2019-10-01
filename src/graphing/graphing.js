@@ -326,14 +326,15 @@ export default class Graphing {
     createCustomHomeLink(pageElement) {
         if (pageElement.select('.home-link').empty()
             && this.normalizedConfig.homeLink
-            && this.normalizedConfig.homeLink.displayText
-            && this.normalizedConfig.homeLink.link) {
+            && this.normalizedConfig.homeLink.displayText) {
             pageElement.insert('div', 'div#alternative-buttons')
                 .html('&#171; ' + this.normalizedConfig.homeLink.displayText)
                 .classed('home-link', true)
                 .classed('selected', true)
                 .on('click', () => {
-                    window.location.replace(this.normalizedConfig.homeLink.link);
+                    this.normalizedConfig.homeLink.link === undefined ?
+                        window.history.back() :
+                        window.location.replace(this.normalizedConfig.homeLink.link);
                 })
                 .append('g')
                 .attr('fill', '#626F87')
