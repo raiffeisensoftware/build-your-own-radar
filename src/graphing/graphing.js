@@ -571,7 +571,7 @@ export default class Graphing {
         selectAll('.quadrant-table.' + order).classed('selected', true);
         selectAll('.blip-item-description').classed('expanded', false);
 
-        let scale = 2;
+        let scale = 1.5;
 
         let adjustX = Math.sin(this.toRadian(startAngle)) - Math.cos(this.toRadian(startAngle));
         let adjustY = Math.cos(this.toRadian(startAngle)) + Math.sin(this.toRadian(startAngle));
