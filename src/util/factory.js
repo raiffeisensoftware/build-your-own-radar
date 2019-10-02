@@ -26,7 +26,8 @@ export function plotRadar(title, blips, currentRadarName, alternativeRadars) {
 
     rings.forEach((ringName, i) => {
         if (i === maxRings) {
-            throw new MalformedDataError(ExceptionMessages.TOO_MANY_RINGS);
+            plotErrorMessage(new MalformedDataError(ExceptionMessages.TOO_MANY_RINGS));
+            throw new Error();
         }
         ringMap[ringName] = new Ring(ringName, i);
     });
@@ -53,13 +54,13 @@ export function plotRadar(title, blips, currentRadarName, alternativeRadars) {
         radar.addQuadrant(quadrants[key]);
     });
 
-    if (alternativeRadars !== undefined || true) {
+    if (alternativeRadars !== undefined) {
         alternativeRadars.forEach((sheetName) => {
             radar.addAlternative(sheetName);
         });
     }
 
-    if (currentRadarName !== undefined || true) {
+    if (currentRadarName !== undefined) {
         radar.currentSheetName = currentRadarName;
     }
 
@@ -157,10 +158,9 @@ export function plotErrorMessage(exception) {
     plotBanner(content, bannerText);
 
     selectAll('.loading').remove();
-    message = "Oops! We can't find the Google Sheet you've entered";
     let faqMessage = 'Please check <a href="https://www.thoughtworks.com/radar/how-to-byor">FAQs</a> for possible solutions.';
     if (exception instanceof MalformedDataError) {
-        message = message.concat(exception.message);
+        message = message + '<br>' + exception.message;
     } else if (exception instanceof SheetNotFoundError) {
         message = exception.message;
     } else {

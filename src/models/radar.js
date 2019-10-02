@@ -2,6 +2,7 @@ import MalformedDataError from '../exceptions/malformedDataError';
 import ExceptionMessages from '../util/exceptionMessages';
 import {getConfig} from '../util/normalizedConfig';
 import Ring from '../models/ring';
+import {plotErrorMessage} from "../util/factory";
 
 export default class Radar {
 
@@ -42,7 +43,8 @@ export default class Radar {
 
     addQuadrant(quadrant) {
         if (this._addingQuadrant >= 4) {
-            throw new MalformedDataError(ExceptionMessages.TOO_MANY_QUADRANTS);
+            plotErrorMessage(new MalformedDataError(ExceptionMessages.TOO_MANY_QUADRANTS));
+            throw new Error();
         }
         this._quadrants[this._addingQuadrant].quadrant = quadrant;
         this.setNumbers(quadrant.blips);
@@ -50,7 +52,10 @@ export default class Radar {
     };
 
     get rings() {
-        if (this._addingQuadrant !== 4) throw new MalformedDataError(ExceptionMessages.LESS_THAN_FOUR_QUADRANTS);
+        if (this._addingQuadrant !== 4) {
+            plotErrorMessage(new MalformedDataError(ExceptionMessages.LESS_THAN_FOUR_QUADRANTS));
+            throw new Error();
+        }
         return (getConfig()).rings.map((el, i) => {
             return new Ring(el, i);
         });

@@ -1,5 +1,6 @@
 import MalformedDataError from '../../src/exceptions/malformedDataError';
 import ExceptionMessages from './exceptionMessages';
+import {plotErrorMessage} from "./factory";
 
 export default class ContentValidator {
     constructor(columnNames) {
@@ -10,14 +11,16 @@ export default class ContentValidator {
 
     verifyContent() {
         if (this.columnNames === undefined || this.columnNames.length === 0) {
-            throw new MalformedDataError(ExceptionMessages.MISSING_CONTENT);
+            plotErrorMessage(new MalformedDataError(ExceptionMessages.MISSING_CONTENT));
+            throw new Error();
         }
     };
 
     verifyHeaders() {
         ['name', 'ring', 'quadrant', 'isNew', 'description'].forEach((field) => {
             if (this.columnNames.indexOf(field) === -1) {
-                throw new MalformedDataError(ExceptionMessages.MISSING_HEADERS);
+                plotErrorMessage(new MalformedDataError(ExceptionMessages.MISSING_HEADERS));
+                throw new Error();
             }
         });
     };
