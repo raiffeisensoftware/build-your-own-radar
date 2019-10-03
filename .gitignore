@@ -6,6 +6,7 @@ dist
 *.swo
 config.json
 src/images/additionalLogo.png
+src/images/headercomp.png
 
 coverage/
 
