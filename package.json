@@ -1,20 +1,19 @@
 {
-  "name": "build-your-own-radar",
-  "version": "0.3.0",
-  "description": "",
+  "name": "build-your-own-radar-rsg-edition",
+  "version": "1.0.0",
+  "description": "Build your own Radar from ThoughtWorks, forked by Raiffeisen Software GmbH",
   "main": "index.js",
   "scripts": {
-    "test": "standard && istanbul cover jasmine",
-    "test:lint": "npx standard",
+    "test": "node_modules/.bin/karma start",
     "dev": "webpack-dev-server -d --mode development --inline",
     "build": "webpack --mode production",
     "end_to_end_test": "node_modules/.bin/cypress run --env host=$TEST_URL",
     "start": "node_modules/.bin/cypress open --env host=$TEST_URL"
   },
-  "author": "ThoughtWorks",
+  "author": "Raiffeisen Software GmbH",
   "repository": {
     "type": "git",
-    "url": "https://github.com/thoughtworks/build-your-own-radar"
+    "url": "https://github.com/raiffeisensoftware/build-your-own-radar"
   },
   "keywords": [
     "tech-radar"
@@ -37,11 +36,14 @@
     "html-webpack-plugin": "^3.2.0",
     "istanbul": "^0.4.5",
     "jasmine": "^3.5.0",
+    "jasmine-core": "^3.5.0",
     "jsdom": "^15.1.1",
     "json-loader": "^0.5.7",
+    "karma": "^4.3.0",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-jasmine": "^2.0.1",
+    "karma-webpack": "^4.0.2",
     "mini-css-extract-plugin": "^0.8.0",
-    "mocha": "^6.2.1",
-    "mochawesome": "^4.1.0",
     "node-sass": "^4.12.0",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
@@ -52,7 +54,7 @@
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.2",
     "xmlhttprequest": "^1.8.0",
-    "yargs": "^14.0.0"
+    "yargs": "^14.2.0"
   },
   "dependencies": {
     "@babel/polyfill": "^7.6.0",
@@ -72,7 +74,6 @@
     "whatwg-fetch": "^3.0.0"
   },
   "peerDependencies": {
-    "mocha": "*",
     "sass": "1.22.12",
     "fibers": "^4.0.1"
   },
@@ -83,8 +84,7 @@
       "XMLHttpRequest"
     ],
     "env": [
-      "jasmine",
-      "mocha"
+      "jasmine"
     ],
     "ignore": [
       "radar-spec.js",

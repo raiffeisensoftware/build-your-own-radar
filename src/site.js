@@ -19,6 +19,7 @@ if (!sheetId) {
     sheetId = (getConfig()).generateCsvUrl(queryParams);
 }
 
+console.log(queryString)
 if (((queryParams.sheetId && domainName) || Object.keys(queryParams).length) && sheetId.endsWith('csv')) {
     let sheet = new CsvDocument(sheetId);
     sheet.createBlips();
