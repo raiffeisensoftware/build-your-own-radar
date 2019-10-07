@@ -51,12 +51,13 @@
     "webpack": "^4.41.0",
     "webpack-bundle-analyzer": "^3.5.2",
     "webpack-cli": "^3.3.9",
-    "webpack-dev-server": "^3.8.1",
+    "webpack-dev-server": "^3.8.2",
     "xmlhttprequest": "^1.8.0",
     "yargs": "^14.0.0"
   },
   "dependencies": {
     "@babel/polyfill": "^7.6.0",
+    "bootstrap": "^4.3.1",
     "chance": "1.0.18",
     "core-js": "^3.2.1",
     "d3-fetch": "^1.1.2",

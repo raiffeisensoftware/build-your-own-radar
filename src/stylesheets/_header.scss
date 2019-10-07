@@ -57,16 +57,25 @@ header {
 
   .quadrant-btn--group, .multiple-sheet-button-group {
     text-align: left;
-    padding-left: 10%;
+    margin: auto;
   }
 
-  .print-radar-btn, .search-box {
+  .print-radar-btn {
+    background-image: url("../images/printer.svg");
+    background-repeat: no-repeat;
+    margin: auto;
+    padding: auto;
+    display: block;
+    cursor: pointer;
+  }
+
+  .search-box {
     margin-left: auto;
-    margin-right: 10%;
+    margin-right: auto;
   }
 
   .buttons-group {
-    padding: 15px 0 25px;
+    padding: 15px 15px 25px 25px;
   }
 
   .home-link {
@@ -74,10 +83,8 @@ header {
     margin-bottom: 10px;
     line-height: normal;
     cursor: pointer;
-    display: inline-block;
     font-size: $baseFont;
     text-align: left;
-    width: 80%;
   }
 
   .button {
@@ -88,9 +95,9 @@ header {
     padding: 10px 20px;
     cursor: pointer;
     transition: all .2s ease-out;
-
     background-color: $grey-light;
     color: $black;
+
 
     &.no-capitalize {
       text-transform: none;
@@ -165,19 +172,20 @@ header {
       margin-right: 10px;
     }
 
-    .search-radar {
-      border: 1px solid #aaa;
-      background-color: inherit;
-      background-image: url("../images/search-logo-2x.svg");
-      background-repeat: no-repeat;
-      background-position: 10px;
-    }
-
     input {
       padding-left: 35px;
       width: 275px;
     }
   }
+}
+
+.search-radar {
+  border: 1px solid #aaa;
+  background-color: inherit;
+  background-image: url("../images/search-logo-2x.svg");
+  background-repeat: no-repeat;
+  background-position: 10px;
+  padding-left: 35px;
 }
 
 .ui-autocomplete {

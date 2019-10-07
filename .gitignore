@@ -5,8 +5,11 @@ dist
 *.swp
 *.swo
 config.json
-src/images/additionalLogo.png
-src/images/headercomp.png
+
+# RSG Images
+/src/images/additionalLogo.png
+/src/images/headercomp.png
+/src/images/printer.svg
 
 coverage/
 

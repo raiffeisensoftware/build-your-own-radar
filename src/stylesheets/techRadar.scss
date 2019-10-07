@@ -1,0 +1,336 @@
+#cookie-bar {
+  bottom: 25px !important;
+  padding: 1px !important;
+}
+
+#cookie-bar-button {
+  background-color: #007179 !important;
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  margin-top: 2px !important;
+}
+
+#cookie-bar p {
+  display: inline-block !important;
+  margin-top: 2px !important;
+  vertical-align: middle !important;
+}
+
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 25px;
+  background-color: white;
+  color: grey;
+  text-align: center;
+  font-size: 75%;
+}
+
+.header {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 40px;
+  background-color: #007179;
+  color: white;
+  text-align: center;
+}
+
+p {
+  &.radar {
+    text-align: center;
+    margin-top: 40%;
+  }
+
+  &.hint {
+    text-align: center;
+    line-height: 240%;
+  }
+}
+
+a {
+  &.activeheader {
+    color: white;
+  }
+
+  &.activefooter {
+    color: grey;
+  }
+}
+
+.factboxupdate {
+  font-size: 70%;
+  color: grey;
+}
+
+.headerpic {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.bottom-left {
+  position: absolute;
+  bottom: 8px;
+  left: 16px;
+}
+
+.top-left {
+  position: absolute;
+  top: 5px;
+  left: -45px;
+}
+
+.top-left {
+  position: absolute;
+  top: 12px;
+  left: 20px;
+}
+
+.top-right {
+  position: absolute;
+  top: 1px;
+  right: 16px;
+}
+
+.bottom-right {
+  position: absolute;
+  bottom: 10px;
+  right: 16px;
+  font-size: 130%;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+html {
+  overflow-y: scroll;
+}
+
+.ring {
+  font-family: Consolas, Courier New;
+}
+
+p.text-justify {
+  font-size: 90%;
+  text-align: justify;
+  text-justify: auto;
+}
+
+.protokolltext {
+  color: grey;
+  font-style: italic;
+  font-size: 70% !important;
+  text-align: center !important;
+  margin-top: 3px;
+}
+
+.release {
+  font-size: 75%;
+  color: grey;
+  text-align: right;
+  font-style: italic;
+}
+
+.buttontext {
+  color: white;
+}
+
+.radartext {
+  text-align: center;
+  font-style: italic;
+}
+
+.radarclient {
+  background-color: #0f90a9;
+
+  &:hover {
+    background-color: #1fa6bb;
+  }
+}
+
+.radarserver {
+  background-color: #558b50;
+
+  &:hover {
+    background-color: #70a36b;
+  }
+}
+
+.radarpaas {
+  background-color: #ec5820;
+
+  &:hover {
+    background-color: #f17436;
+  }
+}
+
+.radarmainframe {
+  background-color: #871734;
+
+  &:hover {
+    background-color: #9e2a4d;
+  }
+}
+
+a.radarlink {
+  color: white;
+  text-decoration: none;
+}
+
+.radaralign {
+  text-align: center;
+  color: white;
+  cursor: pointer;
+}
+
+ul.a {
+  list-style-type: circle;
+}
+
+.rlogo {
+  width: 40%;
+}
+
+@media (min-width: 768px) {
+  .rlogo {
+    width: 100%;
+  }
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 1000px;
+}
+
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+
+  &:hover, &:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
+
+.modal-content, #caption {
+  -webkit-animation-name: zoom;
+  -webkit-animation-duration: 0.6s;
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+  from {
+    -webkit-transform: scale(0);
+  }
+
+  to {
+    -webkit-transform: scale(1);
+  }
+}
+
+@keyframes zoom {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+#myImg {
+  cursor: pointer;
+}
+
+.newstext {
+  font-size: 90%;
+}
+
+.legende {
+  font-size: 75%;
+  font-style: italic;
+}
+
+.newsanzahl {
+  width: 25px;
+  display: inline-block;
+  text-align: right;
+  font-weight: bold;
+}
+
+.newsringe {
+  margin-left: 10px;
+  display: inline-block;
+}
+
+a.legendelink {
+  color: black;
+}
+
+.tooltip-inner {
+  min-width: 350px;
+}
+
+.infopic {
+  width: 12px;
+  height: 12px;
+  vertical-align: top;
+}

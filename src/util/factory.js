@@ -85,19 +85,9 @@ export function plotLoading(content) {
 
     setDocumentTitle();
 
-    plotLogo(content);
+    plotHeader();
 
-    let bannerText = '<h1>Building your radar...</h1><p>Your Technology Radar will be available in just a few seconds</p>';
-    plotBanner(content, bannerText);
     plotFooter(content);
-}
-
-export function plotLogo(content) {
-    if (getConfig().logo) {
-        content.append('div')
-            .attr('class', 'input-sheet__logo')
-            .html('<img src="images/' + getConfig().logo + '" alt="Logo"/>');
-    }
 }
 
 export function plotFooter(content) {
@@ -112,10 +102,24 @@ export function plotFooter(content) {
     }
 }
 
-export function plotBanner(content, text) {
-    content.append('div')
-        .attr('class', 'input-sheet__banner')
-        .html(text);
+export function plotHeader() {
+    let main = select('main');
+    main.append('br');
+    main.append('br');
+
+    main.append('div')
+        .attr('class', 'container')
+        .append('div')
+        .attr('class', 'row')
+        .append('div')
+        .attr('class', 'col-sm')
+        .append('div')
+        .attr('class', 'headerpic')
+        .html('<a href="/"><img class="img-fluid" src="images/headercomp.png" alt="Logo"/></a>');
+
+    return select('main')
+        .append('div')
+        .attr('class', 'row input-sheet');
 }
 
 export function plotForm(content) {
@@ -133,13 +137,9 @@ export function plotForm(content) {
         .attr('placeholder', 'e.g. https://docs.google.com/spreadsheets/d/<sheetid> or hosted CSV file')
         .attr('required', '');
 
-    form.append('button')
+    form.append('input')
         .attr('type', 'submit')
-        .append('a')
-        .attr('class', 'button')
-        .text('Build my radar');
-
-    form.append('p').html("<a href='https://www.thoughtworks.com/radar/how-to-byor'>Need help?</a>");
+        .attr('value', 'Build my radar');
 }
 
 export function plotErrorMessage(exception) {
@@ -150,12 +150,7 @@ export function plotErrorMessage(exception) {
         .attr('class', 'input-sheet');
     setDocumentTitle();
 
-    plotLogo(content);
-
-    let bannerText = '<div><h1>Build your own radar</h1><p>Once you\'ve <a href="https://www.thoughtworks.com/radar/byor">created your Radar</a>, you can use this service' +
-        ' to generate an <br />interactive version of your Technology Radar. Not sure how? <a href="https://www.thoughtworks.com/radar/how-to-byor">Read this first.</a></p></div>';
-
-    plotBanner(content, bannerText);
+    plotHeader();
 
     selectAll('.loading').remove();
     let faqMessage = 'Please check <a href="https://www.thoughtworks.com/radar/how-to-byor">FAQs</a> for possible solutions.';
@@ -182,6 +177,7 @@ export function plotErrorMessage(exception) {
     errorContainer.append('div').append('p')
         .html(homePage);
 
+    plotHeader();
     plotFooter(content);
 }
 
@@ -191,11 +187,7 @@ export function plotUnauthorizedErrorMessage() {
         .attr('class', 'input-sheet');
     setDocumentTitle();
 
-    plotLogo(content);
-
-    let bannerText = '<div><h1>Build your own radar</h1></div>';
-
-    plotBanner(content, bannerText);
+    plotHeader();
 
     selectAll('.loading').remove();
     const currentUser = GoogleAuth.geEmail();

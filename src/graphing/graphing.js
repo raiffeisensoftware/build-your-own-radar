@@ -163,17 +163,19 @@ export default class Graphing {
     }
 
     plotBlips(quadrantGroup, rings, quadrantWrapper) {
-        let blips, quadrant, startAngle, order;
+        let quadrant = quadrantWrapper.quadrant;
+        let startAngle = quadrantWrapper.startAngle;
+        let order = quadrantWrapper.order;
+        let blips = quadrant.blips;
 
-        quadrant = quadrantWrapper.quadrant;
-        startAngle = quadrantWrapper.startAngle;
-        order = quadrantWrapper.order;
+        let elem = select('.quadrant-table.' + order);
 
-        select('.quadrant-table.' + order)
-            .append('h2')
+        this.drawLegend(elem);
+
+        elem.append('h2')
             .attr('class', 'quadrant-table__name')
             .text(quadrant.name);
-        blips = quadrant.blips;
+
         rings.forEach((ring, i) => {
 
             let ringBlips = blips.filter((blip) => {
@@ -213,6 +215,18 @@ export default class Graphing {
                 this.drawBlipInCoordinates(blip, coordinates, order, quadrantGroup, ringList);
             });
         });
+    }
+
+    drawLegend(elem) {
+        elem = elem.append('div').attr('class', 'legend').html('<strong>Legende:</strong><br/>');
+        // draw circle Legend
+        elem.append('svg').attr('height', 20).attr('width', 20).append('circle').attr('cx', 8).attr('cy', 8).attr('r', 6);
+        elem.append('text').html(this.normalizedConfig.legend !== undefined ? this.normalizedConfig.legend.circleKey : 'CircleKey');
+
+        elem.append('br');
+        // draw triangle Legend
+        elem.append('svg').attr('height', 20).attr('width', 20).append('polygon').attr('points', "00,15 8,00 16,15");
+        elem.append('text').html(this.normalizedConfig.legend !== undefined ? this.normalizedConfig.legend.triangleKey : 'TriangleKey');
     }
 
     findBlipCoordinates(blip, minRadius, maxRadius, startAngle, allBlipCoordinatesInRing) {
@@ -327,7 +341,11 @@ export default class Graphing {
         if (pageElement.select('.home-link').empty()
             && this.normalizedConfig.homeLink
             && this.normalizedConfig.homeLink.displayText) {
-            pageElement.insert('div', 'div#alternative-buttons')
+            pageElement = pageElement.insert('div', 'div#alternative-buttons')
+                .attr('class', 'container row');
+
+            pageElement.append('div')
+                .attr('class', 'col-sm')
                 .html('&#171; ' + this.normalizedConfig.homeLink.displayText)
                 .classed('home-link', true)
                 .classed('selected', true)
@@ -335,72 +353,15 @@ export default class Graphing {
                     this.normalizedConfig.homeLink.link === undefined ?
                         window.history.back() :
                         window.location.replace(this.normalizedConfig.homeLink.link);
-                })
-                .append('g')
-                .attr('fill', '#626F87')
-                .append('path')
-                .attr('d', 'M27.6904224,13.939279 C27.6904224,13.7179572 27.6039633,13.5456925 27.4314224,13.4230122 L18.9285959,6.85547454 C18.6819796,6.65886965 18.410898,6.65886965 18.115049,6.85547454 L9.90776939,13.4230122 C9.75999592,13.5456925 9.68592041,13.7179572 9.68592041,13.939279 L9.68592041,25.7825947 C9.68592041,25.979501 9.74761224,26.1391059 9.87092041,26.2620876 C9.99415306,26.3851446 10.1419265,26.4467108 10.3145429,26.4467108 L15.1946918,26.4467108 C15.391698,26.4467108 15.5518551,26.3851446 15.6751633,26.2620876 C15.7984714,26.1391059 15.8600878,25.979501 15.8600878,25.7825947 L15.8600878,18.5142424 L21.4794061,18.5142424 L21.4794061,25.7822933 C21.4794061,25.9792749 21.5410224,26.1391059 21.6643306,26.2620876 C21.7876388,26.3851446 21.9477959,26.4467108 22.1448776,26.4467108 L27.024951,26.4467108 C27.2220327,26.4467108 27.3821898,26.3851446 27.505498,26.2620876 C27.6288061,26.1391059 27.6904224,25.9792749 27.6904224,25.7822933 L27.6904224,13.939279 Z M18.4849735,0.0301425662 C21.0234,0.0301425662 23.4202449,0.515814664 25.6755082,1.48753564 C27.9308469,2.45887984 29.8899592,3.77497963 31.5538265,5.43523218 C33.2173918,7.09540937 34.5358755,9.05083299 35.5095796,11.3015031 C36.4829061,13.5518717 36.9699469,15.9439104 36.9699469,18.4774684 C36.9699469,20.1744196 36.748098,21.8101813 36.3044755,23.3844521 C35.860551,24.9584216 35.238498,26.4281731 34.4373347,27.7934053 C33.6362469,29.158336 32.6753041,30.4005112 31.5538265,31.5197047 C30.432349,32.6388982 29.1876388,33.5981853 27.8199224,34.3973401 C26.4519041,35.1968717 24.9791531,35.8176578 23.4016694,36.2606782 C21.8244878,36.7033971 20.1853878,36.9247943 18.4849735,36.9247943 C16.7841816,36.9247943 15.1453837,36.7033971 13.5679755,36.2606782 C11.9904918,35.8176578 10.5180429,35.1968717 9.15002449,34.3973401 C7.78223265,33.5978839 6.53752245,32.6388982 5.41612041,31.5197047 C4.29464286,30.4005112 3.33339796,29.158336 2.53253673,27.7934053 C1.73144898,26.4281731 1.10909388,24.9584216 0.665395918,23.3844521 C0.22184898,21.8101813 0,20.1744196 0,18.4774684 C0,16.7801405 0.22184898,15.1446802 0.665395918,13.5704847 C1.10909388,11.9962138 1.73144898,10.5267637 2.53253673,9.16153157 C3.33339796,7.79652546 4.29464286,6.55435031 5.41612041,5.43523218 C6.53752245,4.3160387 7.78223265,3.35675153 9.15002449,2.55752138 C10.5180429,1.75806517 11.9904918,1.13690224 13.5679755,0.694183299 C15.1453837,0.251464358 16.7841816,0.0301425662 18.4849735,0.0301425662 L18.4849735,0.0301425662 Z');
+                });
+
+            pageElement.append('div')
+                .attr('class', 'col-sm');
         }
     }
 
     removeRadarLegend() {
         select('.legend').remove();
-    }
-
-    drawLegend(order) {
-        this.removeRadarLegend();
-
-        let triangleKey = this.normalizedConfig.legend.triangleKey;
-        let circleKey = this.normalizedConfig.legend.circleKey;
-
-        let container = select('svg').append('g')
-            .attr('class', 'legend legend' + '-' + order);
-
-        let x = 10;
-        let y = 10;
-
-        if (order === 'first') {
-            x = 3.5 * this._size / 5;
-            y = 0.6 * this._size / 5;
-        }
-
-        if (order === 'second') {
-            x = 0.6 * this._size / 5 - 15;
-            y = 0.6 * this._size / 5 - 20;
-        }
-
-        if (order === 'third') {
-            x = 0.6 * this._size / 5 - 15;
-            y = 4.5 * this._size / 5 + 15;
-        }
-
-        if (order === 'fourth') {
-            x = 3 * this._size / 5;
-            y = 4.5 * this._size / 5;
-        }
-
-        select('.legend')
-            .attr('class', 'legend legend-' + order)
-            .transition()
-            .style('visibility', 'visible');
-
-        this.triangleLegend(x, y, container);
-
-        container
-            .append('text')
-            .attr('x', x + 15)
-            .attr('y', y + 5)
-            .attr('font-size', '0.8em')
-            .text(triangleKey);
-
-        this.circleLegend(x, y + 20, container);
-
-        container
-            .append('text')
-            .attr('x', x + 15)
-            .attr('y', y + 25)
-            .attr('font-size', '0.8em')
-            .text(circleKey);
     }
 
     redrawFullRadar() {
@@ -460,26 +421,29 @@ export default class Graphing {
     }
 
     plotRadarHeader() {
-        this.header = select('body').insert('header', '#radar');
-        this.header.append('div')
-            .attr('class', 'radar-title')
-            .append('div')
-            .attr('class', 'radar-title__text')
-            .append('h1')
-            .text(document.title)
-            .style('cursor', 'pointer')
-            .on('click', () => {
-                this.redrawFullRadar();
-            });
+        this.header = select('body').insert('header', '#radar').attr('role', 'main').attr('class', 'container');
 
-        if (this.normalizedConfig.logo) {
-            const logoSource = ((this.normalizedConfig.logo && !this.normalizedConfig.logo.match(/http(s):/)) ? 'images/' : '') + this.normalizedConfig.logo;
-            this.header.select('.radar-title')
-                .append('div')
-                .attr('class', 'radar-title__logo')
-                .html('<img src="' + logoSource + '" alt="Logo"/>');
+        if (getConfig().hint) {
+            this.header = this.header.insert('div').attr('class', 'header');
+            this.header.append('p')
+                .attr('class', 'hint')
+                .html(getConfig().hint);
         }
+
+        this.header = select('header');
+        this.header.append('br');
+        this.header.append('br');
+
+        this.header.append('div')
+            .attr('class', 'row')
+            .append('div')
+            .attr('class', 'col-sm')
+            .append('div')
+            .attr('class', 'headerpic')
+            .html('<a href="/"><img class="img-fluid" src="images/headercomp.png" alt="Logo"/></a>');
+
         this.buttonsGroup = this.header.append('div')
+            .attr('class', 'row col-sm')
             .classed('buttons-group', true);
 
         this.quadrantButtons = this.buttonsGroup.append('div')
@@ -487,7 +451,6 @@ export default class Graphing {
 
         this.alternativeDiv = this.header.append('div')
             .attr('id', 'alternative-buttons');
-
 
         return this.header;
     }
@@ -513,19 +476,14 @@ export default class Graphing {
         });
 
         this.buttonsGroup.append('div')
-            .classed('print-radar-btn', true)
             .append('div')
-            .classed('print-radar button no-capitalize', true)
-            .text('Print this radar')
-            .on('click', () => {
-                window.print();
-            });
+            .html('Plattform: <strong>' + document.title + '</strong>');
 
-        this.alternativeDiv.append('div')
+        this.buttonsGroup.append('div')
             .classed('search-box', true)
             .append('input')
             .attr('id', 'auto-complete')
-            .attr('placeholder', 'Search')
+            .attr('placeholder', 'Suche')
             .classed('search-radar', true);
 
         $('#auto-complete').autocomplete({
@@ -539,15 +497,20 @@ export default class Graphing {
                 this.searchBlip(event, ui);
             }
         });
+
+        this.buttonsGroup.append('div')
+            .classed('print-radar-btn', true)
+            .append('div')
+            .classed('btn print-radar no-capitalize', true)
+            .on('click', () => {
+                window.print();
+            });
     }
 
     plotRadarFooter() {
         select('body')
-            .insert('div', '#radar-plot + *')
-            .attr('id', 'footer')
-            .append('div')
-            .attr('class', 'footer-content')
-            .append('p')
+            .insert('div')
+            .attr('class', 'footer')
             .html(this.normalizedConfig.footerText);
     }
 
@@ -571,24 +534,19 @@ export default class Graphing {
         selectAll('.quadrant-table.' + order).classed('selected', true);
         selectAll('.blip-item-description').classed('expanded', false);
 
-        let scale = 1.5;
+        let scale = 1.35;
 
         let adjustX = Math.sin(this.toRadian(startAngle)) - Math.cos(this.toRadian(startAngle));
         let adjustY = Math.cos(this.toRadian(startAngle)) + Math.sin(this.toRadian(startAngle));
 
         let translateX = (-1 * (1 + adjustX) * this._size / 2 * (scale - 1)) + (-adjustX * (1 - scale / 2) * this._size);
-        let translateY = (-1 * (1 - adjustY) * (this._size / 2 - 7) * (scale - 1)) - ((1 - adjustY) / 2 * (1 - scale / 2) * this._size);
+        let translateY = (-0.9 * (1 - adjustY) * (this._size / 2 - 7) * (scale - 1)) - ((1 - adjustY) / 2 * (1 - scale / 2) * this._size);
 
         let translateXAll = (1 - adjustX) / 2 * this._size * scale / 2 + ((1 - adjustX) / 2 * (1 - scale / 2) * this._size);
         let translateYAll = (1 + adjustY) / 2 * this._size * scale / 2;
 
-        let moveRight = (1 + adjustX) * (0.8 * window.innerWidth - this._size) / 2 + 500;
-        let moveLeft = (1 - adjustX) * (0.8 * window.innerWidth - this._size) / 2;
-
         let blipScale = 3 / 4;
         let blipTranslate = (1 - blipScale) / blipScale;
-
-        this.svg.style('left', moveLeft + 'px').style('right', moveRight + 'px');
 
         select('.quadrant-group-' + order)
             .transition()
@@ -612,14 +570,10 @@ export default class Graphing {
             .duration(ANIMATION_DURATION)
             .style('pointer-events', 'none')
             .attr('transform', 'translate(' + translateXAll + ',' + translateYAll + ')scale(0)');
-
-        if (select('.legend.legend-' + order).empty()) {
-            this.drawLegend(order);
-        }
     }
 
     init() {
-        this.radarElement = select('body').append('div').attr('id', 'radar');
+        this.radarElement = select('body').append('div').attr('id', 'radar').attr('class', 'container');
     };
 
     constructSheetUrl(sheetName) {
