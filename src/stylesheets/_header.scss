@@ -54,28 +54,14 @@ header {
     }
   }
 
-
-  .quadrant-btn--group, .multiple-sheet-button-group {
-    text-align: left;
-    margin: auto;
-  }
-
   .print-radar-btn {
     background-image: url("../images/printer.svg");
     background-repeat: no-repeat;
-    margin: auto;
-    padding: auto;
-    display: block;
     cursor: pointer;
   }
 
-  .search-box {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
   .buttons-group {
-    padding: 15px 15px 25px 25px;
+    padding: 1% 3% 1% 5%;
   }
 
   .home-link {
@@ -90,9 +76,7 @@ header {
   .button {
     font-size: $baseFont;
     text-transform: capitalize;
-    margin-right: 20px;
     border-radius: 2px;
-    padding: 10px 20px;
     cursor: pointer;
     transition: all .2s ease-out;
     background-color: $grey-light;

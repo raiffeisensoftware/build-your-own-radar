@@ -437,13 +437,13 @@ export default class Graphing {
         this.header.append('div')
             .attr('class', 'row')
             .append('div')
-            .attr('class', 'col-sm')
+            .attr('class', 'col')
             .append('div')
             .attr('class', 'headerpic')
             .html('<a href="/"><img class="img-fluid" src="images/headercomp.png" alt="Logo"/></a>');
 
         this.buttonsGroup = this.header.append('div')
-            .attr('class', 'row col-sm')
+            .attr('class', 'row col')
             .classed('buttons-group', true);
 
         this.quadrantButtons = this.buttonsGroup.append('div')
@@ -475,12 +475,11 @@ export default class Graphing {
                 });
         });
 
-        this.buttonsGroup.append('div')
-            .append('div')
+        this.buttonsGroup.append('div').attr('class', 'col')
             .html('Plattform: <strong>' + document.title + '</strong>');
 
         this.buttonsGroup.append('div')
-            .classed('search-box', true)
+            .classed('search-box col', true)
             .append('input')
             .attr('id', 'auto-complete')
             .attr('placeholder', 'Suche')

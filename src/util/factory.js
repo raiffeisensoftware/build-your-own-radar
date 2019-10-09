@@ -112,7 +112,7 @@ export function plotHeader() {
         .append('div')
         .attr('class', 'row')
         .append('div')
-        .attr('class', 'col-sm')
+        .attr('class', 'col')
         .append('div')
         .attr('class', 'headerpic')
         .html('<a href="/"><img class="img-fluid" src="images/headercomp.png" alt="Logo"/></a>');
