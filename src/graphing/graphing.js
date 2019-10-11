@@ -324,6 +324,7 @@ export default class Graphing {
     createHomeLink(pageElement) {
         if (pageElement.select('.home-link').empty()) {
             pageElement.insert('div', 'div#alternative-buttons')
+                .attr('class', 'container')
                 .html('&#171; Zurück zur Radar-Übersicht')
                 .classed('home-link', true)
                 .classed('selected', true)
@@ -343,7 +344,7 @@ export default class Graphing {
                 .attr('class', 'container row');
 
             pageElement.append('a')
-                .attr('href', '/')
+                .attr('href', '/radar')
                 .attr('class', 'col-sm')
                 .html('&#171; Zurück zur Plattform-Übersicht')
                 .classed('home-link', true)
