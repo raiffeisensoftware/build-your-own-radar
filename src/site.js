@@ -3,7 +3,7 @@ import './common';
 import {getConfig, normalizedConfig} from "./util/normalizedConfig";
 import {select} from "d3-selection";
 import {extractDomainName, extractQueryParams} from "./util/util";
-import {plotBanner, plotFooter, plotForm, plotLogo, setDocumentTitle} from "./util/factory";
+import {plotFooter, plotForm, plotHeader, setDocumentTitle} from "./util/factory";
 import GoogleSheet from "./util/googleSheet";
 import CsvDocument from "./util/csvDocument";
 
@@ -26,17 +26,19 @@ if (((queryParams.sheetId && domainName) || Object.keys(queryParams).length) && 
     let googleSheet = new GoogleSheet(sheetId, queryParams.sheetName);
     googleSheet.build();
 } else {
-    let content = select('body')
-        .append('div')
-        .attr('class', 'input-sheet');
+    let header = select('body')
+        .insert('main').attr('role', 'main').attr('class', 'container');
+
+    if (getConfig().hint) {
+        header = header.insert('div').attr('class', 'header');
+        header.append('p')
+            .attr('class', 'hint')
+            .html(getConfig().hint);
+    }
+
+    let content = plotHeader();
+
     setDocumentTitle();
-
-    plotLogo(content);
-
-    const bannerText = '<div><h1>Build your own radar</h1><p>Once you\'ve <a href ="https://www.thoughtworks.com/radar/byor">created your Radar</a>, you can use this service' +
-        ' to generate an <br />interactive version of your Technology Radar. Not sure how? <a href ="https://www.thoughtworks.com/radar/how-to-byor">Read this first.</a></p></div>';
-
-    plotBanner(content, bannerText);
 
     plotForm(content);
 

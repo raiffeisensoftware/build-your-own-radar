@@ -17,7 +17,7 @@ export default class Sheet {
     };
 
     processSheetResponse(sheetName, createBlips, handleError) {
-        this.getSheet().then(response => processSheetData(sheetName, response, createBlips, handleError)).catch(handleError);
+        this.getSheet().then(response => this.processSheetData(sheetName, response, createBlips, handleError)).catch(handleError);
     };
 
     processSheetData(sheetName, sheetResponse, createBlips, handleError) {

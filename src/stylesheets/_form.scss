@@ -3,15 +3,14 @@
   margin: 60px auto;
 
   p {
-    font-weight: 100;
     color: $black;
-    font-size: 18px;
-
+    font-size: 16px;
   }
 
   .input-sheet__logo {
     text-align: center;
     padding-bottom: 40px;
+
     a {
       border-bottom: none;
 
@@ -41,6 +40,7 @@
       display: table-cell;
       vertical-align: middle;
     }
+
     p, h1 {
       color: $white;
     }
@@ -56,14 +56,8 @@
     margin: 0 auto;
     text-align: center;
     padding-top: 30px;
-
-    button {
-      border: none;
-      background-color: transparent;
-      margin: 0;
-      padding: 0;
-    }
   }
+
 
   input[type="text"] {
     border-bottom: 2px solid $grey-even-darker;

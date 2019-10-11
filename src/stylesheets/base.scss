@@ -4,26 +4,15 @@
 @import 'form';
 @import 'error';
 @import 'header';
-@import 'footer';
 @import 'screen';
+@import "techRadar";
+@import "~bootstrap/scss/bootstrap";
 
-body {
-  font: 18px 'Open Sans';
-  -webkit-font-smoothing: antialiased;
-  margin: 0;
+div.legend {
+  margin: 0 0 20px 0;
 }
 
 @media print {
-
-  body, article {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-  }
-
-  @page {
-    margin: 2cm;
-  }
 
   a:after {
     content: " <" attr(href) "> ";
@@ -38,7 +27,7 @@ body {
   .quadrant-table {
     .quadrant-table__name {
       display: block;
-      font-size: 36pt;
+      font-size: 30pt;
       padding: 0 10px;
       margin-bottom: 20px;
     }
@@ -129,14 +118,6 @@ body {
       display: none;
     }
 
-    .home-link {
-      display: none;
-
-      &.selected {
-        display: none;
-      }
-    }
-
     #alternative-buttons {
       display: none;
     }
@@ -146,23 +127,17 @@ body {
     }
   }
 
-  #footer {
-    display: none;
-  }
-
   .error-container {
     display: none;
   }
-
 }
-
 
 @media screen {
 
   #radar {
-    width: 80%;
     margin: 0 auto;
     position: relative;
+    margin-bottom: 50px;
 
     svg#radar-plot {
       margin: 0 auto;
@@ -251,6 +226,7 @@ body {
     }
 
     div.quadrant-table {
+      z-index: 1;
 
       .quadrant-table__name {
         display: none;
@@ -332,7 +308,6 @@ body {
               border-bottom: 1px solid rgb(119, 119, 119);
               padding: 20px;
               color: $grey-text;
-              font-weight: 100;
               font-size: 14px;
             }
 
