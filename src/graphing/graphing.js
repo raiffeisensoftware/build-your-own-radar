@@ -338,22 +338,16 @@ export default class Graphing {
     }
 
     createCustomHomeLink(pageElement) {
-        if (pageElement.select('.home-link').empty()
-            && this.normalizedConfig.homeLink
-            && this.normalizedConfig.homeLink.displayText) {
+        if (pageElement.select('.home-link').empty()) {
             pageElement = pageElement.insert('div', 'div#alternative-buttons')
                 .attr('class', 'container row');
 
-            pageElement.append('div')
+            pageElement.append('a')
+                .attr('href', '/')
                 .attr('class', 'col-sm')
-                .html('&#171; ' + this.normalizedConfig.homeLink.displayText)
+                .html('&#171; Zurück zur Plattform-Übersicht')
                 .classed('home-link', true)
-                .classed('selected', true)
-                .on('click', () => {
-                    this.normalizedConfig.homeLink.link === undefined ?
-                        window.history.back() :
-                        window.location.replace(this.normalizedConfig.homeLink.link);
-                });
+                .classed('selected', true);
 
             pageElement.append('div')
                 .attr('class', 'col-sm');
@@ -396,7 +390,7 @@ export default class Graphing {
 
     searchBlip(_e, ui) {
         const {blip, quadrant} = ui.item;
-        const isQuadrantSelected = select('div.button.' + quadrant.order).classed('selected');
+        const isQuadrantSelected = select('button.' + quadrant.order).classed('selected');
         this.selectQuadrant(quadrant.order, quadrant.startAngle);
         const selectedDesc = select('#blip-description-' + blip.number);
         select('.blip-item-description.expanded').node() !== selectedDesc.node() &&
@@ -443,11 +437,11 @@ export default class Graphing {
             .html('<a href="/"><img class="img-fluid" src="images/headercomp.png" alt="Logo"/></a>');
 
         this.buttonsGroup = this.header.append('div')
-            .attr('class', 'row col')
+            .attr('class', 'row')
             .classed('buttons-group', true);
 
         this.quadrantButtons = this.buttonsGroup.append('div')
-            .classed('quadrant-btn--group', true);
+            .classed('quadrant-btn--groupn', true);
 
         this.alternativeDiv = this.header.append('div')
             .attr('id', 'alternative-buttons');
@@ -461,7 +455,7 @@ export default class Graphing {
                 .append('div')
                 .attr('class', 'quadrant-table ' + quadrants[i].order);
 
-            this.quadrantButtons.append('div')
+            this.quadrantButtons.append('button').attr('type', 'button')
                 .attr('class', 'button ' + quadrants[i].order + ' full-view')
                 .text(quadrants[i].quadrant.name)
                 .on('mouseover', () => {
@@ -475,7 +469,7 @@ export default class Graphing {
                 });
         });
 
-        this.buttonsGroup.append('div').attr('class', 'col')
+        this.buttonsGroup.append('div').attr('class', 'col-sm')
             .html('Plattform: <strong>' + document.title + '</strong>');
 
         this.buttonsGroup.append('div')
@@ -497,10 +491,8 @@ export default class Graphing {
             }
         });
 
-        this.buttonsGroup.append('div')
-            .classed('print-radar-btn', true)
-            .append('div')
-            .classed('btn print-radar no-capitalize', true)
+        this.buttonsGroup.append('button')
+            .classed('btn print-radar-btn col-1', true)
             .on('click', () => {
                 window.print();
             });
@@ -533,7 +525,7 @@ export default class Graphing {
         selectAll('.quadrant-table.' + order).classed('selected', true);
         selectAll('.blip-item-description').classed('expanded', false);
 
-        let scale = 1.35;
+        let scale = 1.2;
 
         let adjustX = Math.sin(this.toRadian(startAngle)) - Math.cos(this.toRadian(startAngle));
         let adjustY = Math.cos(this.toRadian(startAngle)) + Math.sin(this.toRadian(startAngle));
