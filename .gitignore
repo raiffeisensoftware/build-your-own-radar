@@ -6,6 +6,7 @@ dist
 *.swo
 config.json
 package-lock.json
+yarn.lock
 
 # RSG Images
 /src/images/additionalLogo.png
