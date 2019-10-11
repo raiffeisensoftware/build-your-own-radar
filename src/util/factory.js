@@ -115,7 +115,7 @@ export function plotHeader() {
         .attr('class', 'col')
         .append('div')
         .attr('class', 'headerpic')
-        .html('<a href="/"><img class="img-fluid" src="images/headercomp.png" alt="Logo"/></a>');
+        .html('<a href="/" target="_top"><img class="img-fluid" src="images/headercomp.png" alt="Logo"/></a>');
 
     return select('main')
         .append('div')
