@@ -372,14 +372,10 @@ export default class Graphing {
         }
     }
 
-    removeRadarLegend() {
-        select('.legend').remove();
-    }
-
     redrawFullRadar() {
         this.removeHomeLink();
         this.createCustomHomeLink(select('header'));
-        this.removeRadarLegend();
+
         this.tip.hide();
         selectAll('g.blip-link').attr('opacity', 1.0);
 
