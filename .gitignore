@@ -5,6 +5,7 @@ dist
 *.swp
 *.swo
 config.json
+package-lock.json
 
 # RSG Images
 /src/images/additionalLogo.png
