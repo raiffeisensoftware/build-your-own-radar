@@ -345,6 +345,7 @@ export default class Graphing {
 
             pageElement.append('a')
                 .attr('href', '/radar')
+                .attr('target', '_top')
                 .attr('class', 'col-sm')
                 .html('&#171; Zurück zur Plattform-Übersicht')
                 .classed('home-link', true)
