@@ -84,8 +84,6 @@ export function plotLoading(content) {
 
     setDocumentTitle();
 
-    plotHeader();
-
     plotFooter(content);
 }
 
@@ -102,6 +100,16 @@ export function plotFooter(content) {
 }
 
 export function plotHeader() {
+    let header = select('body')
+        .insert('main').attr('role', 'main').attr('class', 'container');
+
+    if (getConfig().hint) {
+        header = header.insert('div').attr('class', 'header');
+        header.append('p')
+            .attr('class', 'hint')
+            .html(getConfig().hint);
+    }
+
     let main = select('main');
     main.append('br');
     main.append('br');
@@ -148,8 +156,6 @@ export function plotErrorMessage(exception) {
         .append('div')
         .attr('class', 'input-sheet');
     setDocumentTitle();
-
-    plotHeader();
 
     selectAll('.loading').remove();
     let faqMessage = 'Please check <a href="https://www.thoughtworks.com/radar/how-to-byor">FAQs</a> for possible solutions.';
