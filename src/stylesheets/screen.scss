@@ -2286,6 +2286,7 @@ input[type="radio"] {
   transition: left 0.1s ease-in-out;
   overflow-y: scroll;
   max-height: 300px;
+  z-index: 2;
 }
 
 .ui-menu-item {

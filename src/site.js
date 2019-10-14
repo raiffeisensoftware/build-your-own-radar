@@ -4,7 +4,6 @@ import {getConfig, normalizedConfig} from "./util/normalizedConfig";
 import {select} from "d3-selection";
 import {extractDomainName, extractQueryParams} from "./util/util";
 import {plotFooter, plotForm, plotHeader, setDocumentTitle} from "./util/factory";
-import GoogleSheet from "./util/googleSheet";
 import CsvDocument from "./util/csvDocument";
 
 if (normalizedConfig.logo && !normalizedConfig.logo.match(/http(s)?:/i)) {
@@ -22,9 +21,6 @@ if (!sheetId) {
 if (((queryParams.sheetId && domainName) || Object.keys(queryParams).length) && sheetId.endsWith('csv')) {
     let sheet = new CsvDocument(sheetId);
     sheet.createBlips();
-} else if (domainName && domainName.endsWith('google.com') && sheetId) {
-    let googleSheet = new GoogleSheet(sheetId, queryParams.sheetName);
-    googleSheet.build();
 } else {
     let header = select('body')
         .insert('main').attr('role', 'main').attr('class', 'container');

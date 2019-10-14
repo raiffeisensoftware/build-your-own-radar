@@ -17,7 +17,7 @@ export function getConfig(blips = []) {
 export function createConfig(blips) {
     let configuration = config;
 
-    // if we have no config, get our config from the google doc or csv
+    // if we have no config, get our config from the csv
     if (!configuration) {
         configuration = {
             quadrants: [],
