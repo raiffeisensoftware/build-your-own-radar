@@ -485,6 +485,7 @@ export default class Graphing {
                     this.mouseoutQuadrant(quadrants[i].order);
                 })
                 .on('click', () => {
+                    this.tip.hide();
                     this.selectQuadrant(quadrants[i].order, quadrants[i].startAngle);
                 });
         });
