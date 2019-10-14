@@ -390,6 +390,8 @@ export default class Graphing {
 
         selectAll('.quadrant-table').classed('selected', false);
         selectAll('.home-link').classed('selected', false);
+        selectAll('.blip-item-description').classed('expanded', false);
+        selectAll('.blip-list-item').classed('highlight', false);
 
         selectAll('.quadrant-group')
             .transition()
@@ -486,6 +488,8 @@ export default class Graphing {
                 })
                 .on('click', () => {
                     this.tip.hide();
+                    selectAll('.blip-item-description').classed('expanded', false);
+                    selectAll('.blip-list-item').classed('highlight', false);
                     this.selectQuadrant(quadrants[i].order, quadrants[i].startAngle);
                 });
         });
