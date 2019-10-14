@@ -123,10 +123,7 @@ module.exports = {
     },
 
     optimization: {
-        noEmitOnErrors: !!isProd,
-        splitChunks: {
-            chunks: 'all',
-        }
+        noEmitOnErrors: !!isProd
     },
 
     plugins: plugins,
