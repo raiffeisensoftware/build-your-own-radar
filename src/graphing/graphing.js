@@ -327,10 +327,13 @@ export default class Graphing {
         };
 
         blipListItem.on('click', clickBlip);
-    }
 
-    test() {
-        console.log('bla')
+        group.on('click', () => {
+            let blipNumber = group.select('text').text();
+            selectAll('.blip-item-description').classed('expanded', false);
+            let desc = select('#blip-description-' + blipNumber);
+            desc.classed('expanded', true);
+        });
     }
 
     removeHomeLink() {
@@ -442,11 +445,14 @@ export default class Graphing {
         this.header.append('br');
         this.header.append('br');
 
-        this.header.append('div')
+        let tmpHeader = this.header.append('div')
             .attr('class', 'row')
             .append('div')
-            .attr('class', 'col')
-            .append('div')
+            .attr('class', 'col');
+
+        tmpHeader.append('br');
+
+        this.header.append('div')
             .attr('class', 'headerpic')
             .html('<a href="/" target="_top"><img class="img-fluid" src="images/headercomp.png" alt="Logo"/></a>');
 
@@ -537,7 +543,6 @@ export default class Graphing {
         selectAll('.button.' + order).classed('selected', true);
         selectAll('.quadrant-table').classed('selected', false);
         selectAll('.quadrant-table.' + order).classed('selected', true);
-        selectAll('.blip-item-description').classed('expanded', false);
 
         let scale = 1.2;
 
