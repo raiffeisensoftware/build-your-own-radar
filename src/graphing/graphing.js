@@ -330,9 +330,11 @@ export default class Graphing {
 
         group.on('click', () => {
             let blipNumber = group.select('text').text();
+            let description = select('#blip-description-' + blipNumber);
+            let expanded = description.attr('class').includes('expanded');
+
             selectAll('.blip-item-description').classed('expanded', false);
-            let desc = select('#blip-description-' + blipNumber);
-            desc.classed('expanded', true);
+            description.classed('expanded', !expanded);
         });
     }
 
