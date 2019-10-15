@@ -598,7 +598,8 @@ export default class Graphing {
 
     init() {
         this.radarElement = select('body')
-            .append('div').attr('id', 'radar').attr('class', 'container');
+            .append('div').attr('id', 'radar').attr('class', 'container')
+            .append('div').attr('class', 'container');
     };
 
     constructSheetUrl(sheetName) {
