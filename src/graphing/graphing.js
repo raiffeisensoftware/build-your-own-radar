@@ -437,8 +437,9 @@ export default class Graphing {
 
     plotRadarHeader() {
         this.header = select('body').insert('header', '#radar').attr('role', 'main').attr('class', 'container');
+        let internPage = window.location.href.includes('intern') || window.location.href.includes('localhost');
 
-        if (getConfig().hint) {
+        if (getConfig().hint && internPage) {
             this.header = this.header.insert('div').attr('class', 'header');
             this.header.append('p')
                 .attr('class', 'hint')
@@ -446,8 +447,11 @@ export default class Graphing {
         }
 
         this.header = select('header');
-        this.header.append('br');
-        this.header.append('br');
+
+        if (internPage) {
+            this.header.append('br');
+            this.header.append('br');
+        }
 
         let tmpHeader = this.header.append('div')
             .attr('class', 'row')
@@ -465,7 +469,7 @@ export default class Graphing {
             .classed('buttons-group', true);
 
         this.quadrantButtons = this.buttonsGroup.append('div')
-            .classed('quadrant-btn--groupn', true);
+            .classed('quadrant-btn--group', true);
 
         this.alternativeDiv = this.header.append('div')
             .attr('id', 'alternative-buttons');

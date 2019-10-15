@@ -1,13 +1,12 @@
 import {csv} from "d3-fetch";
 import ContentValidator from "./contentValidator";
 import {extractFileName} from "./util";
-import {plotLoading, plotRadar} from "./factory";
+import {plotRadar} from "./factory";
 import InputSanitizer from "./inputSanitizer";
 
 export default class CsvDocument {
     constructor(url) {
         this._url = url;
-        plotLoading();
     }
 
     createBlips() {
@@ -24,7 +23,6 @@ export default class CsvDocument {
                 plotRadar(extractFileName(that._url), blips, 'CSV File', []);
             } catch (exception) {
                 throw exception;
-                // plotErrorMessage(exception) prevents us from getting the real error?
             }
         });
     }

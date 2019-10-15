@@ -75,20 +75,11 @@ export function setDocumentTitle() {
     document.title = 'Build your own Radar';
 }
 
-export function plotLoading(content) {
-    content = select('body')
-        .append('div')
-        .attr('class', 'loading')
-        .append('div')
-        .attr('class', 'input-sheet');
-
-    setDocumentTitle();
-
-    plotFooter(content);
-}
-
-export function plotFooter(content) {
+export function plotFooter() {
     if (normalizedConfig !== undefined) {
+        let content = select('main')
+            .append('div')
+            .attr('class', 'row input-sheet');
         content
             .append('div')
             .attr('id', 'footer')
@@ -100,10 +91,12 @@ export function plotFooter(content) {
 }
 
 export function plotHeader() {
+    let internPage = window.location.href.includes('intern') || window.location.href.includes('localhost');
+
     let header = select('body')
         .insert('main').attr('role', 'main').attr('class', 'container');
 
-    if (getConfig().hint) {
+    if (getConfig().hint && internPage) {
         header = header.insert('div').attr('class', 'header');
         header.append('p')
             .attr('class', 'hint')
@@ -112,7 +105,11 @@ export function plotHeader() {
 
     let main = select('main');
     main.append('br');
-    main.append('br');
+
+    if (internPage) {
+        main.append('br');
+        main.append('br');
+    }
 
     main.append('div')
         .attr('class', 'container')
@@ -123,13 +120,13 @@ export function plotHeader() {
         .append('div')
         .attr('class', 'headerpic')
         .html('<a href="/" target="_top"><img class="img-fluid" src="images/headercomp.png" alt="Logo"/></a>');
-
-    return select('main')
-        .append('div')
-        .attr('class', 'row input-sheet');
 }
 
-export function plotForm(content) {
+export function plotForm() {
+    let content = select('main')
+        .append('div')
+        .attr('class', 'row input-sheet');
+
     content.append('div')
         .attr('class', 'input-sheet__form')
         .append('p')
@@ -150,11 +147,10 @@ export function plotForm(content) {
 }
 
 export function plotErrorMessage(exception) {
+    plotHeader();
     let message = 'Oops! It seems like there are some problems with loading your data. ';
 
-    let content = select('body')
-        .append('div')
-        .attr('class', 'input-sheet');
+    let content = select('main');
     setDocumentTitle();
 
     selectAll('.loading').remove();
@@ -182,6 +178,5 @@ export function plotErrorMessage(exception) {
     errorContainer.append('div').append('p')
         .html(homePage);
 
-    plotHeader();
-    plotFooter(content);
+    plotFooter();
 }
