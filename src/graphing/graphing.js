@@ -453,19 +453,22 @@ export default class Graphing {
             this.header.append('br');
         }
 
-        let tmpHeader = this.header.append('div')
-            .attr('class', 'row')
-            .append('div')
-            .attr('class', 'col');
+        this.header = this.header.append('div').attr('class', 'container');
+
+        let tmpHeader = this.header
+            .append('div').attr('class', 'row')
+            .append('div').attr('class', 'col-sm');
 
         tmpHeader.append('br');
 
         tmpHeader.append('div')
-            .attr('class', 'headerpic')
+            .attr('class', 'd-none d-md-block')
             .html('<a href="/" target="_top"><img class="img-fluid" src="images/headercomp.png" alt="Logo"/></a>');
 
         this.buttonsGroup = this.header.append('div')
             .attr('class', 'row')
+            .append('div')
+            .attr('class', 'col')
             .classed('buttons-group', true);
 
         this.quadrantButtons = this.buttonsGroup.append('div')
@@ -594,7 +597,8 @@ export default class Graphing {
     }
 
     init() {
-        this.radarElement = select('body').append('div').attr('id', 'radar').attr('class', 'container');
+        this.radarElement = select('body')
+            .append('div').attr('id', 'radar').attr('class', 'container');
     };
 
     constructSheetUrl(sheetName) {
