@@ -344,7 +344,7 @@ export default class Graphing {
 
     createHomeLink(pageElement) {
         if (pageElement.select('.home-link').empty()) {
-            pageElement.insert('div', 'div#alternative-buttons')
+            pageElement.insert('div', 'div > div#alternative-buttons')
                 .attr('class', 'container')
                 .html('&#171; Zurück zur Radar-Übersicht')
                 .classed('home-link', true)
@@ -379,7 +379,7 @@ export default class Graphing {
 
     redrawFullRadar() {
         this.removeHomeLink();
-        this.createCustomHomeLink(select('header'));
+        this.createCustomHomeLink(select('header').select('div.container'));
 
         this.tip.hide();
         selectAll('g.blip-link').attr('opacity', 1.0);
@@ -551,7 +551,7 @@ export default class Graphing {
     selectQuadrant(order, startAngle) {
         selectAll('.home-link').classed('selected', false);
         this.removeHomeLink();
-        this.createHomeLink(select('header'));
+        this.createHomeLink(select('header').select('div.container'));
 
         selectAll('.button').classed('selected', false).classed('full-view', false);
         selectAll('.button.' + order).classed('selected', true);
