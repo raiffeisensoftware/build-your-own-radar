@@ -384,29 +384,11 @@ html {
 
 body {
   font-size: 90%;
-  line-height: 1.6em;
+  line-height: 1.2;
   color: #221d1f;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
-}
-
-@media screen and (max-width: 959px) {
-  body main {
-    min-height: calc(100vh - 560px);
-  }
-}
-
-@media screen and (min-width: 960px) and (max-width: 1439px) {
-  body main {
-    min-height: calc(100vh - 474px);
-  }
-}
-
-@media screen and (min-width: 1440px) {
-  body main {
-    min-height: calc(100vh - 378px);
-  }
 }
 
 .nav {
