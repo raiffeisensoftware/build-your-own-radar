@@ -1,7 +1,7 @@
 /* eslint no-constant-condition: "off" */
 
 import {getConfig} from '../util/normalizedConfig';
-import {capitalize, extractQueryParams} from "./util";
+import {capitalize} from "./util";
 import {select, selectAll} from 'd3-selection';
 import Quadrant from '../models/quadrant';
 import Ring from '../models/ring';
@@ -9,7 +9,6 @@ import Blip from '../models/blip';
 import Radar from '../models/radar';
 import GraphingRadar from '../graphing/graphing';
 import MalformedDataError from '../exceptions/malformedDataError';
-
 import SheetNotFoundError from '../exceptions/sheetNotFoundError';
 import ExceptionMessages from './exceptionMessages';
 
@@ -85,8 +84,6 @@ export function plotLoading(content) {
 
     setDocumentTitle();
 
-    plotHeader();
-
     plotFooter(content);
 }
 
@@ -103,6 +100,16 @@ export function plotFooter(content) {
 }
 
 export function plotHeader() {
+    let header = select('body')
+        .insert('main').attr('role', 'main').attr('class', 'container');
+
+    if (getConfig().hint) {
+        header = header.insert('div').attr('class', 'header');
+        header.append('p')
+            .attr('class', 'hint')
+            .html(getConfig().hint);
+    }
+
     let main = select('main');
     main.append('br');
     main.append('br');
@@ -115,7 +122,7 @@ export function plotHeader() {
         .attr('class', 'col')
         .append('div')
         .attr('class', 'headerpic')
-        .html('<a href="/"><img class="img-fluid" src="images/headercomp.png" alt="Logo"/></a>');
+        .html('<a href="/" target="_top"><img class="img-fluid" src="images/headercomp.png" alt="Logo"/></a>');
 
     return select('main')
         .append('div')
@@ -126,7 +133,7 @@ export function plotForm(content) {
     content.append('div')
         .attr('class', 'input-sheet__form')
         .append('p')
-        .html('<strong>Enter the URL of your <a href="https://www.thoughtworks.com/radar/how-to-byor" target="_blank">Google Sheet or CSV</a> file below…</strong>');
+        .html('<strong>Enter the URL of your CSV file below…</strong>');
 
     let form = content.select('.input-sheet__form').append('form')
         .attr('method', 'get');
@@ -134,7 +141,7 @@ export function plotForm(content) {
     form.append('input')
         .attr('type', 'text')
         .attr('name', 'sheetId')
-        .attr('placeholder', 'e.g. https://docs.google.com/spreadsheets/d/<sheetid> or hosted CSV file')
+        .attr('placeholder', 'Enter the URL of your hosted CSV file')
         .attr('required', '');
 
     form.append('input')
@@ -149,8 +156,6 @@ export function plotErrorMessage(exception) {
         .append('div')
         .attr('class', 'input-sheet');
     setDocumentTitle();
-
-    plotHeader();
 
     selectAll('.loading').remove();
     let faqMessage = 'Please check <a href="https://www.thoughtworks.com/radar/how-to-byor">FAQs</a> for possible solutions.';
@@ -179,46 +184,4 @@ export function plotErrorMessage(exception) {
 
     plotHeader();
     plotFooter(content);
-}
-
-export function plotUnauthorizedErrorMessage() {
-    let content = select('body')
-        .append('div')
-        .attr('class', 'input-sheet');
-    setDocumentTitle();
-
-    plotHeader();
-
-    selectAll('.loading').remove();
-    const currentUser = GoogleAuth.geEmail();
-    let homePageURL = window.location.protocol + '//' + window.location.hostname;
-    homePageURL += (window.location.port === '' ? '' : ':' + window.location.port);
-    const goBack = '<a href=' + homePageURL + '>GO BACK</a>';
-    const message = `<strong>Oops!</strong> Looks like you are accessing this sheet using <b>${currentUser}</b>, which does not have permission.Try switching to another account.`;
-
-    const container = content.append('div').attr('class', 'error-container');
-
-    const errorContainer = container.append('div')
-        .attr('class', 'error-container__message');
-
-    errorContainer.append('div').append('p')
-        .attr('class', 'error-title')
-        .html(message);
-
-    const button = errorContainer.append('button')
-        .attr('class', 'button switch-account-button')
-        .text('SWITCH ACCOUNT');
-
-    errorContainer.append('div').append('p')
-        .attr('class', 'error-subtitle')
-        .html(`or ${goBack} to try a different sheet.`);
-
-    button.on('click', () => {
-        let queryString = window.location.href.match(/sheetId(.*)/);
-        let queryParams = queryString ? extractQueryParams(queryString[0]) : {};
-        const sheet = GoogleSheet(queryParams.sheetId, queryParams.sheetName);
-        sheet.authenticate(true, () => {
-            content.remove();
-        });
-    });
 }

@@ -219,14 +219,24 @@ export default class Graphing {
 
     drawLegend(elem) {
         elem = elem.append('div').attr('class', 'legend').html('<strong>Legende:</strong><br/>');
-        // draw circle Legend
-        elem.append('svg').attr('height', 20).attr('width', 20).append('circle').attr('cx', 8).attr('cy', 8).attr('r', 6);
-        elem.append('text').html(this.normalizedConfig.legend !== undefined ? this.normalizedConfig.legend.circleKey : 'CircleKey');
 
+        // draw circle Legend
+        this.drawCircle(elem);
+        elem.append('text').html(this.normalizedConfig.legend !== undefined ? this.normalizedConfig.legend.circleKey : 'CircleKey');
         elem.append('br');
+
         // draw triangle Legend
+        this.drawTriangle(elem);
+        elem.append('i').attr('style', 'color: gray')
+            .html(this.normalizedConfig.legend !== undefined ? this.normalizedConfig.legend.triangleKey : 'TriangleKey');
+    }
+
+    drawCircle(elem) {
+        elem.append('svg').attr('height', 20).attr('width', 20).append('circle').attr('cx', 8).attr('cy', 8).attr('r', 6);
+    }
+
+    drawTriangle(elem) {
         elem.append('svg').attr('height', 20).attr('width', 20).append('polygon').attr('points', "00,15 8,00 16,15");
-        elem.append('text').html(this.normalizedConfig.legend !== undefined ? this.normalizedConfig.legend.triangleKey : 'TriangleKey');
     }
 
     findBlipCoordinates(blip, minRadius, maxRadius, startAngle, allBlipCoordinatesInRing) {
@@ -276,10 +286,12 @@ export default class Graphing {
 
         let blipListItem = ringList.append('li');
         let blipText = blip.number + '. ' + blip.name + (blip.topic ? ('. - ' + blip.topic) : '');
-        blipListItem.append('div')
+
+        let tmpBlipListItem = blipListItem.append('div')
             .attr('class', 'blip-list-item')
-            .attr('id', 'blip-list-item-' + blip.number)
-            .text(blipText);
+            .attr('id', 'blip-list-item-' + blip.number);
+
+        blip.isNew ? tmpBlipListItem.html('<i style="color: gray">' + blipText + '</i>') : tmpBlipListItem.html(blipText);
 
         let blipItemDescription = blipListItem.append('div')
             .attr('id', 'blip-description-' + blip.number)
@@ -315,6 +327,15 @@ export default class Graphing {
         };
 
         blipListItem.on('click', clickBlip);
+
+        group.on('click', () => {
+            let blipNumber = group.select('text').text();
+            let description = select('#blip-description-' + blipNumber);
+            let expanded = description.attr('class').includes('expanded');
+
+            selectAll('.blip-item-description').classed('expanded', false);
+            description.classed('expanded', !expanded);
+        });
     }
 
     removeHomeLink() {
@@ -356,14 +377,10 @@ export default class Graphing {
         }
     }
 
-    removeRadarLegend() {
-        select('.legend').remove();
-    }
-
     redrawFullRadar() {
         this.removeHomeLink();
         this.createCustomHomeLink(select('header'));
-        this.removeRadarLegend();
+
         this.tip.hide();
         selectAll('g.blip-link').attr('opacity', 1.0);
 
@@ -375,6 +392,8 @@ export default class Graphing {
 
         selectAll('.quadrant-table').classed('selected', false);
         selectAll('.home-link').classed('selected', false);
+        selectAll('.blip-item-description').classed('expanded', false);
+        selectAll('.blip-list-item').classed('highlight', false);
 
         selectAll('.quadrant-group')
             .transition()
@@ -430,13 +449,16 @@ export default class Graphing {
         this.header.append('br');
         this.header.append('br');
 
-        this.header.append('div')
+        let tmpHeader = this.header.append('div')
             .attr('class', 'row')
             .append('div')
-            .attr('class', 'col')
-            .append('div')
+            .attr('class', 'col');
+
+        tmpHeader.append('br');
+
+        tmpHeader.append('div')
             .attr('class', 'headerpic')
-            .html('<a href="/"><img class="img-fluid" src="images/headercomp.png" alt="Logo"/></a>');
+            .html('<a href="/" target="_top"><img class="img-fluid" src="images/headercomp.png" alt="Logo"/></a>');
 
         this.buttonsGroup = this.header.append('div')
             .attr('class', 'row')
@@ -467,6 +489,9 @@ export default class Graphing {
                     this.mouseoutQuadrant(quadrants[i].order);
                 })
                 .on('click', () => {
+                    this.tip.hide();
+                    selectAll('.blip-item-description').classed('expanded', false);
+                    selectAll('.blip-list-item').classed('highlight', false);
                     this.selectQuadrant(quadrants[i].order, quadrants[i].startAngle);
                 });
         });
@@ -525,7 +550,6 @@ export default class Graphing {
         selectAll('.button.' + order).classed('selected', true);
         selectAll('.quadrant-table').classed('selected', false);
         selectAll('.quadrant-table.' + order).classed('selected', true);
-        selectAll('.blip-item-description').classed('expanded', false);
 
         let scale = 1.2;
 
