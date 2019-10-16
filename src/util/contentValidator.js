@@ -17,7 +17,7 @@ export default class ContentValidator {
     };
 
     verifyHeaders() {
-        ['name', 'ring', 'quadrant', 'isNew', 'description'].forEach((field) => {
+        ['id', 'name', 'ring', 'quadrant', 'isNew', 'description'].forEach((field) => {
             if (this.columnNames.indexOf(field) === -1) {
                 plotErrorMessage(new MalformedDataError(ExceptionMessages.MISSING_HEADERS));
                 throw new Error();
