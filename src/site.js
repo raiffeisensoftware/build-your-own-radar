@@ -17,11 +17,11 @@ if (((queryParams.sheetId && domainName) || Object.keys(queryParams).length) && 
     let sheet = new CsvDocument(sheetId);
     sheet.createBlips();
 } else {
-    let content = plotHeader();
+    plotHeader();
 
     setDocumentTitle();
 
-    plotForm(content);
+    plotForm();
 
-    plotFooter(content);
+    plotFooter();
 }
