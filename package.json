@@ -1,6 +1,6 @@
 {
   "name": "build-your-own-radar-rsg-edition",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Build your own Radar from ThoughtWorks, forked by Raiffeisen Software GmbH",
   "main": "index.js",
   "scripts": {
