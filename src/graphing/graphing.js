@@ -335,6 +335,10 @@ export default class Graphing {
 
             selectAll('.blip-item-description').classed('expanded', false);
             description.classed('expanded', !expanded);
+
+            if (description.attr('class').includes('expanded')) {
+                document.getElementById('blip-description-' + blipNumber).scrollIntoView({behavior: "smooth"});
+            }
         });
     }
 
@@ -646,7 +650,7 @@ export default class Graphing {
         this.svg = this.radarElement.append('svg').call(this.tip);
         this.svg.attr('id', 'radar-plot')
             .attr('viewBox', '0 0 ' + this._size + ' ' + (this._size + 14))
-            .attr('width', '100%').attr('height', 'auto');
+            .attr('width', '100%').attr('height', '100%');
 
         quadrants.forEach((quadrant) => {
             let quadrantGroup = this.plotQuadrant(rings, quadrant);
