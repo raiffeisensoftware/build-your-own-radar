@@ -337,7 +337,15 @@ export default class Graphing {
             description.classed('expanded', !expanded);
 
             if (description.attr('class').includes('expanded')) {
-                document.getElementById('blip-description-' + blipNumber).scrollIntoView({behavior: "smooth"});
+                // Gets the name of the quadrant from the blip parent element (quadrant-group-x) and sets faster timeout if selected to account for transition animation
+                let parent = select(group.node().parentNode).attr('class');
+                let index = parent.indexOf('p-');
+                let timeout = select('.quadrant-table.' + parent.substr(index + 2))
+                    .attr('class').includes('selected') ? 300 : ANIMATION_DURATION + 100;
+
+                setTimeout(() => {
+                    document.getElementById('blip-description-' + blipNumber).scrollIntoView({behavior: "smooth"});
+                }, timeout);
             }
         });
     }
@@ -430,8 +438,12 @@ export default class Graphing {
         group.attr('opacity', 1.0);
         selectAll('.blip-list-item').classed('highlight', false);
         select('#blip-list-item-' + blip.number).classed('highlight', true);
+
+        let timeout;
+
         if (isQuadrantSelected) {
             this.tip.show(blip.name, group.node());
+            timeout = 300;
         } else {
             // need to account for the animation time associated with selecting a quadrant
             this.tip.hide();
@@ -439,7 +451,12 @@ export default class Graphing {
             setTimeout(() => {
                 this.tip.show(blip.name, group.node());
             }, ANIMATION_DURATION);
+
+            timeout = ANIMATION_DURATION + 100;
         }
+        setTimeout(() => {
+            document.getElementById('blip-description-' + blip.number).scrollIntoView({behavior: "smooth"});
+        }, timeout);
     }
 
     plotRadarHeader() {
