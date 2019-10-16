@@ -566,7 +566,7 @@ export default class Graphing {
         let adjustX = Math.sin(this.toRadian(startAngle)) - Math.cos(this.toRadian(startAngle));
         let adjustY = Math.cos(this.toRadian(startAngle)) + Math.sin(this.toRadian(startAngle));
 
-        let translateX = (-1 * (1 + adjustX) * this._size / 2 * (scale - 1)) + (-adjustX * (1 - scale / 2) * this._size);
+        let translateX = (-1.1 * (1 + adjustX) * this._size / 2 * (scale - 1)) + (-adjustX * 1.15 * (1 - scale / 2) * this._size);
         let translateY = (-0.9 * (1 - adjustY) * (this._size / 2 - 7) * (scale - 1)) - ((1 - adjustY) / 2 * (1 - scale / 2) * this._size);
 
         let translateXAll = (1 - adjustX) / 2 * this._size * scale / 2 + ((1 - adjustX) / 2 * (1 - scale / 2) * this._size);
@@ -644,7 +644,9 @@ export default class Graphing {
 
         this.radarElement.style('height', this._size + 14 + 'px');
         this.svg = this.radarElement.append('svg').call(this.tip);
-        this.svg.attr('id', 'radar-plot').attr('width', this._size).attr('height', this._size + 14);
+        this.svg.attr('id', 'radar-plot')
+            .attr('viewBox', '0 0 ' + this._size + ' ' + (this._size + 14))
+            .attr('width', '100%').attr('height', 'auto');
 
         quadrants.forEach((quadrant) => {
             let quadrantGroup = this.plotQuadrant(rings, quadrant);
