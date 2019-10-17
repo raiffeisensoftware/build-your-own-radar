@@ -1,3 +1,6 @@
+import 'events-polyfill'
+import {select} from "d3-selection";
+
 export function capitalize(string) {
     return string.split(' ').map(part => {
         return part[0].toUpperCase() + part.substring(1).toLowerCase();
@@ -33,4 +36,19 @@ export function extractQueryParams(queryString) {
     }
 
     return queryParams;
+}
+
+export function searchBlipByParam(graphingRadar, searchParam) {
+    let blips = graphingRadar.radar.blips;
+
+    blips.forEach((b) => {
+        b.id = decodeURIComponent(b.id.replace(/\+/g, ' '));
+    });
+
+    let blip = blips.filter(bl => bl.id === searchParam)[0];
+
+    setTimeout(() => {
+        let clickEvent = new MouseEvent("click");
+        select('#blip-link-' + blip.number).node().dispatchEvent(clickEvent);
+    }, 500);
 }

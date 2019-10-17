@@ -66,6 +66,7 @@
     "d3-tip": "^0.9.1",
     "d3-transition": "^1.2.0",
     "es6-promise": "^4.2.8",
+    "events-polyfill": "^2.1.2",
     "jquery": "^3.4.0",
     "jquery-ui": "^1.12.1",
     "sanitize-html": "^1.20.1",

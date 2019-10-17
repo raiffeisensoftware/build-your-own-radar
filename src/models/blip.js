@@ -16,6 +16,10 @@ export default class Blip {
         return this._id;
     }
 
+    set id(value) {
+        this._id = value;
+    }
+
     get name() {
         return this._name;
     };
@@ -43,4 +47,6 @@ export default class Blip {
     set number(newNumber) {
         this._number = newNumber;
     };
+
+
 }

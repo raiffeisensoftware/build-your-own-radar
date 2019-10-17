@@ -12,22 +12,27 @@ import 'jquery-ui/ui/widgets/autocomplete';
 const MIN_BLIP_WIDTH = 12;
 const ANIMATION_DURATION = 1000;
 
+let svg;
+let radarElement;
+let quadrantButtons;
+let buttonsGroup;
+let header;
+let alternativeDiv;
+let chance;
+
 export default class Graphing {
     constructor(size, radar) {
         this._size = size;
         this._radar = radar;
         this.normalizedConfig = getConfig();
-        this.svg;
-        this.radarElement;
-        this.quadrantButtons;
-        this.buttonsGroup;
-        this.header;
-        this.alternativeDiv;
-        this.chance;
         this.tip = d3Tip.default().attr('class', 'd3-tip').html((text) => {
             return text;
         });
         this.ringCalculator = new RingCalculator(this.normalizedConfig.rings.length, this.center());
+    }
+
+    get radar() {
+        return this._radar;
     }
 
     center() {
@@ -63,7 +68,7 @@ export default class Graphing {
     }
 
     plotQuadrant(rings, quadrant) {
-        let quadrantGroup = this.svg.append('g')
+        let quadrantGroup = svg.append('g')
             .attr('class', 'quadrant-group quadrant-group-' + quadrant.order)
             .on('mouseover', () => {
                 this.mouseoverQuadrant(quadrant.order);
@@ -123,14 +128,14 @@ export default class Graphing {
     }
 
     circle(blip, x, y, order, group) {
-        return (group || this.svg).append('path')
+        return (group || svg).append('path')
             .attr('d', 'M420.084,282.092c-1.073,0-2.16,0.103-3.243,0.313c-6.912,1.345-13.188,8.587-11.423,16.874c1.732,8.141,8.632,13.711,17.806,13.711c0.025,0,0.052,0,0.074-0.003c0.551-0.025,1.395-0.011,2.225-0.109c4.404-0.534,8.148-2.218,10.069-6.487c1.747-3.886,2.114-7.993,0.913-12.118C434.379,286.944,427.494,282.092,420.084,282.092')
             .attr('transform', 'scale(' + (blip.width / 34) + ') translate(' + (-404 + x * (34 / blip.width) - 17) + ', ' + (-282 + y * (34 / blip.width) - 17) + ')')
             .attr('class', order);
     }
 
     circleLegend(x, y, group) {
-        return (group || this.svg).append('path')
+        return (group || svg).append('path')
             .attr('d', 'M420.084,282.092c-1.073,0-2.16,0.103-3.243,0.313c-6.912,1.345-13.188,8.587-11.423,16.874c1.732,8.141,8.632,13.711,17.806,13.711c0.025,0,0.052,0,0.074-0.003c0.551-0.025,1.395-0.011,2.225-0.109c4.404-0.534,8.148-2.218,10.069-6.487c1.747-3.886,2.114-7.993,0.913-12.118C434.379,286.944,427.494,282.092,420.084,282.092')
             .attr('transform', 'scale(' + (22 / 64) + ') translate(' + (-404 + x * (64 / 22) - 17) + ', ' + (-282 + y * (64 / 22) - 17) + ')');
     }
@@ -199,12 +204,13 @@ export default class Graphing {
                 return p + c.charCodeAt(0);
             }, 0);
 
-            this.chance = new Chance(Math.PI * sumRing * ring.name.length * sumQuadrant * quadrant.name.length);
+            chance = new Chance(Math.PI * sumRing * ring.name.length * sumQuadrant * quadrant.name.length);
 
             let ringList = this.addRing(ring.name, order);
             let allBlipCoordinatesInRing = [];
 
             ringBlips.forEach((blip) => {
+                this._radar.addBlip(blip);
                 const coordinates = this.findBlipCoordinates(blip,
                     minRadius,
                     maxRadius,
@@ -241,13 +247,13 @@ export default class Graphing {
 
     findBlipCoordinates(blip, minRadius, maxRadius, startAngle, allBlipCoordinatesInRing) {
         const maxIterations = 200;
-        let coordinates = this.calculateBlipCoordinates(blip, this.chance, minRadius, maxRadius, startAngle);
+        let coordinates = this.calculateBlipCoordinates(blip, chance, minRadius, maxRadius, startAngle);
         let iterationCounter = 0;
         let foundAPlace = false;
 
         while (iterationCounter < maxIterations) {
             if (this.thereIsCollision(blip, coordinates, allBlipCoordinatesInRing)) {
-                coordinates = this.calculateBlipCoordinates(blip, this.chance, minRadius, maxRadius, startAngle);
+                coordinates = this.calculateBlipCoordinates(blip, chance, minRadius, maxRadius, startAngle);
             } else {
                 foundAPlace = true;
                 break;
@@ -336,6 +342,9 @@ export default class Graphing {
             selectAll('.blip-item-description').classed('expanded', false);
             description.classed('expanded', !expanded);
 
+            let clickEvent = new MouseEvent("click");
+            quadrantGroup.node().dispatchEvent(clickEvent);
+
             if (description.attr('class').includes('expanded')) {
                 // Gets the name of the quadrant from the blip parent element (quadrant-group-x) and sets faster timeout if selected to account for transition animation
                 let parent = select(group.node().parentNode).attr('class');
@@ -399,7 +408,7 @@ export default class Graphing {
         this.tip.hide();
         selectAll('g.blip-link').attr('opacity', 1.0);
 
-        this.svg.style('left', 0).style('right', 0);
+        svg.style('left', 0).style('right', 0);
 
         selectAll('.button')
             .classed('selected', false)
@@ -460,26 +469,26 @@ export default class Graphing {
     }
 
     plotRadarHeader() {
-        this.header = select('body').insert('header', '#radar').attr('role', 'main').attr('class', 'container');
+        header = select('body').insert('header', '#radar').attr('role', 'main').attr('class', 'container');
         let internPage = window.location.href.includes('intern') || window.location.href.includes('localhost');
 
         if (getConfig().hint && internPage) {
-            this.header = this.header.insert('div').attr('class', 'header');
-            this.header.append('p')
+            header = header.insert('div').attr('class', 'header');
+            header.append('p')
                 .attr('class', 'hint')
                 .html(getConfig().hint);
         }
 
-        this.header = select('header');
+        header = select('header');
 
         if (internPage) {
-            this.header.append('br');
-            this.header.append('br');
+            header.append('br');
+            header.append('br');
         }
 
-        this.header = this.header.append('div').attr('class', 'container');
+        header = header.append('div').attr('class', 'container');
 
-        let tmpHeader = this.header
+        let tmpHeader = header
             .append('div').attr('class', 'row')
             .append('div').attr('class', 'col-sm');
 
@@ -489,28 +498,28 @@ export default class Graphing {
             .attr('class', 'd-none d-md-block')
             .html('<a href="/" target="_top"><img class="img-fluid" src="images/headercomp.png" alt="Logo"/></a>');
 
-        this.buttonsGroup = this.header.append('div')
+        buttonsGroup = header.append('div')
             .attr('class', 'row')
             .append('div')
             .attr('class', 'col')
             .classed('buttons-group', true);
 
-        this.quadrantButtons = this.buttonsGroup.append('div')
+        quadrantButtons = buttonsGroup.append('div')
             .classed('quadrant-btn--group', true);
 
-        this.alternativeDiv = this.header.append('div')
+        alternativeDiv = header.append('div')
             .attr('id', 'alternative-buttons');
 
-        return this.header;
+        return header;
     }
 
     plotQuadrantButtons(quadrants) {
         [0, 1, 2, 3].forEach((i) => {
-            this.radarElement
+            radarElement
                 .append('div')
                 .attr('class', 'quadrant-table ' + quadrants[i].order);
 
-            this.quadrantButtons.append('button').attr('type', 'button')
+            quadrantButtons.append('button').attr('type', 'button')
                 .attr('class', 'button ' + quadrants[i].order + ' full-view')
                 .text(quadrants[i].quadrant.name)
                 .on('mouseover', () => {
@@ -527,10 +536,10 @@ export default class Graphing {
                 });
         });
 
-        this.buttonsGroup.append('div').attr('class', 'col-sm')
+        buttonsGroup.append('div').attr('class', 'col-sm')
             .html('Plattform: <strong>' + document.title + '</strong>');
 
-        this.buttonsGroup.append('div')
+        buttonsGroup.append('div')
             .classed('search-box col', true)
             .append('input')
             .attr('id', 'auto-complete')
@@ -549,7 +558,7 @@ export default class Graphing {
             }
         });
 
-        this.buttonsGroup.append('button')
+        buttonsGroup.append('button')
             .classed('btn print-radar-btn col-1', true)
             .on('click', () => {
                 window.print();
@@ -621,7 +630,7 @@ export default class Graphing {
     }
 
     init() {
-        this.radarElement = select('body')
+        radarElement = select('body')
             .append('div').attr('id', 'radar').attr('class', 'container')
             .append('div').attr('class', 'container');
     };
@@ -633,7 +642,7 @@ export default class Graphing {
     }
 
     plotAlternativeRadars(alternatives, currentSheet) {
-        let alternativeSheetButton = this.alternativeDiv
+        let alternativeSheetButton = alternativeDiv
             .append('div')
             .classed('multiple-sheet-button-group', true);
 
@@ -663,9 +672,9 @@ export default class Graphing {
 
         this.plotQuadrantButtons(quadrants);
 
-        this.radarElement.style('height', this._size + 14 + 'px');
-        this.svg = this.radarElement.append('svg').call(this.tip);
-        this.svg.attr('id', 'radar-plot')
+        radarElement.style('height', this._size + 14 + 'px');
+        svg = radarElement.append('svg').call(this.tip);
+        svg.attr('id', 'radar-plot')
             .attr('viewBox', '0 0 ' + this._size + ' ' + (this._size + 14))
             .attr('width', '100%').attr('height', '100%');
 

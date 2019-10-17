@@ -69,7 +69,8 @@ export function plotRadar(title, blips, currentRadarName, alternativeRadars) {
     graphingRadar.init();
     graphingRadar.plot();
     graphingRadar.createCustomHomeLink(select('header').select('div.container'));
-    graphingRadar.searchBlip()
+
+    return graphingRadar;
 }
 
 export function setDocumentTitle() {
