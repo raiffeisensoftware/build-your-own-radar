@@ -258,11 +258,31 @@ div.legend {
         &.selected {
           float: right;
         }
+
+        ul {
+          li {
+            .blip-list-item {
+              &.highlight2 {
+                background-color: $green;
+              }
+            }
+          }
+        }
       }
 
       &.second {
         &.selected {
           float: left;
+        }
+
+        ul {
+          li {
+            .blip-list-item {
+              &.highlight2 {
+                background-color: $blue;
+              }
+            }
+          }
         }
       }
 
@@ -270,11 +290,31 @@ div.legend {
         &.selected {
           float: left;
         }
+
+        ul {
+          li {
+            .blip-list-item {
+              &.highlight2 {
+                background-color: $orange;
+              }
+            }
+          }
+        }
       }
 
       &.fourth {
         &.selected {
           float: right;
+        }
+
+        ul {
+          li {
+            .blip-list-item {
+              &.highlight2 {
+                background-color: $violet;
+              }
+            }
+          }
         }
       }
 
@@ -331,5 +371,9 @@ div.legend {
         }
       }
     }
+  }
+
+  .share-btn {
+    background: url("../images/share.svg") no-repeat center;
   }
 }

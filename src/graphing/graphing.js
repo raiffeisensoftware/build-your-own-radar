@@ -302,8 +302,10 @@ export default class Graphing {
         let blipItemDescription = blipListItem.append('div')
             .attr('id', 'blip-description-' + blip.number)
             .attr('class', 'blip-item-description');
+
         if (blip.description) {
-            blipItemDescription.append('p').html(blip.description);
+            blipItemDescription.append('p').html(blip.description)
+                .append('button').attr('type', 'button').attr('class', 'btn btn-lg share-btn').attr('style', 'float:right;');
         }
 
         let mouseOver = () => {
@@ -323,9 +325,19 @@ export default class Graphing {
         group.on('mouseover', mouseOver).on('mouseout', mouseOut);
 
         let clickBlip = () => {
+            // check if highlight2 is already applied to listItem
+            let highlight2Applied = blipListItem.select('.blip-list-item').classed('highlight2');
+            // remove non-clicked expanded and highlight 2 attributes
+            select('.blip-list-item.highlight2').node() !== blipListItem.node() &&
+            select('.blip-list-item.highlight2').classed('highlight2', false);
+
             select('.blip-item-description.expanded').node() !== blipItemDescription.node() &&
             select('.blip-item-description.expanded').classed('expanded', false);
+
+
+            // toggle expanded and highlight2 attributes
             blipItemDescription.classed('expanded', !blipItemDescription.classed('expanded'));
+            blipListItem.select('.blip-list-item').classed('highlight2', !highlight2Applied);
 
             blipItemDescription.on('click', () => {
                 event.stopPropagation();
@@ -340,6 +352,8 @@ export default class Graphing {
             let expanded = description.attr('class').includes('expanded');
 
             selectAll('.blip-item-description').classed('expanded', false);
+
+            blipListItem.selectAll('.blip-list-item').classed('highlight2', true);
             description.classed('expanded', !expanded);
 
             let clickEvent = new MouseEvent("click");
@@ -418,6 +432,7 @@ export default class Graphing {
         selectAll('.home-link').classed('selected', false);
         selectAll('.blip-item-description').classed('expanded', false);
         selectAll('.blip-list-item').classed('highlight', false);
+        selectAll('.blip-list-item').classed('highlight2', false);
 
         selectAll('.quadrant-group')
             .transition()
@@ -446,7 +461,9 @@ export default class Graphing {
         const group = select('#blip-link-' + blip.number);
         group.attr('opacity', 1.0);
         selectAll('.blip-list-item').classed('highlight', false);
+        selectAll('.blip-list-item').classed('highlight2', false);
         select('#blip-list-item-' + blip.number).classed('highlight', true);
+        select('#blip-list-item-' + blip.number).classed('highlight2', true);
 
         let timeout;
 
@@ -532,6 +549,7 @@ export default class Graphing {
                     this.tip.hide();
                     selectAll('.blip-item-description').classed('expanded', false);
                     selectAll('.blip-list-item').classed('highlight', false);
+                    selectAll('.blip-list-item').classed('highlight2', false);
                     this.selectQuadrant(quadrants[i].order, quadrants[i].startAngle);
                 });
         });
