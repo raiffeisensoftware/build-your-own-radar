@@ -8,6 +8,8 @@ import RingCalculator from '../util/ringCalculator';
 import {extractQueryParams} from "../util/util";
 import $ from 'jquery';
 import 'jquery-ui/ui/widgets/autocomplete';
+import 'popper.js';
+import 'bootstrap';
 
 const MIN_BLIP_WIDTH = 12;
 const ANIMATION_DURATION = 1000;
@@ -304,8 +306,25 @@ export default class Graphing {
             .attr('class', 'blip-item-description');
 
         if (blip.description) {
-            blipItemDescription.append('p').html(blip.description)
-                .append('button').attr('type', 'button').attr('class', 'btn btn-lg share-btn').attr('style', 'float:right;');
+            let blipshareId = 'share-btn-' + blip.number;
+            let shareButton = blipItemDescription.append('p').html(blip.description)
+                .append('button')
+                .attr('id', blipshareId)
+                .attr('type', 'button').attr('class', 'btn btn-lg share-btn')
+                .attr('data-toggle', 'tooltip');
+
+            shareButton.on('click', () => {
+                let text = location.href + '&search=' + blip.id;
+                navigator.clipboard.writeText(text).then(() => {
+                    let shareTooltip = $('#' + blipshareId).tooltip({title: 'Link in die Zwischenablage kopiert', trigger: 'click'});
+
+                    shareTooltip.tooltip('show');
+
+                    setTimeout(() => {
+                        shareTooltip.tooltip('hide');
+                    }, 2000);
+                });
+            });
         }
 
         let mouseOver = () => {

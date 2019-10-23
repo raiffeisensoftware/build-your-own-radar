@@ -69,6 +69,7 @@
     "events-polyfill": "^2.1.2",
     "jquery": "^3.4.0",
     "jquery-ui": "^1.12.1",
+    "popper.js": "^1.16.0",
     "sanitize-html": "^1.20.1",
     "whatwg-fetch": "^3.0.0"
   },
