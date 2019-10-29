@@ -235,7 +235,7 @@ export default class Graphing {
 
         // draw triangle Legend
         this.drawTriangle(elem);
-        elem.append('i').attr('style', 'color: gray')
+        elem.append('i').attr('class', 'oldTech')
             .html(this.normalizedConfig.legend !== undefined ? this.normalizedConfig.legend.triangleKey : 'TriangleKey');
     }
 
@@ -299,33 +299,38 @@ export default class Graphing {
             .attr('class', 'blip-list-item')
             .attr('id', 'blip-list-item-' + blip.number);
 
-        blip.isNew ? tmpBlipListItem.html('<i style="color: gray">' + blipText + '</i>') : tmpBlipListItem.html(blipText);
+        blip.isNew ? tmpBlipListItem.html('<i class="oldTech">' + blipText + '</i>') : tmpBlipListItem.html(blipText);
 
         let blipItemDescription = blipListItem.append('div')
             .attr('id', 'blip-description-' + blip.number)
             .attr('class', 'blip-item-description');
 
+
         if (blip.description) {
-            let blipshareId = 'share-btn-' + blip.number;
+            // TODO: Disabled until further notice (Share Button)
+            // let blipshareId = 'share-btn-' + blip.number;
             let shareButton = blipItemDescription.append('p').html(blip.description)
-                .append('button')
-                .attr('id', blipshareId)
-                .attr('type', 'button').attr('class', 'btn btn-lg share-btn')
-                .attr('data-toggle', 'tooltip');
-
-            shareButton.on('click', () => {
-                let text = location.href + '&search=' + blip.id;
-                navigator.clipboard.writeText(text).then(() => {
-                    let shareTooltip = $('#' + blipshareId).tooltip({title: 'Link in die Zwischenablage kopiert', trigger: 'click'});
-
-                    shareTooltip.tooltip('show');
-
-                    setTimeout(() => {
-                        shareTooltip.tooltip('hide');
-                    }, 2000);
-                });
-            });
         }
+        // TODO: Disabled until further notice (Share Button)
+        /*
+        .append('button')
+        .attr('id', blipshareId)
+        .attr('type', 'button').attr('class', 'btn btn-lg share-btn')
+        .attr('data-toggle', 'tooltip');
+
+    shareButton.on('click', () => {
+        let text = location.href + '&search=' + blip.id;
+        navigator.clipboard.writeText(text).then(() => {
+            let shareTooltip = $('#' + blipshareId).tooltip({title: 'Link in die Zwischenablage kopiert', trigger: 'click'});
+
+            shareTooltip.tooltip('show');
+
+            setTimeout(() => {
+                shareTooltip.tooltip('hide');
+            }, 2000);
+        });
+    });
+}*/
 
         let mouseOver = () => {
             selectAll('g.blip-link').attr('opacity', 0.3);
@@ -368,15 +373,19 @@ export default class Graphing {
         group.on('click', () => {
             let blipNumber = group.select('text').text();
             let description = select('#blip-description-' + blipNumber);
+
+            // remove non-clicked expanded and highlight 2 attributes
+            let highlight2Applied = blipListItem.select('.blip-list-item').classed('highlight2');
+            select('.blip-list-item.highlight2').node() !== blipListItem.node() &&
+            select('.blip-list-item.highlight2').classed('highlight2', false);
+            blipListItem.selectAll('.blip-list-item').classed('highlight2', !highlight2Applied);
+
+            // set all other expanded to false
             let expanded = description.attr('class').includes('expanded');
-
             selectAll('.blip-item-description').classed('expanded', false);
-
-            blipListItem.selectAll('.blip-list-item').classed('highlight2', true);
             description.classed('expanded', !expanded);
 
-            let clickEvent = new MouseEvent("click");
-            quadrantGroup.node().dispatchEvent(clickEvent);
+            quadrantGroup.node().dispatchEvent(new MouseEvent("click"));
 
             if (description.attr('class').includes('expanded')) {
                 // Gets the name of the quadrant from the blip parent element (quadrant-group-x) and sets faster timeout if selected to account for transition animation
@@ -481,7 +490,6 @@ export default class Graphing {
         group.attr('opacity', 1.0);
         selectAll('.blip-list-item').classed('highlight', false);
         selectAll('.blip-list-item').classed('highlight2', false);
-        select('#blip-list-item-' + blip.number).classed('highlight', true);
         select('#blip-list-item-' + blip.number).classed('highlight2', true);
 
         let timeout;

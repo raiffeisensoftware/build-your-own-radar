@@ -263,7 +263,13 @@ div.legend {
           li {
             .blip-list-item {
               &.highlight2 {
+                i {
+                  background-color: $green;
+                  color: white;
+                }
+
                 background-color: $green;
+                color: white;
               }
             }
           }
@@ -279,7 +285,13 @@ div.legend {
           li {
             .blip-list-item {
               &.highlight2 {
+                i {
+                  background-color: $blue;
+                  color: white;
+                }
+
                 background-color: $blue;
+                color: white;
               }
             }
           }
@@ -295,7 +307,13 @@ div.legend {
           li {
             .blip-list-item {
               &.highlight2 {
+                i {
+                  background-color: $orange;
+                  color: white;
+                }
+
                 background-color: $orange;
+                color: white;
               }
             }
           }
@@ -311,7 +329,13 @@ div.legend {
           li {
             .blip-list-item {
               &.highlight2 {
+                i {
+                  background-color: $violet;
+                  color: white;
+                }
+
                 background-color: $violet;
+                color: white;
               }
             }
           }
@@ -353,7 +377,6 @@ div.legend {
 
             p {
               margin: 0;
-              border-top: 1px solid rgb(119, 119, 119);
               border-bottom: 1px solid rgb(119, 119, 119);
               padding: 20px;
               color: $grey-text;
@@ -384,4 +407,11 @@ div.legend {
     min-width: auto;
   }
 
+  .oldTech {
+    color: gray;
+
+    &.expanded {
+      color: white;
+    }
+  }
 }
