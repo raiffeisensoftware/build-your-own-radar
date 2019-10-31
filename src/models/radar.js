@@ -17,6 +17,7 @@ export default class Radar {
         ];
         this._alternatives = [];
         this._currentSheetName = '';
+        this._blips = [];
     }
 
     setNumbers(blips) {
@@ -64,4 +65,17 @@ export default class Radar {
     get quadrants() {
         return this._quadrants;
     };
+
+
+    get blips() {
+        return this._blips.slice(0);
+    }
+
+    set blips(value) {
+        this._blips = value;
+    }
+
+    addBlip(blip) {
+        this._blips.push(blip);
+    }
 }

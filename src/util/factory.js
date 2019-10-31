@@ -45,7 +45,7 @@ export function plotRadar(title, blips, currentRadarName, alternativeRadars) {
         } else if (!currentRing) {
             throw new Error(`Invalid ring ${blip.ring} in Sheet entry ${blip.name}`);
         }
-        currentQuadrant.add(new Blip(blip.name, currentRing, blip.isNew.toLowerCase() === 'true', blip.topic, blip.description));
+        currentQuadrant.add(new Blip(blip.id, blip.name, currentRing, blip.isNew.toLowerCase() === 'true', blip.topic, blip.description));
     });
 
     let radar = new Radar();
@@ -69,6 +69,8 @@ export function plotRadar(title, blips, currentRadarName, alternativeRadars) {
     graphingRadar.init();
     graphingRadar.plot();
     graphingRadar.createCustomHomeLink(select('header').select('div.container'));
+
+    return graphingRadar;
 }
 
 export function setDocumentTitle() {
