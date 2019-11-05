@@ -97,6 +97,8 @@ export default class Graphing {
                 .attr('transform', 'translate(' + this.center() + ', ' + this.center() + ')');
         });
 
+        quadrant.clientRect = document.getElementById('quadrant-group-' + quadrant.order).getBoundingClientRect()
+
         return quadrantGroup;
     }
 
@@ -638,25 +640,24 @@ export default class Graphing {
         selectAll('.quadrant-table').classed('selected', false);
         selectAll('.quadrant-table.' + order).classed('selected', true);
 
-        let scale = 1.2;
+        let scale = 1;
 
         let adjustX = Math.sin(this.toRadian(startAngle)) - Math.cos(this.toRadian(startAngle));
         let adjustY = Math.cos(this.toRadian(startAngle)) + Math.sin(this.toRadian(startAngle));
 
-        /*        let radarPlot = document.getElementById('radar-container');
-                let quadrantGroup = document.getElementById('quadrant-group-' + order).getBoundingClientRect();
+        let radarPlot = document.getElementById('radar-container');
+        let quadrantGroup = this.radar.quadrantObj.filter(q => q.order === order)[0].clientRect;
 
-                let translateX;
-                console.log(radarPlot.getBoundingClientRect());
-                console.log(quadrantGroup)
-                if (order === 'second' || order === 'third') {
-                    translateX = 0.83 * ((radarPlot.getBoundingClientRect().right - radarPlot.offsetLeft) - quadrantGroup.right);
-                } else {
-                    translateX = 1.2 * ((radarPlot.getBoundingClientRect().left + radarPlot.offsetLeft) - quadrantGroup.left);
-                }
-                console.log(translateX);*/
+        let translateX;
+        if (order === 'second' || order === 'third') {
+            translateX = 1 * ((radarPlot.getBoundingClientRect().right - radarPlot.offsetLeft) - quadrantGroup.right);
+            console.log(radarPlot.offsetLeft)
+        } else {
+            translateX = 1 * ((radarPlot.getBoundingClientRect().left + radarPlot.offsetLeft) - quadrantGroup.left);
+        }
+        console.log(translateX);
 
-        let translateX = (-1.1 * (1 + adjustX) * this._size / 2 * (scale - 1)) + (-adjustX * 1.15 * (1 - scale / 2) * this._size);
+        //let translateX = (-1.1 * (1 + adjustX) * this._size / 2 * (scale - 1)) + (-adjustX * 1.15 * (1 - scale / 2) * this._size);
         let translateY = (-0.9 * (1 - adjustY) * (this._size / 2 - 7) * (scale - 1)) - ((1 - adjustY) / 2 * (1 - scale / 2) * this._size);
         let translateXAll = (1 - adjustX) / 2 * this._size * scale / 2 + ((1 - adjustX) / 2 * (1 - scale / 2) * this._size);
         let translateYAll = (1 + adjustY) / 2 * this._size * scale / 2;
@@ -746,6 +747,7 @@ export default class Graphing {
             this.plotLines(quadrantGroup, quadrant);
             this.plotTexts(quadrantGroup, rings, quadrant);
             this.plotBlips(quadrantGroup, rings, quadrant);
+            this.radar.quadrantObj.push(quadrant);
         });
 
         this.plotRadarFooter();
