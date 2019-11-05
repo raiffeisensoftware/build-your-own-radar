@@ -59,6 +59,7 @@ export default class Graphing {
         }
 
         quadrantGroup.append('line')
+            .attr('id', 'horizontal-line-' + quadrant.order)
             .attr('x1', this.center()).attr('x2', this.center())
             .attr('y1', startY - 2).attr('y2', endY + 2)
             .attr('stroke-width', 10);
@@ -71,6 +72,7 @@ export default class Graphing {
 
     plotQuadrant(rings, quadrant) {
         let quadrantGroup = svg.append('g')
+            .attr('id', 'quadrant-group-' + quadrant.order)
             .attr('class', 'quadrant-group quadrant-group-' + quadrant.order)
             .on('mouseover', () => {
                 this.mouseoverQuadrant(quadrant.order);
@@ -94,6 +96,8 @@ export default class Graphing {
                 .attr('class', 'ring-arc-' + ring.order)
                 .attr('transform', 'translate(' + this.center() + ', ' + this.center() + ')');
         });
+
+        quadrant.clientRect = document.getElementById('quadrant-group-' + quadrant.order).getBoundingClientRect()
 
         return quadrantGroup;
     }
@@ -474,6 +478,8 @@ export default class Graphing {
 
         selectAll('.quadrant-group')
             .style('pointer-events', 'auto');
+
+        selectAll('line').transition().duration(ANIMATION_DURATION).attr('stroke-width', 10);
     }
 
     searchBlip(_e, ui) {
@@ -641,9 +647,20 @@ export default class Graphing {
         let adjustX = Math.sin(this.toRadian(startAngle)) - Math.cos(this.toRadian(startAngle));
         let adjustY = Math.cos(this.toRadian(startAngle)) + Math.sin(this.toRadian(startAngle));
 
-        let translateX = (-1.1 * (1 + adjustX) * this._size / 2 * (scale - 1)) + (-adjustX * 1.15 * (1 - scale / 2) * this._size);
-        let translateY = (-0.9 * (1 - adjustY) * (this._size / 2 - 7) * (scale - 1)) - ((1 - adjustY) / 2 * (1 - scale / 2) * this._size);
+        let radarPlot = document.getElementById('radar-container');
+        let quadrantGroup = this.radar.quadrantObj.filter(q => q.order === order)[0].clientRect;
 
+        let coordDiff = (scale * quadrantGroup.width) - quadrantGroup.width;
+
+        let translateX;
+        if (order === 'second' || order === 'third') {
+            translateX = (radarPlot.getBoundingClientRect().right - coordDiff) - radarPlot.offsetLeft - quadrantGroup.right;
+            console.log(radarPlot.offsetLeft)
+        } else {
+            translateX = (radarPlot.getBoundingClientRect().left - coordDiff) + radarPlot.offsetLeft - quadrantGroup.left;
+        }
+
+        let translateY = (-0.9 * (1 - adjustY) * (this._size / 2 - 7) * (scale - 1)) - ((1 - adjustY) / 2.1 * (1 - scale / 2) * this._size);
         let translateXAll = (1 - adjustX) / 2 * this._size * scale / 2 + ((1 - adjustX) / 2 * (1 - scale / 2) * this._size);
         let translateYAll = (1 + adjustY) / 2 * this._size * scale / 2;
 
@@ -672,12 +689,14 @@ export default class Graphing {
             .duration(ANIMATION_DURATION)
             .style('pointer-events', 'none')
             .attr('transform', 'translate(' + translateXAll + ',' + translateYAll + ')scale(0)');
+
+        select('.quadrant-group-' + order).selectAll('#horizontal-line-' + order).transition().duration(ANIMATION_DURATION).attr('stroke-width', 0);
     }
 
     init() {
         radarElement = select('body')
             .append('div').attr('id', 'radar').attr('class', 'container')
-            .append('div').attr('class', 'container');
+            .append('div').attr('id', 'radar-container').attr('class', 'container');
     };
 
     constructSheetUrl(sheetName) {
@@ -728,6 +747,7 @@ export default class Graphing {
             this.plotLines(quadrantGroup, quadrant);
             this.plotTexts(quadrantGroup, rings, quadrant);
             this.plotBlips(quadrantGroup, rings, quadrant);
+            this.radar.quadrantObj.push(quadrant);
         });
 
         this.plotRadarFooter();

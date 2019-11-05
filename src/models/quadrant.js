@@ -1,7 +1,8 @@
 export default class Quadrant {
-    constructor(name) {
+    constructor(name, clientRect) {
         this._name = name;
         this._blips = [];
+        this._clientRect = clientRect;
     }
 
     get name() {
@@ -19,4 +20,13 @@ export default class Quadrant {
     get blips() {
         return this._blips.slice(0);
     };
+
+    get clientRect() {
+        return this._clientRect;
+    }
+
+    set clientRect(value) {
+        this._clientRect = value;
+    }
+
 }

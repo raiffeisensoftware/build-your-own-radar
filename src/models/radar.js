@@ -15,6 +15,7 @@ export default class Radar {
             {order: 'third', startAngle: -90},
             {order: 'fourth', startAngle: -180}
         ];
+        this._quadrantObj = [];
         this._alternatives = [];
         this._currentSheetName = '';
         this._blips = [];
@@ -77,5 +78,14 @@ export default class Radar {
 
     addBlip(blip) {
         this._blips.push(blip);
+    }
+
+
+    get quadrantObj() {
+        return this._quadrantObj;
+    }
+
+    set quadrantObj(value) {
+        this._quadrantObj = value;
     }
 }
