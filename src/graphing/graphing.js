@@ -650,10 +650,10 @@ export default class Graphing {
 
         let translateX;
         if (order === 'second' || order === 'third') {
-            translateX = 1 * ((radarPlot.getBoundingClientRect().right - radarPlot.offsetLeft) - quadrantGroup.right);
+            translateX = (radarPlot.getBoundingClientRect().right - radarPlot.offsetLeft) - quadrantGroup.right;
             console.log(radarPlot.offsetLeft)
         } else {
-            translateX = 1 * ((radarPlot.getBoundingClientRect().left + radarPlot.offsetLeft) - quadrantGroup.left);
+            translateX = (radarPlot.getBoundingClientRect().left + radarPlot.offsetLeft) - quadrantGroup.left;
         }
         console.log(translateX);
 
