@@ -74,6 +74,10 @@ a {
 
   &.activefooter {
     color: grey;
+
+    &:hover {
+      color: grey;
+    }
   }
 }
 

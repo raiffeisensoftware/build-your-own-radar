@@ -382,6 +382,14 @@ div.legend {
               color: $grey-text;
               font-size: 90%;
               line-height: 1.2;
+
+              a {
+                color: #007bff;
+
+                &:hover {
+                  color: #0056b3;
+                }
+              }
             }
 
             transition: max-height 0.2s ease;
