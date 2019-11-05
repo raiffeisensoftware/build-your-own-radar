@@ -658,7 +658,7 @@ export default class Graphing {
         console.log(translateX);
 
         //let translateX = (-1.1 * (1 + adjustX) * this._size / 2 * (scale - 1)) + (-adjustX * 1.15 * (1 - scale / 2) * this._size);
-        let translateY = (-0.9 * (1 - adjustY) * (this._size / 2 - 7) * (scale - 1)) - ((1 - adjustY) / 2 * (1 - scale / 2) * this._size);
+        let translateY = (-0.9 * (1 - adjustY) * (this._size / 2 - 7) * (scale - 1)) - ((1 - adjustY) / 2.1 * (1 - scale / 2) * this._size);
         let translateXAll = (1 - adjustX) / 2 * this._size * scale / 2 + ((1 - adjustX) / 2 * (1 - scale / 2) * this._size);
         let translateYAll = (1 + adjustY) / 2 * this._size * scale / 2;
 
