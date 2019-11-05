@@ -478,6 +478,8 @@ export default class Graphing {
 
         selectAll('.quadrant-group')
             .style('pointer-events', 'auto');
+
+        selectAll('line').transition().duration(ANIMATION_DURATION).attr('stroke-width', 10);
     }
 
     searchBlip(_e, ui) {
@@ -640,7 +642,7 @@ export default class Graphing {
         selectAll('.quadrant-table').classed('selected', false);
         selectAll('.quadrant-table.' + order).classed('selected', true);
 
-        let scale = 1;
+        let scale = 1.2;
 
         let adjustX = Math.sin(this.toRadian(startAngle)) - Math.cos(this.toRadian(startAngle));
         let adjustY = Math.cos(this.toRadian(startAngle)) + Math.sin(this.toRadian(startAngle));
@@ -648,16 +650,16 @@ export default class Graphing {
         let radarPlot = document.getElementById('radar-container');
         let quadrantGroup = this.radar.quadrantObj.filter(q => q.order === order)[0].clientRect;
 
+        let coordDiff = (scale * quadrantGroup.width) - quadrantGroup.width;
+
         let translateX;
         if (order === 'second' || order === 'third') {
-            translateX = (radarPlot.getBoundingClientRect().right - radarPlot.offsetLeft) - quadrantGroup.right;
+            translateX = (radarPlot.getBoundingClientRect().right - coordDiff) - radarPlot.offsetLeft - quadrantGroup.right;
             console.log(radarPlot.offsetLeft)
         } else {
-            translateX = (radarPlot.getBoundingClientRect().left + radarPlot.offsetLeft) - quadrantGroup.left;
+            translateX = (radarPlot.getBoundingClientRect().left - coordDiff) + radarPlot.offsetLeft - quadrantGroup.left;
         }
-        console.log(translateX);
 
-        //let translateX = (-1.1 * (1 + adjustX) * this._size / 2 * (scale - 1)) + (-adjustX * 1.15 * (1 - scale / 2) * this._size);
         let translateY = (-0.9 * (1 - adjustY) * (this._size / 2 - 7) * (scale - 1)) - ((1 - adjustY) / 2.1 * (1 - scale / 2) * this._size);
         let translateXAll = (1 - adjustX) / 2 * this._size * scale / 2 + ((1 - adjustX) / 2 * (1 - scale / 2) * this._size);
         let translateYAll = (1 + adjustY) / 2 * this._size * scale / 2;
@@ -688,9 +690,7 @@ export default class Graphing {
             .style('pointer-events', 'none')
             .attr('transform', 'translate(' + translateXAll + ',' + translateYAll + ')scale(0)');
 
-        /*        if (order === 'second' || order === 'third') {
-                    select('.quadrant-group-' + order).selectAll('#horizontal-line-' + order).transition().duration(ANIMATION_DURATION).attr('stroke-width', 0);
-                }*/
+        select('.quadrant-group-' + order).selectAll('#horizontal-line-' + order).transition().duration(ANIMATION_DURATION).attr('stroke-width', 0);
     }
 
     init() {
