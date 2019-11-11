@@ -2,12 +2,12 @@ import ContentValidator from "../../src/util/contentValidator";
 
 describe('ContentValidator', () => {
     it('should initialize', () => {
-        let contentValidator = new ContentValidator(['name', 'ring', 'quadrant', 'isNew', 'description']);
+        let contentValidator = new ContentValidator(['id', 'name', 'ring', 'quadrant', 'isNew', 'description']);
         expect(contentValidator).toBeDefined();
     });
 
     it('should verify content', () => {
-        let contentValidator = new ContentValidator(['name', 'ring', 'quadrant', 'isNew', 'description']);
+        let contentValidator = new ContentValidator(['id', 'name', 'ring', 'quadrant', 'isNew', 'description']);
         expect(() => {
             contentValidator.verifyContent();
         }).not.toThrow();
@@ -21,7 +21,7 @@ describe('ContentValidator', () => {
     });
 
     it('should verify headers', () => {
-        let contentValidator = new ContentValidator(['name', 'ring', 'quadrant', 'isNew', 'description']);
+        let contentValidator = new ContentValidator(['id', 'name', 'ring', 'quadrant', 'isNew', 'description']);
         expect(() => {
             contentValidator.verifyHeaders()
         }).not.toThrow();
