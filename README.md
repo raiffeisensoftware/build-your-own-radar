@@ -2,12 +2,9 @@
 [![devDependencies Status](https://david-dm.org/raiffeisensoftware/build-your-own-radar/dev-status.svg)](https://david-dm.org/raiffeisensoftware/build-your-own-radar?type=dev)
 [![peerDependencies Status](https://david-dm.org/raiffeisensoftware/build-your-own-radar/peer-status.svg)](https://david-dm.org/raiffeisensoftware/build-your-own-radar?type=peer)
 [![GitHub contributors](https://badgen.net/github/contributors/raiffeisensoftware/build-your-own-radar?color=cyan)](https://github.com/raiffeisensoftware/build-your-own-radar/graphs/contributors)
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![AGPL License](https://badgen.net/github/license/raiffeisensoftware/build-your-own-radar)](https://github.com/raiffeisensoftware/build-your-own-radar)
 
-
-A library that generates an interactive radar, inspired by [thoughtworks.com/radar](http://thoughtworks.com/radar).
-
+A library that generates an interactive radar, inspired by [thoughtworks.com/radar](http://thoughtworks.com/radar) and improved by [Raiffeisen Software](https://www.r-software.at/).
 ## Demo
 
 You can see this in action at https://radar.thoughtworks.com. If you plug in [this data](https://docs.google.com/spreadsheets/d/1YXkrgV7Y6zShiPeyw4Y5_19QOfu5I6CyH5sGnbkEyiI/) you'll see [this visualization](https://radar.thoughtworks.com/?sheetId=https://docs.google.com/spreadsheets/d/1YXkrgV7Y6zShiPeyw4Y5_19QOfu5I6CyH5sGnbkEyiI). 
@@ -39,12 +36,12 @@ You need to make your data public in a form we can digest.
 
 Create a Google Sheet. Give it at least the below column headers, and put in the content that you want:
 
-| name          | ring   | quadrant               | isNew | description                                             |
-|---------------|--------|------------------------|-------|---------------------------------------------------------|
-| Composer      | adopt  | tools                  | TRUE  | Although the idea of dependency management ...          |
-| Canary builds | trial  | techniques             | FALSE | Many projects have external code dependencies ...       |
-| Apache Kylin  | assess | platforms              | TRUE  | Apache Kylin is an open source analytics solution ...   |
-| JSF           | hold   | languages & frameworks | FALSE | We continue to see teams run into trouble using JSF ... |
+|id| name          | ring   | quadrant               | isNew | description                                             |
+|-----|---------------|--------|------------------------|-------|---------------------------------------------------------|
+|Composer| Composer      | adopt  | tools | TRUE  | Although the idea of dependency management ...          |
+|Canary+builds| Canary builds | trial  | techniques | FALSE | Many projects have external code dependencies ...       |
+|Apache+Kylin| Apache Kylin  | assess | platforms | TRUE  | Apache Kylin is an open source analytics solution ...   |
+|JSF | JSF           | hold   | languages & frameworks | FALSE | We continue to see teams run into trouble using JSF ... |
 
 ### Sharing the sheet
 
@@ -60,11 +57,11 @@ You can enter any URL that responds CSV data into the input field on the first p
 The format is just the same as that of the Google Sheet, the example is as follows:
 
 ```
-name,ring,quadrant,isNew,description  
-Composer,adopt,tools,TRUE,"Although the idea of dependency management ..."  
-Canary builds,trial,techniques,FALSE,"Many projects have external code dependencies ..."  
-Apache Kylin,assess,platforms,TRUE,"Apache Kylin is an open source analytics solution ..."  
-JSF,hold,languages & frameworks,FALSE,"We continue to see teams run into trouble using JSF ..."  
+id,name,ring,quadrant,isNew,description  
+Composer,Composer,adopt,tools,TRUE,"Although the idea of dependency management ..."  
+Canary+builds,Canary builds,trial,techniques,FALSE,"Many projects have external code dependencies ..."  
+Apache+Kylin,Apache Kylin,assess,platforms,TRUE,"Apache Kylin is an open source analytics solution ..."  
+JSF,JSF,hold,languages & frameworks,FALSE,"We continue to see teams run into trouble using JSF ..."  
 ```
 
 ***Note:*** The CSV file parsing is using D3 library, so consult the D3 documentation for the data format details.
@@ -77,17 +74,9 @@ That's it!
 
 ***Note:*** The quadrants of the radar, and the order of the rings inside the radar will be drawn in the order they appear in your configuration.
 
-### Protected Sheets
-
-If the sheet is protected, user will be prompted to enter credentials. User has to allow access to view the sheet in the google authentication prompt dialog. The radar will be drawn after successful authentication.
-
-***Note:*** If the logged in user do not have access to the sheet, user will be provided an option to switch the account.
-
 ### More complex usage
 
 To create the data representation, you can use the Google Sheet [factory](/src/util/factory.js) or CSV, or you can also insert all your data straight into the code.
-
-The app uses [Tabletop.js](https://github.com/jsoma/tabletop) to fetch the data from a Google Sheet or [D3.js](https://d3js.org/) if supplied as CSV, so refer to their documentation for more advanced interaction.  The input data is sanitized by whitelisting HTML tags with [sanitize-html](https://github.com/punkave/sanitize-html).
 
 The application uses [webpack](https://webpack.github.io/) to package dependencies and minify all .js and .scss files.
 

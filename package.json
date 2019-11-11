@@ -75,19 +75,5 @@
   "peerDependencies": {
     "sass": "1.22.12",
     "fibers": "^4.0.1"
-  },
-  "standard": {
-    "globals": [
-      "Cypress",
-      "cy",
-      "XMLHttpRequest"
-    ],
-    "env": [
-      "jasmine"
-    ],
-    "ignore": [
-      "radar-spec.js",
-      "ref-table-spec.js"
-    ]
   }
 }
