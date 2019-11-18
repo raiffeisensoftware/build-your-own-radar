@@ -655,7 +655,6 @@ export default class Graphing {
         let translateX;
         if (order === 'second' || order === 'third') {
             translateX = (radarPlot.getBoundingClientRect().right - coordDiff) - radarPlot.offsetLeft - quadrantGroup.right;
-            console.log(radarPlot.offsetLeft)
         } else {
             translateX = (radarPlot.getBoundingClientRect().left - coordDiff) + radarPlot.offsetLeft - quadrantGroup.left;
         }

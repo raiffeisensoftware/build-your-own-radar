@@ -53,17 +53,17 @@
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0",
     "xmlhttprequest": "^1.8.0",
-    "yargs": "^14.2.0"
+    "yargs": "^15.0.1"
   },
   "dependencies": {
     "bootstrap": "^4.3.1",
     "chance": "1.1.3",
     "core-js": "^3.4.1",
     "d3-fetch": "^1.1.2",
-    "d3-selection": "^1.4.0",
-    "d3-shape": "^1.3.5",
+    "d3-selection": "^1.4.1",
+    "d3-shape": "^1.3.7",
     "d3-tip": "^0.9.1",
-    "d3-transition": "^1.2.0",
+    "d3-transition": "^1.3.1",
     "es6-promise": "^4.2.8",
     "events-polyfill": "^2.1.2",
     "jquery": "^3.4.0",
