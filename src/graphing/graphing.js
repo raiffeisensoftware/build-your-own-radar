@@ -389,8 +389,6 @@ export default class Graphing {
             selectAll('.blip-item-description').classed('expanded', false);
             description.classed('expanded', !expanded);
 
-            quadrantGroup.node().dispatchEvent(new MouseEvent("click"));
-
             if (description.attr('class').includes('expanded')) {
                 // Gets the name of the quadrant from the blip parent element (quadrant-group-x) and sets faster timeout if selected to account for transition animation
                 let parent = select(group.node().parentNode).attr('class');
@@ -399,9 +397,10 @@ export default class Graphing {
                     .attr('class').includes('selected') ? 300 : ANIMATION_DURATION + 100;
 
                 setTimeout(() => {
-                    document.getElementById('blip-description-' + blipNumber).scrollIntoView({behavior: "smooth"});
+                    document.getElementById('blip-description-' + blipNumber).scrollIntoView({behavior: "smooth", block: "center"});
                 }, timeout);
             }
+            quadrantGroup.node().dispatchEvent(new MouseEvent("click"));
         });
     }
 
@@ -514,7 +513,7 @@ export default class Graphing {
             timeout = ANIMATION_DURATION + 100;
         }
         setTimeout(() => {
-            document.getElementById('blip-description-' + blip.number).scrollIntoView({behavior: "smooth"});
+            document.getElementById('blip-description-' + blip.number).scrollIntoView({behavior: "smooth", block: "center"});
         }, timeout);
     }
 
