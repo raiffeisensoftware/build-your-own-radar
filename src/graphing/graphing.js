@@ -397,7 +397,12 @@ export default class Graphing {
                     .attr('class').includes('selected') ? 300 : ANIMATION_DURATION + 100;
 
                 setTimeout(() => {
-                    document.getElementById('blip-description-' + blipNumber).scrollIntoView({behavior: "smooth", block: "center"});
+                    let isIE11 = !!window.MSInputMethodContext && !!document.documentMode; // check for IE11 because of lacking scrollIntoViewOptions support
+                    if (isIE11) {
+                        document.getElementById('blip-description-' + blipNumber).scrollIntoView(false);
+                    } else {
+                        document.getElementById('blip-description-' + blipNumber).scrollIntoView({block: "center", behavior: "smooth"});
+                    }
                 }, timeout);
             }
             quadrantGroup.node().dispatchEvent(new MouseEvent("click"));
@@ -513,7 +518,12 @@ export default class Graphing {
             timeout = ANIMATION_DURATION + 100;
         }
         setTimeout(() => {
-            document.getElementById('blip-description-' + blip.number).scrollIntoView({behavior: "smooth", block: "center"});
+            let isIE11 = !!window.MSInputMethodContext && !!document.documentMode; // check for IE11 because of lacking scrollIntoViewOptions support
+            if (isIE11) {
+                document.getElementById('blip-description-' + blip.number).scrollIntoView(false);
+            } else {
+                document.getElementById('blip-description-' + blip.number).scrollIntoView({block: "center", behavior: "smooth"});
+            }
         }, timeout);
     }
 
