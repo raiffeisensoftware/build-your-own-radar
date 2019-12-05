@@ -739,12 +739,17 @@ export default class Graphing {
     }
 
     plot() {
+        this.plotRadarHeader();
+        this.plotRadar();
+        this.plotRadarFooter();
+    };
+
+    plotRadar() {
         let rings = this._radar.rings;
         let quadrants = this._radar.quadrants;
         let alternatives = this._radar.alternatives;
         let currentSheet = this._radar.currentSheetName;
 
-        this.plotRadarHeader();
         this.plotAlternativeRadars(alternatives, currentSheet);
 
         this.plotQuadrantButtons(quadrants);
@@ -753,6 +758,7 @@ export default class Graphing {
         svg = radarElement.append('svg').call(this.tip);
         svg.attr('id', 'radar-plot')
             .attr('viewBox', '0 0 ' + this._size + ' ' + (this._size + 14))
+            .attr('preserveAspectRatio', 'xMidYMin meet')
             .attr('width', '100%').attr('height', '100%');
 
         quadrants.forEach((quadrant) => {
@@ -761,7 +767,5 @@ export default class Graphing {
             this.plotTexts(quadrantGroup, rings, quadrant);
             this.plotBlips(quadrantGroup, rings, quadrant);
         });
-
-        this.plotRadarFooter();
-    };
+    }
 }
