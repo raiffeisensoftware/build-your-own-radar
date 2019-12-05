@@ -136,9 +136,8 @@ div.legend {
 @media screen {
 
   #radar {
-    margin: 0 auto;
+    margin: 0 auto 50px auto;
     position: relative;
-    margin-bottom: 50px;
 
     svg#radar-plot {
       margin: 0 auto;
