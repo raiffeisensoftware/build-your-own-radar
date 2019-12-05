@@ -642,6 +642,11 @@ export default class Graphing {
     }
 
     selectQuadrant(order, startAngle) {
+        let quadrantSelected = select('.quadrant-table.' + order).attr('class').includes('selected');
+        if (quadrantSelected) {
+            return;
+        }
+
         selectAll('.home-link').classed('selected', false);
         this.removeHomeLink();
         this.createHomeLink(select('header').select('div.container'));
@@ -657,7 +662,7 @@ export default class Graphing {
         let adjustY = Math.cos(this.toRadian(startAngle)) + Math.sin(this.toRadian(startAngle));
 
         let radarPlot = document.getElementById('radar-container');
-        let quadrantGroup = this.radar.quadrantObj.filter(q => q.order === order)[0].clientRect;
+        let quadrantGroup = document.getElementById('quadrant-group-' + order).getBoundingClientRect();
 
         let coordDiff = (scale * quadrantGroup.width) - quadrantGroup.width;
 
@@ -755,7 +760,6 @@ export default class Graphing {
             this.plotLines(quadrantGroup, quadrant);
             this.plotTexts(quadrantGroup, rings, quadrant);
             this.plotBlips(quadrantGroup, rings, quadrant);
-            this.radar.quadrantObj.push(quadrant);
         });
 
         this.plotRadarFooter();
