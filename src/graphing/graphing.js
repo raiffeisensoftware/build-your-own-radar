@@ -21,6 +21,8 @@ let buttonsGroup;
 let header;
 let alternativeDiv;
 let chance;
+let scale = 1.2;
+let isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
 
 export default class Graphing {
     constructor(size, radar) {
@@ -397,8 +399,7 @@ export default class Graphing {
                     .attr('class').includes('selected') ? 300 : ANIMATION_DURATION + 100;
 
                 setTimeout(() => {
-                    let isIE11 = !!window.MSInputMethodContext && !!document.documentMode; // check for IE11 because of lacking scrollIntoViewOptions support
-                    if (isIE11) {
+                    if (isIE11) { // workaround for IE11 because of lacking scrollIntoViewOptions support
                         document.getElementById('blip-description-' + blipNumber).scrollIntoView(false);
                     } else {
                         document.getElementById('blip-description-' + blipNumber).scrollIntoView({block: "center", behavior: "smooth"});
@@ -457,8 +458,6 @@ export default class Graphing {
 
         this.tip.hide();
         selectAll('g.blip-link').attr('opacity', 1.0);
-
-        svg.style('left', 0).style('right', 0);
 
         selectAll('.button')
             .classed('selected', false)
@@ -555,7 +554,7 @@ export default class Graphing {
 
         tmpHeader.append('div')
             .attr('class', 'd-none d-md-block')
-            .html('<a href="/" target="_top"><img class="img-fluid" src="images/headercomp.png" alt="Logo"/></a>');
+            .html('<a href="/" target="_top"><img id="headerimg" class="img-fluid" src="images/headercomp.png" alt="Logo"/></a>');
 
         buttonsGroup = header.append('div')
             .attr('class', 'row')
@@ -614,7 +613,10 @@ export default class Graphing {
                 });
             }).flat(),
             select: (event, ui) => {
-                this.searchBlip(event, ui);
+                this.redrawFullRadar();
+                setTimeout(() => {
+                    this.searchBlip(event, ui)
+                }, ANIMATION_DURATION)
             }
         });
 
@@ -656,35 +658,60 @@ export default class Graphing {
         selectAll('.quadrant-table').classed('selected', false);
         selectAll('.quadrant-table.' + order).classed('selected', true);
 
-        let scale = 1.2;
-
         let adjustX = Math.sin(this.toRadian(startAngle)) - Math.cos(this.toRadian(startAngle));
         let adjustY = Math.cos(this.toRadian(startAngle)) + Math.sin(this.toRadian(startAngle));
 
-        let radarPlot = document.getElementById('radar-container');
-        let quadrantGroup = document.getElementById('quadrant-group-' + order).getBoundingClientRect();
-
-        let coordDiff = (scale * quadrantGroup.width) - quadrantGroup.width;
-
-        let translateX;
-        if (order === 'second' || order === 'third') {
-            translateX = (radarPlot.getBoundingClientRect().right - coordDiff) - radarPlot.offsetLeft - quadrantGroup.right;
-        } else {
-            translateX = (radarPlot.getBoundingClientRect().left - coordDiff) + radarPlot.offsetLeft - quadrantGroup.left;
-        }
-
         let translateY = (-0.9 * (1 - adjustY) * (this._size / 2 - 7) * (scale - 1)) - ((1 - adjustY) / 2.1 * (1 - scale / 2) * this._size);
+
+        this.moveQuadrant(order, translateY, true);
+
         let translateXAll = (1 - adjustX) / 2 * this._size * scale / 2 + ((1 - adjustX) / 2 * (1 - scale / 2) * this._size);
         let translateYAll = (1 + adjustY) / 2 * this._size * scale / 2;
+
+        selectAll('.quadrant-group')
+            .style('pointer-events', 'auto');
+
+        // hide other quadrants
+        selectAll('.quadrant-group:not(.quadrant-group-' + order + ')')
+            .transition()
+            .duration(ANIMATION_DURATION)
+            .style('pointer-events', 'none')
+            .attr('transform', 'translate(' + translateXAll + ',' + translateYAll + ')scale(0)');
+
+        // remove the stroke width of the horizontal line to align with container
+        select('.quadrant-group-' + order).selectAll('#horizontal-line-' + order).transition().duration(ANIMATION_DURATION).attr('stroke-width', 0);
+    }
+
+    moveQuadrant(order, translateY, transition) {
+        let image = document.getElementById('headerimg');
+        let quadrantGroup = document.getElementById('quadrant-group-' + order).getBoundingClientRect();
+
+        let lgScreenWidth = window.innerWidth > 992;
+        let coordDiff = lgScreenWidth ? (scale * quadrantGroup.width) - quadrantGroup.width : 0; // only consider coordDiff for large screen width
+
+        let translateX;
+
+        if (order === 'second' || order === 'third') {
+            translateX = image.getBoundingClientRect().right === 0 ? 0 : (image.getBoundingClientRect().right - coordDiff) - quadrantGroup.right;
+        } else {
+            translateX = image.getBoundingClientRect().left === 0 ? 0 : (image.getBoundingClientRect().left - coordDiff) - quadrantGroup.left;
+        }
+
+        // move quadrant
+        if (transition) {
+            select('.quadrant-group-' + order)
+                .transition()
+                .duration(ANIMATION_DURATION)
+                .attr('transform', 'translate(' + translateX + ',' + translateY + ')scale(' + scale + ')');
+        } else {
+            select('.quadrant-group-' + order)
+                .attr('transform', 'translate(' + translateX + ',' + translateY + ')scale(' + scale + ')');
+        }
 
         let blipScale = 3 / 4;
         let blipTranslate = (1 - blipScale) / blipScale;
 
-        select('.quadrant-group-' + order)
-            .transition()
-            .duration(ANIMATION_DURATION)
-            .attr('transform', 'translate(' + translateX + ',' + translateY + ')scale(' + scale + ')');
-
+        // move blips
         selectAll('.quadrant-group-' + order + ' .blip-link text').each((d, i, nodes) => {
             let x = select(nodes[i]).attr('x');
             let y = select(nodes[i]).attr('y');
@@ -693,17 +720,6 @@ export default class Graphing {
                 .duration(ANIMATION_DURATION)
                 .attr('transform', 'scale(' + blipScale + ')translate(' + blipTranslate * x + ',' + blipTranslate * y + ')');
         });
-
-        selectAll('.quadrant-group')
-            .style('pointer-events', 'auto');
-
-        selectAll('.quadrant-group:not(.quadrant-group-' + order + ')')
-            .transition()
-            .duration(ANIMATION_DURATION)
-            .style('pointer-events', 'none')
-            .attr('transform', 'translate(' + translateXAll + ',' + translateYAll + ')scale(0)');
-
-        select('.quadrant-group-' + order).selectAll('#horizontal-line-' + order).transition().duration(ANIMATION_DURATION).attr('stroke-width', 0);
     }
 
     init() {
@@ -754,18 +770,38 @@ export default class Graphing {
 
         this.plotQuadrantButtons(quadrants);
 
-        radarElement.style('height', this._size + 14 + 'px');
         svg = radarElement.append('svg').call(this.tip);
         svg.attr('id', 'radar-plot')
-            .attr('viewBox', '0 0 ' + this._size + ' ' + (this._size + 14))
-            .attr('preserveAspectRatio', 'xMidYMin meet')
-            .attr('width', '100%').attr('height', '100%');
-
+            .attr('viewBox', '0 0 924 938')
+            .attr('preserveAspectRatio', 'xMidYMin meet');
         quadrants.forEach((quadrant) => {
             let quadrantGroup = this.plotQuadrant(rings, quadrant);
             this.plotLines(quadrantGroup, quadrant);
             this.plotTexts(quadrantGroup, rings, quadrant);
             this.plotBlips(quadrantGroup, rings, quadrant);
         });
+
+        select(window).on('resize', () => this.alignQuadrant());
+    }
+
+
+    alignQuadrant() {
+        if (this.isAnyQuadrantSelected()) {
+            let order = select('.quadrant-table.selected').attr('class').match(/(first)|(second)|(third)|(fourth)/g).toString();
+
+            let translate = this.getTranslation(select('#quadrant-group-' + order).node());
+            select('.quadrant-group-' + order).attr('transform', null);
+            this.moveQuadrant(order, translate[1], false);
+        }
+    }
+
+    isAnyQuadrantSelected() {
+        return selectAll('.quadrant-table.selected').node() !== null;
+    }
+
+
+    getTranslation(elem) {
+        let matrix = elem.transform.baseVal.consolidate().matrix;
+        return [matrix.e, matrix.f];
     }
 }

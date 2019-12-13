@@ -139,12 +139,18 @@ div.legend {
     margin: 0 auto 50px auto;
     position: relative;
 
+    #radar-container {
+      height: 938px;
+    }
+
     svg#radar-plot {
       margin: 0 auto;
       transition: all 1s ease;
       position: absolute;
       left: 0;
       right: 0;
+      height: 100%;
+      width: 100%;
 
       .legend {
         visibility: hidden;

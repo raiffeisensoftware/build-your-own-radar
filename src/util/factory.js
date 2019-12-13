@@ -63,9 +63,7 @@ export function plotRadar(title, blips, currentRadarName, alternativeRadars) {
         radar.currentSheetName = currentRadarName;
     }
 
-    let size = (window.innerHeight - 133) < 620 ? 620 : window.innerHeight - 133;
-
-    let graphingRadar = new GraphingRadar(size, radar);
+    let graphingRadar = new GraphingRadar(924, radar);
     graphingRadar.init();
     graphingRadar.plot();
     graphingRadar.createCustomHomeLink(select('header').select('div.container'));
@@ -121,7 +119,7 @@ export function plotHeader() {
         .attr('class', 'col-sm')
         .append('div')
         .attr('class', 'd-none d-md-block')
-        .html('<a href="/" target="_top"><img class="img-fluid" src="images/headercomp.png" alt="Logo"/></a>');
+        .html('<a href="/" target="_top"><img id="headerimg" class="img-fluid" src="images/headercomp.png" alt="Logo"/></a>');
 }
 
 export function plotForm() {
