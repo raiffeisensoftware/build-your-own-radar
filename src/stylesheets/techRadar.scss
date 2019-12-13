@@ -61,10 +61,29 @@ p {
     text-align: center;
     margin-top: 40%;
   }
+}
 
-  &.hint {
+@media (min-width: 340px) {
+  p.hint {
     text-align: center;
     line-height: 240%;
+    font-size: 60%;
+  }
+}
+
+@media (min-width: 768px) {
+  p.hint {
+    text-align: center;
+    line-height: 240%;
+    font-size: 75%;
+  }
+}
+
+@media (min-width: 1024px) {
+  p.hint {
+    text-align: center;
+    line-height: 240%;
+    font-size: 100%;
   }
 }
 
