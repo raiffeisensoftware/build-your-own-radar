@@ -22,7 +22,6 @@
   "devDependencies": {
     "@babel/core": "^7.7.5",
     "@babel/plugin-transform-modules-commonjs": "^7.7.5",
-    "@babel/plugin-transform-named-capturing-groups-regex": "^7.7.4",
     "@babel/preset-env": "^7.7.6",
     "@babel/register": "^7.7.4",
     "babel-loader": "^8.0.6",
