@@ -435,20 +435,22 @@ export default class Graphing {
     }
 
     createCustomHomeLink(pageElement) {
-        if (pageElement.select('.home-link').empty()) {
-            pageElement = pageElement.insert('div', 'div#alternative-buttons')
-                .attr('id', 'home-link')
-                .attr('class', 'container row');
+        if (getConfig().platformPath !== undefined) {
+            if (pageElement.select('.home-link').empty()) {
+                pageElement = pageElement.insert('div', 'div#alternative-buttons')
+                    .attr('id', 'home-link')
+                    .attr('class', 'container row');
 
-            pageElement.append('a')
-                .attr('href', '/radar')
-                .attr('target', '_top')
-                .html('&#171; Zurück zur Plattform-Übersicht')
-                .classed('home-link', true)
-                .classed('selected', true);
+                pageElement.append('a')
+                    .attr('href', getConfig().platformPath)
+                    .attr('target', '_top')
+                    .html('&#171; Zurück zur Plattform-Übersicht')
+                    .classed('home-link', true)
+                    .classed('selected', true);
 
-            pageElement.append('div')
-                .attr('class', 'col-sm');
+                pageElement.append('div')
+                    .attr('class', 'col-sm');
+            }
         }
     }
 
