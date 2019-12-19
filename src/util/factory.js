@@ -63,7 +63,7 @@ export function plotRadar(title, blips, currentRadarName, alternativeRadars) {
         radar.currentSheetName = currentRadarName;
     }
 
-    let graphingRadar = new GraphingRadar(924, radar);
+    let graphingRadar = new GraphingRadar(884, radar);
     graphingRadar.init();
     graphingRadar.plot();
     graphingRadar.createCustomHomeLink(select('header').select('div.container'));

@@ -23,6 +23,7 @@ let alternativeDiv;
 let chance;
 let scale = 1.2;
 let isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
+let selectQuadrantTimer;
 
 export default class Graphing {
     constructor(size, radar) {
@@ -593,7 +594,17 @@ export default class Graphing {
                     selectAll('.blip-item-description').classed('expanded', false);
                     selectAll('.blip-list-item').classed('highlight', false);
                     selectAll('.blip-list-item').classed('highlight2', false);
-                    this.selectQuadrant(quadrants[i].order, quadrants[i].startAngle);
+
+                    let timeout = 0;
+                    if (this.isAnyQuadrantSelected()) {
+                        clearTimeout(selectQuadrantTimer);
+                        this.redrawFullRadar();
+                        timeout = ANIMATION_DURATION;
+                        selectAll('.quadrant-btn--group button').property('disabled', true);
+                    }
+                    setTimeout(() => {
+                        selectQuadrantTimer = this.selectQuadrant(quadrants[i].order, quadrants[i].startAngle);
+                    }, timeout);
                 });
         });
 
@@ -615,6 +626,7 @@ export default class Graphing {
                 });
             }).flat(),
             select: (event, ui) => {
+                selectAll('.quadrant-btn--group button').property('disabled', true);
                 this.redrawFullRadar();
                 setTimeout(() => {
                     this.searchBlip(event, ui)
@@ -682,6 +694,8 @@ export default class Graphing {
 
         // remove the stroke width of the horizontal line to align with container
         select('.quadrant-group-' + order).selectAll('#horizontal-line-' + order).transition().duration(ANIMATION_DURATION).attr('stroke-width', 0);
+
+        selectAll('.quadrant-btn--group button').property('disabled', false);
     }
 
     moveQuadrant(order, translateY, transition) {
