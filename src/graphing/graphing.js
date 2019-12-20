@@ -788,7 +788,7 @@ export default class Graphing {
 
         svg = radarElement.append('svg').call(this.tip);
         svg.attr('id', 'radar-plot')
-            .attr('viewBox', '0 0 924 938')
+            .attr('viewBox', '0 0 800 938')
             .attr('preserveAspectRatio', 'xMidYMin meet');
         quadrants.forEach((quadrant) => {
             let quadrantGroup = this.plotQuadrant(rings, quadrant);
