@@ -53,7 +53,7 @@
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.0",
     "xmlhttprequest": "^1.8.0",
-    "yargs": "^15.0.2"
+    "yargs": "^15.1.0"
   },
   "dependencies": {
     "bootstrap": "^4.4.1",
