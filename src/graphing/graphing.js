@@ -615,7 +615,7 @@ export default class Graphing {
             .classed('search-box col', true)
             .append('input')
             .attr('id', 'auto-complete')
-            .attr('placeholder', 'Suche')
+            .attr('placeholder', 'Suchen im Radar')
             .classed('search-radar', true);
 
         $('#auto-complete').autocomplete({
