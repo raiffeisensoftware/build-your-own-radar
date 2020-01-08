@@ -520,8 +520,7 @@ export default class Graphing {
             timeout = ANIMATION_DURATION + 100;
         }
         setTimeout(() => {
-            let isIE11 = !!window.MSInputMethodContext && !!document.documentMode; // check for IE11 because of lacking scrollIntoViewOptions support
-            if (isIE11) {
+            if (isIE11) { // check for IE11 because of lacking scrollIntoViewOptions support
                 document.getElementById('blip-description-' + blip.number).scrollIntoView(false);
             } else {
                 document.getElementById('blip-description-' + blip.number).scrollIntoView({block: "center", behavior: "smooth"});
