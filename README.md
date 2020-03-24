@@ -5,6 +5,7 @@
 [![AGPL License](https://badgen.net/github/license/raiffeisensoftware/build-your-own-radar)](https://github.com/raiffeisensoftware/build-your-own-radar)
 
 A library that generates an interactive radar, inspired by [thoughtworks.com/radar](http://thoughtworks.com/radar) and improved by [Raiffeisen Software](https://www.r-software.at/).
+
 ## Demo
 
 You can see this in action at https://radar.thoughtworks.com. If you plug in [this data](https://docs.google.com/spreadsheets/d/1YXkrgV7Y6zShiPeyw4Y5_19QOfu5I6CyH5sGnbkEyiI/) you'll see [this visualization](https://radar.thoughtworks.com/?sheetId=https://docs.google.com/spreadsheets/d/1YXkrgV7Y6zShiPeyw4Y5_19QOfu5I6CyH5sGnbkEyiI). 
@@ -21,7 +22,7 @@ config.json properties:
 - `legend` The `triangleKey` and `circlekey` keys refere to the description next to the triangle and circle icons in the legend.
 - `rings` Array that defines the names of the rings. Rings will be displayed in the order in which they are listed starting from the center.
 - `quadrants` Array that defines the names of the quadrants. Quadrants will be displayed in the order in which they are listed starting from the upper right and continuing counterclockwise. Must have 4 entries.
-- `logo` is a logo displayed in the upper right corner. the logo string must be a valid url or the name of an image file you placed in the `src/images` folder.
+- `header` is the Header displayed in the upper right corner. The header string must be a valid url or the name of an image file you placed in the `src/images` folder. If not specified, defaults to `tech-radar-landing-page-wide.png`
 - `radarBaseUrl` Is a base url with placeholders that are encased by square brackets `[]`.
 - `platformPath` If set, shows a link in the top left with the a link to the specified path
 - `CsvQueryParams` allows you to use set queryParameters to replace `radarBaseUrl` placeholders of the same name by a queryParameter or if none is provided, a default value stored as the value of the placeholder entry.
@@ -125,5 +126,6 @@ npm install && npm rebuild node-sass && npm run dev
 
 After building it will start on `localhost:8080`
 
+## Icon Credits 
 <div>Printer Icon made by <a href="https://www.flaticon.com/authors/gregor-cresnar" title="Gregor Cresnar">Gregor Cresnar</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 <div>Share Icon made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>

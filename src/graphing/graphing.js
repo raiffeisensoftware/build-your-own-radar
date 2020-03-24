@@ -100,7 +100,7 @@ export default class Graphing {
                 .attr('transform', 'translate(' + this.center() + ', ' + this.center() + ')');
         });
 
-        quadrant.clientRect = document.getElementById('quadrant-group-' + quadrant.order).getBoundingClientRect()
+        quadrant.clientRect = document.getElementById('quadrant-group-' + quadrant.order).getBoundingClientRect();
 
         return quadrantGroup;
     }
@@ -316,7 +316,7 @@ export default class Graphing {
         if (blip.description) {
             // TODO: Disabled until further notice (Share Button)
             // let blipshareId = 'share-btn-' + blip.number;
-            let shareButton = blipItemDescription.append('p').html(blip.description)
+            // let shareButton = blipItemDescription.append('p').html(blip.description)
         }
         // TODO: Disabled until further notice (Share Button)
         /*
@@ -556,7 +556,9 @@ export default class Graphing {
 
         tmpHeader.append('div')
             .attr('class', 'd-none d-md-block')
-            .html('<a href="/" target="_top"><img id="headerimg" class="img-fluid" src="images/headercomp.png" alt="Logo"/></a>');
+            .html('<a href="/" target="_top"><img id="headerimg" class="img-fluid" src="" alt="headerImage"/></a>');
+
+        document.getElementById('headerimg').setAttribute('src', './images/' + (getConfig().header ? getConfig().header : 'tech-radar-landing-page-wide.png'));
 
         buttonsGroup = header.append('div')
             .attr('class', 'row')

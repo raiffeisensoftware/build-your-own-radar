@@ -119,7 +119,9 @@ export function plotHeader() {
         .attr('class', 'col-sm')
         .append('div')
         .attr('class', 'd-none d-md-block')
-        .html('<a href="/" target="_top"><img id="headerimg" class="img-fluid" src="images/headercomp.png" alt="Logo"/></a>');
+        .html('<a href="/" target="_top"><img id="headerimg" class="img-fluid" src="" alt="headerImage"/></a>');
+
+    document.getElementById('headerimg').setAttribute('src', 'images/' + (getConfig().header ? getConfig().header : 'tech-radar-landing-page-wide.png'));
 }
 
 export function plotForm() {
