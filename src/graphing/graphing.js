@@ -1,15 +1,16 @@
 import * as d3Tip from 'd3-tip';
-import {event, select, selectAll} from "d3-selection";
+import {event, select, selectAll} from 'd3-selection';
 import {arc} from 'd3-shape';
 import {Chance} from 'chance';
 import 'd3-transition';
 import {getConfig} from '../util/normalizedConfig';
 import RingCalculator from '../util/ringCalculator';
-import {extractQueryParams} from "../util/util";
+import {extractQueryParams} from '../util/util';
 import $ from 'jquery';
 import 'jquery-ui/ui/widgets/autocomplete';
 import 'popper.js';
 import 'bootstrap';
+import {hasDescriptionColumn} from '../util/contentValidator';
 
 const MIN_BLIP_WIDTH = 12;
 const ANIMATION_DURATION = 1000;
@@ -251,7 +252,7 @@ export default class Graphing {
     }
 
     drawTriangle(elem) {
-        elem.append('svg').attr('height', 20).attr('width', 20).append('polygon').attr('points', "00,15 8,00 16,15");
+        elem.append('svg').attr('height', 20).attr('width', 20).append('polygon').attr('points', '00,15 8,00 16,15');
     }
 
     findBlipCoordinates(blip, minRadius, maxRadius, startAngle, allBlipCoordinatesInRing) {
@@ -313,9 +314,10 @@ export default class Graphing {
             .attr('class', 'blip-item-description');
 
 
-        if (blip.description) {
+        if (blip.description && hasDescriptionColumn) {
             // TODO: Disabled until further notice (Share Button)
             // let blipshareId = 'share-btn-' + blip.number;
+            blipItemDescription.append('p').html(blip.description);
             // let shareButton = blipItemDescription.append('p').html(blip.description)
         }
         // TODO: Disabled until further notice (Share Button)
@@ -403,11 +405,11 @@ export default class Graphing {
                     if (isIE11) { // workaround for IE11 because of lacking scrollIntoViewOptions support
                         document.getElementById('blip-description-' + blipNumber).scrollIntoView(false);
                     } else {
-                        document.getElementById('blip-description-' + blipNumber).scrollIntoView({block: "center", behavior: "smooth"});
+                        document.getElementById('blip-description-' + blipNumber).scrollIntoView({block: 'center', behavior: 'smooth'});
                     }
                 }, timeout);
             }
-            quadrantGroup.node().dispatchEvent(new MouseEvent("click"));
+            quadrantGroup.node().dispatchEvent(new MouseEvent('click'));
         });
     }
 
@@ -523,7 +525,7 @@ export default class Graphing {
             if (isIE11) { // check for IE11 because of lacking scrollIntoViewOptions support
                 document.getElementById('blip-description-' + blip.number).scrollIntoView(false);
             } else {
-                document.getElementById('blip-description-' + blip.number).scrollIntoView({block: "center", behavior: "smooth"});
+                document.getElementById('blip-description-' + blip.number).scrollIntoView({block: 'center', behavior: 'smooth'});
             }
         }, timeout);
     }
