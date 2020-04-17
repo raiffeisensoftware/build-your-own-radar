@@ -106,15 +106,6 @@ Make sure you have nodejs installed.
 
 if the optional step is skipped the quadrants/rings will be deducted from the provided sheet.
 
-To run End to End tests in headless mode
-- add a new environment variable 'TEST_URL' and set it to 'http://localhost:8080/'
-- `npm run end_to_end_test`
-
-To run End to End tests in debug mode
-- add a new environment variable 'TEST_URL' and set it to 'http://localhost:8080/'
-- `npm run start`
-- Click on 'Run all specs' in cypress window
-
 ### Don't want to install node? Run with one line docker
 
      $ docker run -p 8080:8080 -v $PWD:/app -w /app -it node:10.15.3 /bin/sh -c 'npm install && npm run dev'
