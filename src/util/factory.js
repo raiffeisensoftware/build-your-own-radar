@@ -1,7 +1,7 @@
 /* eslint no-constant-condition: "off" */
 
-import {getConfig} from '../util/normalizedConfig';
-import {capitalize} from "./util";
+import {getConfig} from './normalizedConfig';
+import {capitalize} from './util';
 import {select, selectAll} from 'd3-selection';
 import Quadrant from '../models/quadrant';
 import Ring from '../models/ring';
