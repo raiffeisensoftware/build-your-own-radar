@@ -12,7 +12,7 @@ import MalformedDataError from '../exceptions/malformedDataError';
 import SheetNotFoundError from '../exceptions/sheetNotFoundError';
 import ExceptionMessages from './exceptionMessages';
 
-let normalizedConfig;
+let normalizedConfig = getConfig();
 
 export function plotRadar(title, blips, currentRadarName, alternativeRadars) {
     document.title = title.replace(/\.csv/, '');
@@ -76,16 +76,9 @@ export function setDocumentTitle() {
 }
 
 export function plotFooter() {
-    if (normalizedConfig !== undefined) {
-        let content = select('main')
-            .append('div')
-            .attr('class', 'row input-sheet');
-        content
-            .append('div')
-            .attr('id', 'footer')
-            .append('div')
-            .attr('class', 'footer-content')
-            .append('p')
+    if (normalizedConfig && normalizedConfig.footerText) {
+        select('body')
+            .insert('footer')
             .html(normalizedConfig.footerText);
     }
 }
@@ -97,8 +90,8 @@ export function plotHeader() {
         .insert('main').attr('role', 'main').attr('class', 'container');
 
     if (getConfig().hint && internPage) {
-        header = header.insert('div').attr('class', 'header');
-        header.append('p')
+        header = header.insert('div').attr('class', 'hintContainer');
+        header.append('div')
             .attr('class', 'hint')
             .html(getConfig().hint);
     }
@@ -127,24 +120,27 @@ export function plotHeader() {
 export function plotForm() {
     let content = select('main')
         .append('div')
-        .attr('class', 'row input-sheet');
+        .attr('id', 'form')
+        .attr('class', 'container');
 
-    content.append('div')
-        .attr('class', 'input-sheet__form')
-        .append('p')
-        .html('<strong>Enter the URL of your CSV file below…</strong>');
-
-    let form = content.select('.input-sheet__form').append('form')
-        .attr('method', 'get');
+    let form = content.append('div')
+        .attr('class', 'row')
+        .append('form')
+        .attr('method', 'get')
+        .attr('class', 'col');
 
     form.append('input')
         .attr('type', 'text')
         .attr('name', 'sheetId')
-        .attr('placeholder', 'Enter the URL of your hosted CSV file')
+        .attr('class', 'sheetIdInput')
+        .attr('placeholder', 'Enter the URL of your hosted CSV file ...')
+        .attr('onfocus', 'this.placeholder=""')
+        .attr('onblur', 'this.placeholder="Enter the URL of your hosted CSV file ..."')
         .attr('required', '');
 
     form.append('input')
         .attr('type', 'submit')
+        .attr('class', 'submitBtn')
         .attr('value', 'Build my radar');
 }
 

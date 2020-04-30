@@ -535,8 +535,8 @@ export default class Graphing {
         let internPage = window.location.href.includes('intern') || window.location.href.includes('localhost');
 
         if (getConfig().hint && internPage) {
-            header = header.insert('div').attr('class', 'header');
-            header.append('p')
+            header = header.insert('div').attr('class', 'hintContainer');
+            header.append('div')
                 .attr('class', 'hint')
                 .html(getConfig().hint);
         }
@@ -563,13 +563,12 @@ export default class Graphing {
         document.getElementById('headerimg').setAttribute('src', './images/' + (getConfig().header ? getConfig().header : 'tech-radar-landing-page-wide.png'));
 
         buttonsGroup = header.append('div')
-            .attr('class', 'row')
-            .append('div')
-            .attr('class', 'col')
-            .classed('buttons-group', true);
+            .attr('class', 'row btn-container');
 
         quadrantButtons = buttonsGroup.append('div')
-            .classed('quadrant-btn--group', true);
+            .attr('class', 'col-xl-6 col-lg-12')
+            .append('div')
+            .attr('class', 'row btn-group')
 
         alternativeDiv = header.append('div')
             .attr('id', 'alternative-buttons');
@@ -584,7 +583,7 @@ export default class Graphing {
                 .attr('class', 'quadrant-table ' + quadrants[i].order);
 
             quadrantButtons.append('button').attr('type', 'button')
-                .attr('class', 'button ' + quadrants[i].order + ' full-view')
+                .attr('class', 'btn ' + quadrants[i].order + ' full-view')
                 .text(quadrants[i].quadrant.name)
                 .on('mouseover', () => {
                     this.mouseoverQuadrant(quadrants[i].order);
@@ -603,7 +602,7 @@ export default class Graphing {
                         clearTimeout(selectQuadrantTimer);
                         this.redrawFullRadar();
                         timeout = ANIMATION_DURATION;
-                        selectAll('.quadrant-btn--group button').property('disabled', true);
+                        selectAll('.btn-group btn').property('disabled', true);
                     }
                     setTimeout(() => {
                         selectQuadrantTimer = this.selectQuadrant(quadrants[i].order, quadrants[i].startAngle);
@@ -611,11 +610,11 @@ export default class Graphing {
                 });
         });
 
-        buttonsGroup.append('div').attr('class', 'col-sm')
+        buttonsGroup.append('div').attr('class', 'col-2')
             .html('Plattform: <strong>' + document.title + '</strong>');
 
         buttonsGroup.append('div')
-            .classed('search-box col', true)
+            .classed('search-box col-3', true)
             .append('input')
             .attr('id', 'auto-complete')
             .attr('placeholder', 'Suchen im Radar')
@@ -629,7 +628,7 @@ export default class Graphing {
                 });
             }).flat(),
             select: (event, ui) => {
-                selectAll('.quadrant-btn--group button').property('disabled', true);
+                selectAll('.btn-group btn').property('disabled', true);
                 this.redrawFullRadar();
                 setTimeout(() => {
                     this.searchBlip(event, ui)
@@ -638,7 +637,7 @@ export default class Graphing {
         });
 
         buttonsGroup.append('button')
-            .classed('btn print-radar-btn col-1', true)
+            .attr('class', 'btn btn-image print-radar-btn  col-1')
             .on('click', () => {
                 window.print();
             });
@@ -646,8 +645,7 @@ export default class Graphing {
 
     plotRadarFooter() {
         select('body')
-            .insert('div')
-            .attr('class', 'footer')
+            .insert('footer')
             .html(this.normalizedConfig.footerText);
     }
 
@@ -698,7 +696,7 @@ export default class Graphing {
         // remove the stroke width of the horizontal line to align with container
         select('.quadrant-group-' + order).selectAll('#horizontal-line-' + order).transition().duration(ANIMATION_DURATION).attr('stroke-width', 0);
 
-        selectAll('.quadrant-btn--group button').property('disabled', false);
+        selectAll('.btn-group btn').property('disabled', false);
     }
 
     moveQuadrant(order, translateY, transition) {
@@ -791,6 +789,7 @@ export default class Graphing {
 
         svg = radarElement.append('svg').call(this.tip);
         svg.attr('id', 'radar-plot')
+            .attr('class', 'd-none d-lg-block')
             .attr('viewBox', '0 0 800 938')
             .attr('preserveAspectRatio', 'xMidYMin meet');
         quadrants.forEach((quadrant) => {

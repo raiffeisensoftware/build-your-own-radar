@@ -1,7 +1,57 @@
+// Optional hint
+
+.hintContainer {
+  position: fixed;
+  z-index: 3;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background-color: #007179;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .hint {
+    text-align: center;
+    padding: 0.5%;
+    font-size: 60%;
+  }
+}
+
+@media (min-width: 768px) {
+  .hint {
+    text-align: center;
+    padding: 0.5%;
+    font-size: 75%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hint {
+    text-align: center;
+    padding: 0.5%;
+    font-size: 100%;
+  }
+}
+
+
+// TODO: review
+
 header {
   text-align: center;
 
-  .radar-title, .buttons-group, #alternative-buttons {
+  .btn-container {
+    align-items: center;
+    padding: 2.5%;
+  }
+
+  .btn-group {
+    width: 100%;
+  }
+
+  .radar-title, #alternative-buttons {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -54,15 +104,26 @@ header {
     }
   }
 
-  .print-radar-btn {
-    background: url("../images/printer.svg") no-repeat center;
-    padding: 1% 1% 1% 1%;
+  // print radar button
+  .btn-image {
+    background: white;
   }
 
-  .buttons-group {
-    margin: 1% 0 1% 0;
+  .btn-image:before {
+    content: "";
+    width: 100%;
+    height: 30px;
+    display: inline-block;
+    vertical-align: text-top;
+    background-position : center center;
+    background-repeat:no-repeat;
   }
 
+  .print-radar-btn:before {
+    background-image: url("../images/printer.svg");
+  }
+
+  // link to home
   .home-link {
     color: $pink;
     margin-bottom: 10px;
@@ -72,15 +133,12 @@ header {
     text-align: left;
   }
 
-  .button {
+  .btn {
     font-size: $baseFont;
     text-transform: capitalize;
     border-radius: 2px;
     cursor: pointer;
     transition: all .2s ease-out;
-    background-color: $grey-light;
-    color: $black;
-
 
     &.no-capitalize {
       text-transform: none;
@@ -90,6 +148,7 @@ header {
 
       transform: translate(0, -2px);
       opacity: .85;
+      background-color: transparent;
 
       &.first {
         color: white;
