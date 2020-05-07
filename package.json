@@ -70,7 +70,6 @@
     "whatwg-fetch": "^3.0.0"
   },
   "peerDependencies": {
-    "sass": "1.22.12",
-    "fibers": "^4.0.1"
+    "sass": "^1.26.5"
   }
 }
