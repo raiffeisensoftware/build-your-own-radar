@@ -464,7 +464,7 @@ export default class Graphing {
         this.tip.hide();
         selectAll('g.blip-link').attr('opacity', 1.0);
 
-        selectAll('.button')
+        selectAll('.btn')
             .classed('selected', false)
             .classed('full-view', true);
 
@@ -566,9 +566,8 @@ export default class Graphing {
             .attr('class', 'row btn-container');
 
         quadrantButtons = buttonsGroup.append('div')
-            .attr('class', 'col-xl-6 col-lg-12')
-            .append('div')
-            .attr('class', 'row btn-group')
+            .attr('class', 'col-lg-6 btn-group')
+            .attr('role', 'group')
 
         alternativeDiv = header.append('div')
             .attr('id', 'alternative-buttons');
@@ -583,7 +582,7 @@ export default class Graphing {
                 .attr('class', 'quadrant-table ' + quadrants[i].order);
 
             quadrantButtons.append('button').attr('type', 'button')
-                .attr('class', 'btn ' + quadrants[i].order + ' full-view')
+                .attr('class', 'col-6 col-xl-3 mr-2 py-2 btn ' + quadrants[i].order + ' full-view')
                 .text(quadrants[i].quadrant.name)
                 .on('mouseover', () => {
                     this.mouseoverQuadrant(quadrants[i].order);
@@ -610,11 +609,11 @@ export default class Graphing {
                 });
         });
 
-        buttonsGroup.append('div').attr('class', 'col-2')
+        buttonsGroup.append('div').attr('class', 'col-12 col-lg-2 py-2')
             .html('Plattform: <strong>' + document.title + '</strong>');
 
         buttonsGroup.append('div')
-            .classed('search-box col-3', true)
+            .attr('class', 'search-box col-8 offset-2 col-lg-3 offset-lg-0')
             .append('input')
             .attr('id', 'auto-complete')
             .attr('placeholder', 'Suchen im Radar')
@@ -637,7 +636,7 @@ export default class Graphing {
         });
 
         buttonsGroup.append('button')
-            .attr('class', 'btn btn-image print-radar-btn  col-1')
+            .attr('class', 'btn print-btn-image print-radar-btn d-none d-lg-block col-1')
             .on('click', () => {
                 window.print();
             });
@@ -668,8 +667,8 @@ export default class Graphing {
         this.removeHomeLink();
         this.createHomeLink(select('header').select('div.container'));
 
-        selectAll('.button').classed('selected', false).classed('full-view', false);
-        selectAll('.button.' + order).classed('selected', true);
+        selectAll('.btn').classed('selected', false).classed('full-view', false);
+        selectAll('.btn.' + order).classed('selected', true);
         selectAll('.quadrant-table').classed('selected', false);
         selectAll('.quadrant-table.' + order).classed('selected', true);
 
