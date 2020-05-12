@@ -8,8 +8,6 @@ import RingCalculator from '../util/ringCalculator';
 import {extractQueryParams} from '../util/util';
 import $ from 'jquery';
 import 'jquery-ui/ui/widgets/autocomplete';
-import 'popper.js';
-import 'bootstrap';
 import {hasDescriptionColumn} from '../util/contentValidator';
 
 const MIN_BLIP_WIDTH = 12;
