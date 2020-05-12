@@ -292,6 +292,11 @@ a.button {
   }
 }
 
+.platform,
+.ui-autocomplete-input{
+  font-size: $baseFont;
+}
+
 .search-box {
   #search-query {
     border: none;
