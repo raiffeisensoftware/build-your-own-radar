@@ -64,12 +64,16 @@ header {
   }
 
   .home-link {
-    color: $pink;
+    color: #007bff;
     margin-bottom: 10px;
     line-height: normal;
     cursor: pointer;
     font-size: $baseFont;
     text-align: left;
+  }
+
+  .home-link:hover {
+    color: #0056b3;
   }
 
   .button {
