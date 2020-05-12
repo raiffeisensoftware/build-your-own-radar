@@ -1,4 +1,3 @@
-import 'events-polyfill'
 import {select} from "d3-selection";
 
 export function capitalize(string) {
@@ -48,7 +47,7 @@ export function searchBlipByParam(graphingRadar, searchParam) {
     let blip = blips.filter(bl => bl.id === searchParam)[0];
 
     setTimeout(() => {
-        let clickEvent = new MouseEvent("click");
+        let clickEvent = new Event("click");
         select('#blip-link-' + blip.number).node().dispatchEvent(clickEvent);
     }, 500);
 }
