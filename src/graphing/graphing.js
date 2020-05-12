@@ -599,7 +599,7 @@ export default class Graphing {
                         clearTimeout(selectQuadrantTimer);
                         this.redrawFullRadar();
                         timeout = ANIMATION_DURATION;
-                        selectAll('.btn-group btn').property('disabled', true);
+                        selectAll('.btn-group button').property('disabled', true);
                     }
                     setTimeout(() => {
                         selectQuadrantTimer = this.selectQuadrant(quadrants[i].order, quadrants[i].startAngle);
@@ -625,7 +625,7 @@ export default class Graphing {
                 });
             }).flat(),
             select: (event, ui) => {
-                selectAll('.btn-group btn').property('disabled', true);
+                selectAll('.btn-group button').property('disabled', true);
                 this.redrawFullRadar();
                 setTimeout(() => {
                     this.searchBlip(event, ui)
@@ -693,7 +693,7 @@ export default class Graphing {
         // remove the stroke width of the horizontal line to align with container
         select('.quadrant-group-' + order).selectAll('#horizontal-line-' + order).transition().duration(ANIMATION_DURATION).attr('stroke-width', 0);
 
-        selectAll('.btn-group btn').property('disabled', false);
+        selectAll('.btn-group button').property('disabled', false);
     }
 
     moveQuadrant(order, translateY, transition) {
@@ -739,7 +739,7 @@ export default class Graphing {
     init() {
         radarElement = select('body')
             .append('div').attr('id', 'radar').attr('class', 'container')
-            .append('div').attr('id', 'radar-container').attr('class', 'container');
+            .append('div').attr('id', 'radar-container').attr('class', 'container row');
     };
 
     constructSheetUrl(sheetName) {
