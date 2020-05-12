@@ -607,7 +607,7 @@ export default class Graphing {
                 });
         });
 
-        buttonsGroup.append('div').attr('class', 'col-12 col-lg-2 py-2')
+        buttonsGroup.append('div').attr('class', 'col-12 col-lg-2 py-2 platform')
             .html('Plattform: <strong>' + document.title + '</strong>');
 
         buttonsGroup.append('div')
