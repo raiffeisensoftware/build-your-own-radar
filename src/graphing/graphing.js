@@ -609,7 +609,7 @@ export default class Graphing {
                 });
         });
 
-        buttonsGroup.append('div').attr('class', 'col-sm')
+        buttonsGroup.append('div').attr('class', 'col-sm platform')
             .html('Plattform: <strong>' + document.title + '</strong>');
 
         buttonsGroup.append('div')
