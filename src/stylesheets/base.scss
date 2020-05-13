@@ -142,6 +142,7 @@
     }
 
     &.first {
+      text-align: right;
       &.selected {
         right: 0;
       }
@@ -226,6 +227,7 @@
     }
 
     &.fourth {
+      text-align: right;
       &.selected {
         right: 0;
       }
@@ -302,10 +304,11 @@
           p {
             margin: 0;
             border-bottom: 1px solid rgb(119, 119, 119);
-            padding: 20px;
+            padding: 20px 20px 20px 10px ;
             color: $grey-text;
             font-size: 90%;
             line-height: 1.2;
+            text-align: left;
 
             a {
               color: #007bff;

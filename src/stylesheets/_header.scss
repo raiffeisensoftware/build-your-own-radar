@@ -55,7 +55,7 @@ header {
 
   .btn-container {
     align-items: center;
-    padding: 1%;
+    padding: 1% 1% 1% 0;
   }
 
   .btn-group {
@@ -96,6 +96,7 @@ header {
     transition: all .2s ease-out;
     margin: 0;
     background-color: $grey-light;
+    border: 1px solid white;
 
     &:hover, &.selected {
 

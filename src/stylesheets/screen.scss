@@ -253,47 +253,8 @@ input[type="submit"] {
   }
 }
 
-a.button {
-  &.button--block {
-    display: block;
-  }
-
-  &.btn-spinner {
-    &:focus, &:hover {
-      background: #221d1f;
-    }
-  }
-
-  &.button--grey {
-    color: #221d1f;
-    background-color: #f4f5f8;
-
-    &:hover {
-      color: #221d1f;
-    }
-  }
-
-  &.button--white {
-    color: #221d1f;
-    background-color: #fff;
-
-    &:hover {
-      color: #221d1f;
-    }
-  }
-
-  &.button--aqua {
-    color: #fff;
-    background-color: #32b9cf;
-
-    &:hover {
-      color: #fff;
-    }
-  }
-}
-
 .platform,
-.ui-autocomplete-input{
+.ui-autocomplete-input {
   font-size: $baseFont;
 }
 

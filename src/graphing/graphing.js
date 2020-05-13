@@ -246,11 +246,11 @@ export default class Graphing {
     }
 
     drawCircle(elem) {
-        elem.append('svg').attr('height', 20).attr('width', 20).append('circle').attr('cx', 8).attr('cy', 8).attr('r', 6);
+        elem.append('svg').attr('class', 'd-none d-lg-inline').attr('height', 20).attr('width', 20).append('circle').attr('cx', 8).attr('cy', 8).attr('r', 6);
     }
 
     drawTriangle(elem) {
-        elem.append('svg').attr('height', 20).attr('width', 20).append('polygon').attr('points', '00,15 8,00 16,15');
+        elem.append('svg').attr('class', 'd-none d-lg-inline').attr('height', 20).attr('width', 20).append('polygon').attr('points', '00,15 8,00 16,15');
     }
 
     findBlipCoordinates(blip, minRadius, maxRadius, startAngle, allBlipCoordinatesInRing) {
@@ -580,7 +580,7 @@ export default class Graphing {
                 .attr('class', 'quadrant-table ' + quadrants[i].order);
 
             quadrantButtons.append('button').attr('type', 'button')
-                .attr('class', 'col-6 col-xl-3 mr-2 py-2 btn ' + quadrants[i].order + ' colored')
+                .attr('class', 'col-6 col-xl-3 py-2 btn ' + quadrants[i].order + ' colored')
                 .text(quadrants[i].quadrant.name)
                 .on('mouseover', () => {
                     this.mouseoverQuadrant(quadrants[i].order);
