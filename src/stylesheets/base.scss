@@ -358,4 +358,8 @@
   .opaque {
     opacity: 0.3;
   }
+
+  .noPointerEvent {
+    pointer-events: none;
+  }
 }

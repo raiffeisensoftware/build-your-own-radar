@@ -484,8 +484,7 @@ export default class Graphing {
             .duration(ANIMATION_DURATION)
             .attr('transform', 'scale(1)');
 
-        selectAll('.quadrant-group')
-            .style('pointer-events', 'auto');
+        selectAll('.quadrant-group').classed('noPointerEvent', false);
 
         selectAll('line').transition().duration(ANIMATION_DURATION).attr('stroke-width', 10);
     }
@@ -663,6 +662,8 @@ export default class Graphing {
             return;
         }
 
+        selectAll('.quadrant-group:not(.quadrant-group-' + order + ')').classed('opaque', true);
+
         selectAll('.home-link').classed('selected', false);
         this.removeHomeLink();
         this.createHomeLink(select('header').select('div.container'));
@@ -682,14 +683,13 @@ export default class Graphing {
         let translateXAll = (1 - adjustX) / 2 * this._size * scale / 2 + ((1 - adjustX) / 2 * (1 - scale / 2) * this._size);
         let translateYAll = (1 + adjustY) / 2 * this._size * scale / 2;
 
-        selectAll('.quadrant-group')
-            .style('pointer-events', 'auto');
+        selectAll('.quadrant-group').classed('noPointerEvent', false);
 
         // hide other quadrants
         selectAll('.quadrant-group:not(.quadrant-group-' + order + ')')
+            .classed('noPointerEvent', true)
             .transition()
             .duration(ANIMATION_DURATION)
-            .style('pointer-events', 'none')
             .attr('transform', 'translate(' + translateXAll + ',' + translateYAll + ')scale(0)');
 
         // remove the stroke width of the horizontal line to align with container
