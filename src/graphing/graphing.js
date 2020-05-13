@@ -464,7 +464,7 @@ export default class Graphing {
 
         selectAll('.btn')
             .classed('selected', false)
-            .classed('full-view', true);
+            .classed('colored', true);
 
         selectAll('.quadrant-table').classed('selected', false);
         selectAll('.home-link').classed('selected', false);
@@ -580,7 +580,7 @@ export default class Graphing {
                 .attr('class', 'quadrant-table ' + quadrants[i].order);
 
             quadrantButtons.append('button').attr('type', 'button')
-                .attr('class', 'col-6 col-xl-3 mr-2 py-2 btn ' + quadrants[i].order + ' full-view')
+                .attr('class', 'col-6 col-xl-3 mr-2 py-2 btn ' + quadrants[i].order + ' colored')
                 .text(quadrants[i].quadrant.name)
                 .on('mouseover', () => {
                     this.mouseoverQuadrant(quadrants[i].order);
@@ -665,7 +665,7 @@ export default class Graphing {
         this.removeHomeLink();
         this.createHomeLink(select('header').select('div.container'));
 
-        selectAll('.btn').classed('selected', false).classed('full-view', false);
+        selectAll('.btn').classed('selected', false).classed('colored', false);
         selectAll('.btn.' + order).classed('selected', true);
         selectAll('.quadrant-table').classed('selected', false);
         selectAll('.quadrant-table.' + order).classed('selected', true);
@@ -756,7 +756,7 @@ export default class Graphing {
         alternatives.forEach((alternative) => {
             alternativeSheetButton
                 .append('div:a')
-                .attr('class', 'first full-view alternative multiple-sheet-button')
+                .attr('class', 'first colored alternative multiple-sheet-button')
                 .attr('href', this.constructSheetUrl(alternative))
                 .text(alternative);
 

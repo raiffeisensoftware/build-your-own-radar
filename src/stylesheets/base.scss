@@ -27,6 +27,12 @@
       position: relative;
     }
 
+    @media (max-width: 992px) {
+      #radar-container {
+        height: auto;
+      }
+    }
+
     // Radar SVG
     svg#radar-plot {
       margin: 0 auto;
@@ -131,8 +137,8 @@
     h4 {
       text-transform: uppercase;
       font-size: 90%;
-      margin: 0;
       font-weight: bold;
+      margin-bottom: 1%;
     }
 
     &.first {
@@ -143,6 +149,10 @@
       ul {
         li {
           .blip-list-item {
+            @media (max-width: 992px) {
+              border: 1px solid $green;
+            }
+
             &.highlight2 {
               i {
                 background-color: $green;
@@ -166,6 +176,10 @@
       ul {
         li {
           .blip-list-item {
+            @media (max-width: 992px) {
+              border: 1px solid $blue;
+            }
+
             &.highlight2 {
               i {
                 background-color: $blue;
@@ -189,6 +203,10 @@
       ul {
         li {
           .blip-list-item {
+            @media (max-width: 992px) {
+              border: 1px solid $orange;
+            }
+
             &.highlight2 {
               i {
                 background-color: $orange;
@@ -211,6 +229,10 @@
       ul {
         li {
           .blip-list-item {
+            @media (max-width: 992px) {
+              border: 1px solid $violet;
+            }
+
             &.highlight2 {
               i {
                 background-color: $violet;
@@ -228,6 +250,7 @@
     @media (min-width: 992px) {
       &.selected {
         display: block;
+        width: 30%;
       }
     }
 
@@ -243,13 +266,18 @@
     ul {
       padding: 0;
       margin-left: 0;
-      width: 80%;
+
+      @media (max-width: 992px) {
+        width: 60%;
+      }
 
       li {
         list-style-type: none;
+        padding-bottom: 1%;
 
         .blip-list-item {
-          padding: 2px 5px;
+          padding: 1%;
+          margin-bottom: 1%;
           border-radius: 2px;
           cursor: pointer;
           font-size: 90%;
@@ -295,6 +323,11 @@
     }
   }
 
+  @media(max-width: 992px) {
+    div.quadrant-table {
+      position: relative;
+    }
+  }
 
   .share-btn {
     background: url("../images/share.svg") no-repeat center;
