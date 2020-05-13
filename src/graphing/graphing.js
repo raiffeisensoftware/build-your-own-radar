@@ -313,12 +313,12 @@ export default class Graphing {
 
 
         if (blip.description && hasDescriptionColumn) {
-            // TODO: Disabled until further notice (Share Button)
+            // Disabled until further notice (Share Button)
             // let blipshareId = 'share-btn-' + blip.number;
             blipItemDescription.append('p').html(blip.description);
             // let shareButton = blipItemDescription.append('p').html(blip.description)
         }
-        // TODO: Disabled until further notice (Share Button)
+        // Disabled until further notice (Share Button)
         /*
         .append('button')
         .attr('id', blipshareId)
