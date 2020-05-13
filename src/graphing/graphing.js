@@ -349,7 +349,7 @@ export default class Graphing {
         let mouseOut = () => {
             selectAll('g.blip-link').attr('opacity', 1.0);
             blipListItem.selectAll('.blip-list-item').classed('highlight', false);
-            this.tip.hide().style('left', 0).style('top', 0);
+            this.tip.hide();
         };
 
         blipListItem.on('mouseover', mouseOver).on('mouseout', mouseOut);
@@ -461,6 +461,8 @@ export default class Graphing {
 
         this.tip.hide();
         selectAll('g.blip-link').attr('opacity', 1.0);
+
+        selectAll('.quadrant-group').classed('opaque', false);
 
         selectAll('.btn')
             .classed('selected', false)
@@ -647,12 +649,12 @@ export default class Graphing {
     }
 
     mouseoverQuadrant(order) {
-        select('.quadrant-group-' + order).style('opacity', 1);
-        selectAll('.quadrant-group:not(.quadrant-group-' + order + ')').style('opacity', 0.3);
+        select('.quadrant-group-' + order).classed('opaque', false);
+        selectAll('.quadrant-group:not(.quadrant-group-' + order + ')').classed('opaque', true);
     }
 
     mouseoutQuadrant(order) {
-        selectAll('.quadrant-group:not(.quadrant-group-' + order + ')').style('opacity', 1);
+        selectAll('.quadrant-group:not(.quadrant-group-' + order + ')').classed('opaque', false);
     }
 
     selectQuadrant(order, startAngle) {
