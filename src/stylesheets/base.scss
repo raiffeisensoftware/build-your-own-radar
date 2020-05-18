@@ -154,7 +154,7 @@
               border: 1px solid $green;
             }
 
-            &.highlight2 {
+            &.highlight {
               i {
                 background-color: $green;
                 color: white;
@@ -183,7 +183,7 @@
               border: 1px solid $blue;
             }
 
-            &.highlight2 {
+            &.highlight {
               i {
                 background-color: $blue;
                 color: white;
@@ -212,7 +212,7 @@
               border: 1px solid $orange;
             }
 
-            &.highlight2 {
+            &.highlight {
               i {
                 background-color: $orange;
                 color: white;
@@ -239,7 +239,7 @@
               border: 1px solid $violet;
             }
 
-            &.highlight2 {
+            &.highlight {
               i {
                 background-color: $violet;
                 color: white;
@@ -290,7 +290,7 @@
           font-weight: 400;
           line-height: 1.2;
 
-          &.highlight {
+          &:hover {
             color: white;
             background-color: rgba(0, 0, 0, 0.8);
           }

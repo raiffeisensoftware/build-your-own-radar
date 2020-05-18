@@ -342,13 +342,11 @@ export default class Graphing {
         let mouseOver = () => {
             selectAll('g.blip-link').attr('opacity', 0.3);
             group.attr('opacity', 1.0);
-            blipListItem.selectAll('.blip-list-item').classed('highlight', true);
             this.tip.show(blip.name, group.node());
         };
 
         let mouseOut = () => {
             selectAll('g.blip-link').attr('opacity', 1.0);
-            blipListItem.selectAll('.blip-list-item').classed('highlight', false);
             this.tip.hide();
         };
 
@@ -356,19 +354,19 @@ export default class Graphing {
         group.on('mouseover', mouseOver).on('mouseout', mouseOut);
 
         let clickBlip = () => {
-            // check if highlight2 is already applied to listItem
-            let highlight2Applied = blipListItem.select('.blip-list-item').classed('highlight2');
+            // check if highlight is already applied to listItem
+            let highlightApplied = blipListItem.select('.blip-list-item').classed('highlight');
             // remove non-clicked expanded and highlight 2 attributes
-            select('.blip-list-item.highlight2').node() !== blipListItem.node() &&
-            select('.blip-list-item.highlight2').classed('highlight2', false);
+            select('.blip-list-item.highlight').node() !== blipListItem.node() &&
+            select('.blip-list-item.highlight').classed('highlight', false);
 
             select('.blip-item-description.expanded').node() !== blipItemDescription.node() &&
             select('.blip-item-description.expanded').classed('expanded', false);
 
 
-            // toggle expanded and highlight2 attributes
+            // toggle expanded and highlight attributes
             blipItemDescription.classed('expanded', !blipItemDescription.classed('expanded'));
-            blipListItem.select('.blip-list-item').classed('highlight2', !highlight2Applied);
+            blipListItem.select('.blip-list-item').classed('highlight', !highlightApplied);
 
             blipItemDescription.on('click', () => {
                 event.stopPropagation();
@@ -382,10 +380,10 @@ export default class Graphing {
             let description = select('#blip-description-' + blipNumber);
 
             // remove non-clicked expanded and highlight 2 attributes
-            let highlight2Applied = blipListItem.select('.blip-list-item').classed('highlight2');
-            select('.blip-list-item.highlight2').node() !== blipListItem.node() &&
-            select('.blip-list-item.highlight2').classed('highlight2', false);
-            blipListItem.selectAll('.blip-list-item').classed('highlight2', !highlight2Applied);
+            let highlightApplied = blipListItem.select('.blip-list-item').classed('highlight');
+            select('.blip-list-item.highlight').node() !== blipListItem.node() &&
+            select('.blip-list-item.highlight').classed('highlight', false);
+            blipListItem.selectAll('.blip-list-item').classed('highlight', !highlightApplied);
 
             // set all other expanded to false
             let expanded = description.attr('class').includes('expanded');
@@ -472,7 +470,6 @@ export default class Graphing {
         selectAll('.home-link').classed('selected', false);
         selectAll('.blip-item-description').classed('expanded', false);
         selectAll('.blip-list-item').classed('highlight', false);
-        selectAll('.blip-list-item').classed('highlight2', false);
 
         selectAll('.quadrant-group')
             .transition()
@@ -502,8 +499,7 @@ export default class Graphing {
         const group = select('#blip-link-' + blip.number);
         group.attr('opacity', 1.0);
         selectAll('.blip-list-item').classed('highlight', false);
-        selectAll('.blip-list-item').classed('highlight2', false);
-        select('#blip-list-item-' + blip.number).classed('highlight2', true);
+        select('#blip-list-item-' + blip.number).classed('highlight', true);
 
         let timeout;
 
@@ -601,7 +597,6 @@ export default class Graphing {
                     this.tip.hide();
                     selectAll('.blip-item-description').classed('expanded', false);
                     selectAll('.blip-list-item').classed('highlight', false);
-                    selectAll('.blip-list-item').classed('highlight2', false);
 
                     let timeout = 0;
                     if (this.isAnyQuadrantSelected()) {
