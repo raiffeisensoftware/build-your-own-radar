@@ -555,11 +555,19 @@ export default class Graphing {
 
         tmpHeader.append('br');
 
+        // add normal header
         tmpHeader.append('div')
             .attr('class', 'd-none d-md-block')
             .html('<a href="/" target="_top"><img id="headerimg" class="img-fluid" src="" alt="headerImage"/></a>');
 
         document.getElementById('headerimg').setAttribute('src', './images/' + (getConfig().header ? getConfig().header : 'tech-radar-landing-page-wide.png'));
+
+        // add mobile header
+        tmpHeader.append('div')
+            .attr('class', 'd-block d-md-none')
+            .html('<a href="/" target="_top"><img id="headerimgMobile" class="img-fluid" src="" alt="headerImage"/></a>');
+
+        document.getElementById('headerimgMobile').setAttribute('src', './images/' + (getConfig().mobileHeader ? getConfig().mobileHeader : 'tech-radar-landing-page-wide.png'));
 
         buttonsGroup = header.append('div')
             .attr('class', 'row btn-container');
