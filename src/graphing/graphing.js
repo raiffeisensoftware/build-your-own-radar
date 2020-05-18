@@ -373,7 +373,9 @@ export default class Graphing {
             });
         };
 
-        blipListItem.on('click', clickBlip);
+        if (blip.description) {
+            blipListItem.on('click', clickBlip);
+        }
 
         group.on('click', () => {
             let blipNumber = group.select('text').text();
