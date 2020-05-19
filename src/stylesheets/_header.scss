@@ -50,6 +50,12 @@
   color: #0056b3;
 }
 
+@media (max-width: 992px) {
+  #home-link {
+    justify-content: center;
+  }
+}
+
 header {
   text-align: center;
 

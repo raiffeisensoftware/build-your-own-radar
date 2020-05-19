@@ -419,7 +419,7 @@ export default class Graphing {
         if (pageElement.select('.home-link').empty()) {
             pageElement = pageElement.insert('div', 'div#alternative-buttons')
                 .attr('id', 'home-link')
-                .attr('class', 'container row');
+                .attr('class', 'container row py-2');
 
             pageElement.append('a')
                 .attr('href', 'javascript:void(0)')
@@ -429,9 +429,6 @@ export default class Graphing {
                 .on('click', () => {
                     this.redrawFullRadar();
                 });
-
-            pageElement.append('div')
-                .attr('class', 'col-sm');
         }
     }
 
@@ -440,7 +437,7 @@ export default class Graphing {
             if (pageElement.select('.home-link').empty()) {
                 pageElement = pageElement.insert('div', 'div#alternative-buttons')
                     .attr('id', 'home-link')
-                    .attr('class', 'container row');
+                    .attr('class', 'container row py-2');
 
                 pageElement.append('a')
                     .attr('href', getConfig().platformPath)
@@ -448,9 +445,6 @@ export default class Graphing {
                     .html('&#171; Zurück zur Plattform-Übersicht')
                     .classed('home-link', true)
                     .classed('selected', true);
-
-                pageElement.append('div')
-                    .attr('class', 'col-sm');
             }
         }
     }
