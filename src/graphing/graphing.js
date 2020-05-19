@@ -468,6 +468,8 @@ export default class Graphing {
             .classed('selected', false)
             .classed('colored', true);
 
+        select('.btn-container').classed('no-center',false);
+        select('.btn-container').classed('center',true);
         selectAll('.quadrant-table').classed('selected', false);
         selectAll('.home-link').classed('selected', false);
         selectAll('.blip-item-description').classed('expanded', false);
@@ -571,7 +573,7 @@ export default class Graphing {
         document.getElementById('headerimgMobile').setAttribute('src', './images/' + (getConfig().mobileHeader ? getConfig().mobileHeader : 'tech-radar-landing-page-wide.png'));
 
         buttonsGroup = header.append('div')
-            .attr('class', 'row btn-container');
+            .attr('class', 'row btn-container center');
 
         quadrantButtons = buttonsGroup.append('div')
             .attr('class', 'col-lg-6 btn-toolbar')
@@ -677,6 +679,8 @@ export default class Graphing {
         this.removeHomeLink();
         this.createHomeLink(select('header').select('div.container'));
 
+        select('.btn-container').classed('center', false);
+        select('.btn-container').classed('no-center', true);
         selectAll('.btn').classed('selected', false).classed('colored', false);
         selectAll('.btn.' + order).classed('selected', true);
         selectAll('.quadrant-table').classed('selected', false);

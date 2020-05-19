@@ -58,6 +58,18 @@ header {
     padding: 1% 1% 1% 0;
   }
 
+  @media(max-width: 992px) {
+    .center {
+      padding-top: 35%;
+      transition: padding-top 0.5s;
+    }
+
+    .no-center {
+      padding-top: 1%;
+      transition: padding-top 0.5s;
+    }
+  }
+
   // print radar button
   .print-btn-image {
     background: white !important;
@@ -69,8 +81,8 @@ header {
     height: 30px;
     display: inline-block;
     vertical-align: text-top;
-    background-position : center center;
-    background-repeat:no-repeat;
+    background-position: center center;
+    background-repeat: no-repeat;
   }
 
   .print-radar-btn:before {
