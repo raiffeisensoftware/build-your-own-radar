@@ -22,7 +22,8 @@ config.json properties:
 - `legend` The `triangleKey` and `circlekey` keys refere to the description next to the triangle and circle icons in the legend.
 - `rings` Array that defines the names of the rings. Rings will be displayed in the order in which they are listed starting from the center.
 - `quadrants` Array that defines the names of the quadrants. Quadrants will be displayed in the order in which they are listed starting from the upper right and continuing counterclockwise. Must have 4 entries.
-- `header` is the Header displayed in the upper right corner. The header string must be a valid url or the name of an image file you placed in the `src/images` folder. If not specified, defaults to `tech-radar-landing-page-wide.png`
+- `header` is the Header displayed at the top from Bootstrap class *md*. The header string must be a valid url or the name of an image file you placed in the `src/images` folder. If not specified, defaults to `tech-radar-landing-page-wide.png`
+- `mobileHeader` is the Header displayed at the top from Bootstrap classes up to *md*. The header string must be a valid url or the name of an image file you placed in the `src/images` folder. If not specified, defaults to `tech-radar-landing-page-wide.png`
 - `radarBaseUrl` Is a base url with placeholders that are encased by square brackets `[]`.
 - `platformPath` If set, shows a link in the top left with the a link to the specified path
 - `CsvQueryParams` allows you to use set queryParameters to replace `radarBaseUrl` placeholders of the same name by a queryParameter or if none is provided, a default value stored as the value of the placeholder entry.

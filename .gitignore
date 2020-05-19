@@ -11,6 +11,7 @@ yarn.lock
 # RSG Images
 /src/images/additionalLogo.png
 /src/images/headercomp.png
+/src/images/headermobile.png
 
 coverage/
 

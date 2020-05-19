@@ -28,7 +28,6 @@ export default class ContentValidator {
             }
         });
 
-        console.log(this.columnNames)
         // description is an optional field. if present the description in the radar can be opened; otherwise not
         if (this.columnNames.indexOf('description') === -1) {
             hasDescriptionColumn = false;

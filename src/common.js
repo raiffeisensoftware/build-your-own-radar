@@ -8,3 +8,7 @@ import {getConfig} from "./util/normalizedConfig";
 if (getConfig().header) {
     require('./images/' + getConfig().header);
 }
+
+if (getConfig().mobileHeader) {
+    require('./images/' + getConfig().mobileHeader);
+}

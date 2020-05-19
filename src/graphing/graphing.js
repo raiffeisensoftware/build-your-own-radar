@@ -8,7 +8,6 @@ import RingCalculator from '../util/ringCalculator';
 import {extractQueryParams} from '../util/util';
 import $ from 'jquery';
 import 'jquery-ui/ui/widgets/autocomplete';
-import {hasDescriptionColumn} from '../util/contentValidator';
 
 const MIN_BLIP_WIDTH = 12;
 const ANIMATION_DURATION = 1000;
@@ -29,7 +28,7 @@ export default class Graphing {
         this._size = size;
         this._radar = radar;
         this.normalizedConfig = getConfig();
-        this.tip = d3Tip.default().attr('class', 'd3-tip').html((text) => {
+        this.tip = d3Tip.default().attr('class', 'd3-tip d-none d-lg-flex').html((text) => {
             return text;
         });
         this.ringCalculator = new RingCalculator(this.normalizedConfig.rings.length, this.center());
@@ -246,11 +245,11 @@ export default class Graphing {
     }
 
     drawCircle(elem) {
-        elem.append('svg').attr('height', 20).attr('width', 20).append('circle').attr('cx', 8).attr('cy', 8).attr('r', 6);
+        elem.append('svg').attr('class', 'd-none d-lg-inline').attr('height', 20).attr('width', 20).append('circle').attr('cx', 8).attr('cy', 8).attr('r', 6);
     }
 
     drawTriangle(elem) {
-        elem.append('svg').attr('height', 20).attr('width', 20).append('polygon').attr('points', '00,15 8,00 16,15');
+        elem.append('svg').attr('class', 'd-none d-lg-inline').attr('height', 20).attr('width', 20).append('polygon').attr('points', '00,15 8,00 16,15');
     }
 
     findBlipCoordinates(blip, minRadius, maxRadius, startAngle, allBlipCoordinatesInRing) {
@@ -312,80 +311,75 @@ export default class Graphing {
             .attr('class', 'blip-item-description');
 
 
-        if (blip.description && hasDescriptionColumn) {
-            // TODO: Disabled until further notice (Share Button)
-            // let blipshareId = 'share-btn-' + blip.number;
-            blipItemDescription.append('p').html(blip.description);
-            // let shareButton = blipItemDescription.append('p').html(blip.description)
-        }
-        // TODO: Disabled until further notice (Share Button)
-        /*
-        .append('button')
-        .attr('id', blipshareId)
-        .attr('type', 'button').attr('class', 'btn btn-lg share-btn')
-        .attr('data-toggle', 'tooltip');
+        blipItemDescription.append('p').html(blip.description);
+        // Disabled until further notice (Share Button)
+        /* let blipshareId = 'share-btn-' + blip.number;
+        let shareButton = blipItemDescription.append('p').html(blip.description)
+            .append('button')
+            .attr('id', blipshareId)
+            .attr('type', 'button').attr('class', 'btn btn-lg share-btn')
+            .attr('data-toggle', 'tooltip');
 
-    shareButton.on('click', () => {
-        let text = location.href + '&search=' + blip.id;
-        navigator.clipboard.writeText(text).then(() => {
-            let shareTooltip = $('#' + blipshareId).tooltip({title: 'Link in die Zwischenablage kopiert', trigger: 'click'});
+        shareButton.on('click', () => {
+            let text = location.href + '&search=' + blip.id;
+            navigator.clipboard.writeText(text).then(() => {
+                let shareTooltip = $('#' + blipshareId).tooltip({title: 'Link in die Zwischenablage kopiert', trigger: 'click'});
 
-            shareTooltip.tooltip('show');
+                shareTooltip.tooltip('show');
 
-            setTimeout(() => {
-                shareTooltip.tooltip('hide');
-            }, 2000);
-        });
-    });
-}*/
+                setTimeout(() => {
+                    shareTooltip.tooltip('hide');
+                }, 2000);
+            });
+        }); */
 
         let mouseOver = () => {
             selectAll('g.blip-link').attr('opacity', 0.3);
             group.attr('opacity', 1.0);
-            blipListItem.selectAll('.blip-list-item').classed('highlight', true);
             this.tip.show(blip.name, group.node());
         };
 
         let mouseOut = () => {
             selectAll('g.blip-link').attr('opacity', 1.0);
-            blipListItem.selectAll('.blip-list-item').classed('highlight', false);
-            this.tip.hide().style('left', 0).style('top', 0);
+            this.tip.hide();
         };
 
         blipListItem.on('mouseover', mouseOver).on('mouseout', mouseOut);
         group.on('mouseover', mouseOver).on('mouseout', mouseOut);
 
         let clickBlip = () => {
-            // check if highlight2 is already applied to listItem
-            let highlight2Applied = blipListItem.select('.blip-list-item').classed('highlight2');
+            // check if highlight is already applied to listItem
+            let highlightApplied = blipListItem.select('.blip-list-item').classed('highlight');
             // remove non-clicked expanded and highlight 2 attributes
-            select('.blip-list-item.highlight2').node() !== blipListItem.node() &&
-            select('.blip-list-item.highlight2').classed('highlight2', false);
+            select('.blip-list-item.highlight').node() !== blipListItem.node() &&
+            select('.blip-list-item.highlight').classed('highlight', false);
 
             select('.blip-item-description.expanded').node() !== blipItemDescription.node() &&
             select('.blip-item-description.expanded').classed('expanded', false);
 
 
-            // toggle expanded and highlight2 attributes
+            // toggle expanded and highlight attributes
             blipItemDescription.classed('expanded', !blipItemDescription.classed('expanded'));
-            blipListItem.select('.blip-list-item').classed('highlight2', !highlight2Applied);
+            blipListItem.select('.blip-list-item').classed('highlight', !highlightApplied);
 
             blipItemDescription.on('click', () => {
                 event.stopPropagation();
             });
         };
 
-        blipListItem.on('click', clickBlip);
+        if (blip.description) {
+            blipListItem.on('click', clickBlip);
+        }
 
         group.on('click', () => {
             let blipNumber = group.select('text').text();
             let description = select('#blip-description-' + blipNumber);
 
             // remove non-clicked expanded and highlight 2 attributes
-            let highlight2Applied = blipListItem.select('.blip-list-item').classed('highlight2');
-            select('.blip-list-item.highlight2').node() !== blipListItem.node() &&
-            select('.blip-list-item.highlight2').classed('highlight2', false);
-            blipListItem.selectAll('.blip-list-item').classed('highlight2', !highlight2Applied);
+            let highlightApplied = blipListItem.select('.blip-list-item').classed('highlight');
+            select('.blip-list-item.highlight').node() !== blipListItem.node() &&
+            select('.blip-list-item.highlight').classed('highlight', false);
+            blipListItem.selectAll('.blip-list-item').classed('highlight', !highlightApplied);
 
             // set all other expanded to false
             let expanded = description.attr('class').includes('expanded');
@@ -419,7 +413,7 @@ export default class Graphing {
         if (pageElement.select('.home-link').empty()) {
             pageElement = pageElement.insert('div', 'div#alternative-buttons')
                 .attr('id', 'home-link')
-                .attr('class', 'container row');
+                .attr('class', 'container row py-2');
 
             pageElement.append('a')
                 .attr('href', 'javascript:void(0)')
@@ -429,9 +423,6 @@ export default class Graphing {
                 .on('click', () => {
                     this.redrawFullRadar();
                 });
-
-            pageElement.append('div')
-                .attr('class', 'col-sm');
         }
     }
 
@@ -440,7 +431,7 @@ export default class Graphing {
             if (pageElement.select('.home-link').empty()) {
                 pageElement = pageElement.insert('div', 'div#alternative-buttons')
                     .attr('id', 'home-link')
-                    .attr('class', 'container row');
+                    .attr('class', 'container row py-2');
 
                 pageElement.append('a')
                     .attr('href', getConfig().platformPath)
@@ -448,9 +439,6 @@ export default class Graphing {
                     .html('&#171; Zurück zur Plattform-Übersicht')
                     .classed('home-link', true)
                     .classed('selected', true);
-
-                pageElement.append('div')
-                    .attr('class', 'col-sm');
             }
         }
     }
@@ -462,15 +450,18 @@ export default class Graphing {
         this.tip.hide();
         selectAll('g.blip-link').attr('opacity', 1.0);
 
-        selectAll('.button')
-            .classed('selected', false)
-            .classed('full-view', true);
+        selectAll('.quadrant-group').classed('opaque', false);
 
+        selectAll('.btn')
+            .classed('selected', false)
+            .classed('colored', true);
+
+        select('.btn-container').classed('no-center', false);
+        select('.btn-container').classed('center', true);
         selectAll('.quadrant-table').classed('selected', false);
         selectAll('.home-link').classed('selected', false);
         selectAll('.blip-item-description').classed('expanded', false);
         selectAll('.blip-list-item').classed('highlight', false);
-        selectAll('.blip-list-item').classed('highlight2', false);
 
         selectAll('.quadrant-group')
             .transition()
@@ -482,8 +473,7 @@ export default class Graphing {
             .duration(ANIMATION_DURATION)
             .attr('transform', 'scale(1)');
 
-        selectAll('.quadrant-group')
-            .style('pointer-events', 'auto');
+        selectAll('.quadrant-group').classed('noPointerEvent', false);
 
         selectAll('line').transition().duration(ANIMATION_DURATION).attr('stroke-width', 10);
     }
@@ -501,24 +491,26 @@ export default class Graphing {
         const group = select('#blip-link-' + blip.number);
         group.attr('opacity', 1.0);
         selectAll('.blip-list-item').classed('highlight', false);
-        selectAll('.blip-list-item').classed('highlight2', false);
-        select('#blip-list-item-' + blip.number).classed('highlight2', true);
+        select('#blip-list-item-' + blip.number).classed('highlight', true);
 
-        let timeout;
+        let timeout = 0;
 
-        if (isQuadrantSelected) {
-            this.tip.show(blip.name, group.node());
-            timeout = 300;
-        } else {
-            // need to account for the animation time associated with selecting a quadrant
-            this.tip.hide();
-
-            setTimeout(() => {
+        if (window.innerWidth > 992) {
+            if (isQuadrantSelected) {
                 this.tip.show(blip.name, group.node());
-            }, ANIMATION_DURATION);
+                timeout = 300;
+            } else {
+                // need to account for the animation time associated with selecting a quadrant
+                this.tip.hide();
 
-            timeout = ANIMATION_DURATION + 100;
+                setTimeout(() => {
+                    this.tip.show(blip.name, group.node());
+                }, ANIMATION_DURATION);
+
+                timeout = ANIMATION_DURATION + 100;
+            }
         }
+
         setTimeout(() => {
             if (isIE11) { // check for IE11 because of lacking scrollIntoViewOptions support
                 document.getElementById('blip-description-' + blip.number).scrollIntoView(false);
@@ -533,8 +525,8 @@ export default class Graphing {
         let internPage = window.location.href.includes('intern') || window.location.href.includes('localhost');
 
         if (getConfig().hint && internPage) {
-            header = header.insert('div').attr('class', 'header');
-            header.append('p')
+            header = header.insert('div').attr('class', 'hintContainer');
+            header.append('div')
                 .attr('class', 'hint')
                 .html(getConfig().hint);
         }
@@ -554,20 +546,26 @@ export default class Graphing {
 
         tmpHeader.append('br');
 
+        // add normal header
         tmpHeader.append('div')
             .attr('class', 'd-none d-md-block')
             .html('<a href="/" target="_top"><img id="headerimg" class="img-fluid" src="" alt="headerImage"/></a>');
 
         document.getElementById('headerimg').setAttribute('src', './images/' + (getConfig().header ? getConfig().header : 'tech-radar-landing-page-wide.png'));
 
+        // add mobile header
+        tmpHeader.append('div')
+            .attr('class', 'd-block d-md-none')
+            .html('<a href="/" target="_top"><img id="headerimgMobile" class="img-fluid" src="" alt="headerImage"/></a>');
+
+        document.getElementById('headerimgMobile').setAttribute('src', './images/' + (getConfig().mobileHeader ? getConfig().mobileHeader : 'tech-radar-landing-page-wide.png'));
+
         buttonsGroup = header.append('div')
-            .attr('class', 'row')
-            .append('div')
-            .attr('class', 'col')
-            .classed('buttons-group', true);
+            .attr('class', 'row btn-container center');
 
         quadrantButtons = buttonsGroup.append('div')
-            .classed('quadrant-btn--group', true);
+            .attr('class', 'col-lg-6 btn-toolbar')
+            .attr('role', 'group')
 
         alternativeDiv = header.append('div')
             .attr('id', 'alternative-buttons');
@@ -582,7 +580,7 @@ export default class Graphing {
                 .attr('class', 'quadrant-table ' + quadrants[i].order);
 
             quadrantButtons.append('button').attr('type', 'button')
-                .attr('class', 'button ' + quadrants[i].order + ' full-view')
+                .attr('class', 'col-6 col-xl-3 py-2 btn ' + quadrants[i].order + ' colored')
                 .text(quadrants[i].quadrant.name)
                 .on('mouseover', () => {
                     this.mouseoverQuadrant(quadrants[i].order);
@@ -594,14 +592,13 @@ export default class Graphing {
                     this.tip.hide();
                     selectAll('.blip-item-description').classed('expanded', false);
                     selectAll('.blip-list-item').classed('highlight', false);
-                    selectAll('.blip-list-item').classed('highlight2', false);
 
                     let timeout = 0;
-                    if (this.isAnyQuadrantSelected()) {
+                    if (this.isAnyQuadrantSelected() && window.innerWidth > 992) {
                         clearTimeout(selectQuadrantTimer);
                         this.redrawFullRadar();
                         timeout = ANIMATION_DURATION;
-                        selectAll('.quadrant-btn--group button').property('disabled', true);
+                        selectAll('.btn-toolbar button').property('disabled', true);
                     }
                     setTimeout(() => {
                         selectQuadrantTimer = this.selectQuadrant(quadrants[i].order, quadrants[i].startAngle);
@@ -609,11 +606,11 @@ export default class Graphing {
                 });
         });
 
-        buttonsGroup.append('div').attr('class', 'col-sm platform')
+        buttonsGroup.append('div').attr('class', 'col-12 col-lg-2 py-2 platform')
             .html('Plattform: <strong>' + document.title + '</strong>');
 
         buttonsGroup.append('div')
-            .classed('search-box col', true)
+            .attr('class', 'search-box col-8 offset-2 col-lg-3 offset-lg-0')
             .append('input')
             .attr('id', 'auto-complete')
             .attr('placeholder', 'Suchen im Radar')
@@ -627,16 +624,17 @@ export default class Graphing {
                 });
             }).flat(),
             select: (event, ui) => {
-                selectAll('.quadrant-btn--group button').property('disabled', true);
+                selectAll('.btn-toolbar button').property('disabled', true);
                 this.redrawFullRadar();
+                const timeout = window.innerWidth > 992 ? ANIMATION_DURATION : 0;
                 setTimeout(() => {
                     this.searchBlip(event, ui)
-                }, ANIMATION_DURATION)
+                }, timeout)
             }
         });
 
         buttonsGroup.append('button')
-            .classed('btn print-radar-btn col-1', true)
+            .attr('class', 'btn print-btn-image print-radar-btn d-none d-lg-block col-1')
             .on('click', () => {
                 window.print();
             });
@@ -644,18 +642,17 @@ export default class Graphing {
 
     plotRadarFooter() {
         select('body')
-            .insert('div')
-            .attr('class', 'footer')
+            .insert('footer')
             .html(this.normalizedConfig.footerText);
     }
 
     mouseoverQuadrant(order) {
-        select('.quadrant-group-' + order).style('opacity', 1);
-        selectAll('.quadrant-group:not(.quadrant-group-' + order + ')').style('opacity', 0.3);
+        select('.quadrant-group-' + order).classed('opaque', false);
+        selectAll('.quadrant-group:not(.quadrant-group-' + order + ')').classed('opaque', true);
     }
 
     mouseoutQuadrant(order) {
-        selectAll('.quadrant-group:not(.quadrant-group-' + order + ')').style('opacity', 1);
+        selectAll('.quadrant-group:not(.quadrant-group-' + order + ')').classed('opaque', false);
     }
 
     selectQuadrant(order, startAngle) {
@@ -664,12 +661,16 @@ export default class Graphing {
             return;
         }
 
+        selectAll('.quadrant-group:not(.quadrant-group-' + order + ')').classed('opaque', true);
+
         selectAll('.home-link').classed('selected', false);
         this.removeHomeLink();
         this.createHomeLink(select('header').select('div.container'));
 
-        selectAll('.button').classed('selected', false).classed('full-view', false);
-        selectAll('.button.' + order).classed('selected', true);
+        select('.btn-container').classed('center', false);
+        select('.btn-container').classed('no-center', true);
+        selectAll('.btn').classed('selected', false).classed('colored', false);
+        selectAll('.btn.' + order).classed('selected', true);
         selectAll('.quadrant-table').classed('selected', false);
         selectAll('.quadrant-table.' + order).classed('selected', true);
 
@@ -683,20 +684,19 @@ export default class Graphing {
         let translateXAll = (1 - adjustX) / 2 * this._size * scale / 2 + ((1 - adjustX) / 2 * (1 - scale / 2) * this._size);
         let translateYAll = (1 + adjustY) / 2 * this._size * scale / 2;
 
-        selectAll('.quadrant-group')
-            .style('pointer-events', 'auto');
+        selectAll('.quadrant-group').classed('noPointerEvent', false);
 
         // hide other quadrants
         selectAll('.quadrant-group:not(.quadrant-group-' + order + ')')
+            .classed('noPointerEvent', true)
             .transition()
             .duration(ANIMATION_DURATION)
-            .style('pointer-events', 'none')
             .attr('transform', 'translate(' + translateXAll + ',' + translateYAll + ')scale(0)');
 
         // remove the stroke width of the horizontal line to align with container
         select('.quadrant-group-' + order).selectAll('#horizontal-line-' + order).transition().duration(ANIMATION_DURATION).attr('stroke-width', 0);
 
-        selectAll('.quadrant-btn--group button').property('disabled', false);
+        selectAll('.btn-toolbar button').property('disabled', false);
     }
 
     moveQuadrant(order, translateY, transition) {
@@ -742,7 +742,7 @@ export default class Graphing {
     init() {
         radarElement = select('body')
             .append('div').attr('id', 'radar').attr('class', 'container')
-            .append('div').attr('id', 'radar-container').attr('class', 'container');
+            .append('div').attr('id', 'radar-container').attr('class', 'container row');
     };
 
     constructSheetUrl(sheetName) {
@@ -759,7 +759,7 @@ export default class Graphing {
         alternatives.forEach((alternative) => {
             alternativeSheetButton
                 .append('div:a')
-                .attr('class', 'first full-view alternative multiple-sheet-button')
+                .attr('class', 'first colored alternative multiple-sheet-button')
                 .attr('href', this.constructSheetUrl(alternative))
                 .text(alternative);
 
@@ -789,6 +789,7 @@ export default class Graphing {
 
         svg = radarElement.append('svg').call(this.tip);
         svg.attr('id', 'radar-plot')
+            .attr('class', 'd-none d-lg-block')
             .attr('viewBox', '0 0 800 938')
             .attr('preserveAspectRatio', 'xMidYMin meet');
         quadrants.forEach((quadrant) => {

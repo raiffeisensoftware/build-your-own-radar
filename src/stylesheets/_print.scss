@@ -1,0 +1,116 @@
+// SCSS for printing the radar
+@media print {
+
+  a:after {
+    content: " <" attr(href) "> ";
+    font-size: 0.8em;
+    font-weight: normal;
+  }
+
+  #radar-plot {
+    display: none;
+  }
+
+  .quadrant-table {
+    .quadrant-table__name {
+      display: block;
+      font-size: 30pt;
+      padding: 0 10px;
+      margin-bottom: 20px;
+    }
+
+    &.first .quadrant-table__name {
+      color: $green;
+    }
+
+    &.second .quadrant-table__name {
+      color: $blue;
+    }
+
+    &.third .quadrant-table__name {
+      color: $orange;
+    }
+
+    &.fourth .quadrant-table__name {
+      color: $violet;
+    }
+  }
+
+  .quadrant-table {
+    page-break-after: always;
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      page-break-inside: avoid;
+    }
+
+
+    h3 {
+
+      page-break-before: always;
+      padding: 0 10px;
+      text-transform: uppercase;
+      font-size: 18pt;
+      font-weight: bold;
+
+    }
+
+    h2 + h3 {
+      page-break-before: avoid;
+    }
+  }
+
+  .blip-list-item {
+    font-weight: bold;
+  }
+
+  .blip-item-description {
+    padding: 0 15px;
+  }
+
+  header {
+    text-align: left;
+
+    .radar-title .radar-title__text {
+      font-size: 40px;
+      width: 100%;
+      padding: 10px;
+      display: block;
+    }
+
+    .radar-title .radar-title__logo {
+      display: block;
+      width: auto;
+
+      a {
+        padding: 40px 10px 0;
+        display: block;
+
+        &::after {
+          display: none;
+        }
+      }
+
+      img {
+        max-width: 150px;
+      }
+    }
+
+    #alternative-buttons {
+      display: none;
+    }
+
+    .print-radar-btn {
+      display: none;
+    }
+  }
+
+  .error-container {
+    display: none;
+  }
+}

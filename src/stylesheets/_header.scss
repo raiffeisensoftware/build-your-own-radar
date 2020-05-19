@@ -1,99 +1,115 @@
+// Optional hint
+
+.hintContainer {
+  position: fixed;
+  z-index: 3;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background-color: #007179;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .hint {
+    text-align: center;
+    padding: 0.4%;
+    font-size: 60%;
+  }
+}
+
+@media (min-width: 768px) {
+  .hint {
+    text-align: center;
+    padding: 0.4%;
+    font-size: 75%;
+  }
+}
+
+@media (min-width: 992px) {
+  .hint {
+    text-align: center;
+    padding: 0.4%;
+    font-size: 100%;
+  }
+}
+
+// link to home
+.home-link {
+  color: #007bff;
+  margin-bottom: 10px;
+  line-height: normal;
+  cursor: pointer;
+  font-size: $baseFont;
+  text-align: left;
+}
+
+.home-link:hover {
+  color: #0056b3;
+}
+
+@media (max-width: 992px) {
+  #home-link {
+    justify-content: center;
+  }
+}
+
 header {
   text-align: center;
 
-  .radar-title, .buttons-group, #alternative-buttons {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
+  .btn-container {
     align-items: center;
-    align-content: space-between;
+    padding: 1% 1% 1% 0;
   }
 
-  .radar-title {
-    background-color: $grey-light;
-    padding: 30px 0;
+  @media(max-width: 992px) {
+    .center {
+      padding-top: 35%;
+      transition: padding-top 0.5s;
+    }
 
-    display: table;
-    margin: auto;
+    .no-center {
+      padding-top: 1%;
+      transition: padding-top 0.5s;
+    }
+  }
+
+  // print radar button
+  .print-btn-image {
+    background: white !important;
+  }
+
+  .print-btn-image:before {
+    content: "";
     width: 100%;
-
-    .radar-title__text {
-
-      display: table-cell;
-      width: 70%;
-
-      text-align: left;
-      padding-left: 10%;
-
-      h1 {
-        font-size: 55px;
-        font-weight: 900;
-        letter-spacing: -.04em;
-        line-height: 0.8em;
-        margin: 0;
-        text-transform: uppercase;
-      }
-    }
-
-    .radar-title__logo {
-      flex: 0 0 30%;
-      margin-left: auto;
-
-      width: 30%;
-      display: table-cell;
-      vertical-align: middle;
-
-      a {
-        border-bottom: none;
-      }
-
-      img {
-        vertical-align: middle;
-        width: 34%;
-      }
-    }
+    height: 30px;
+    display: inline-block;
+    vertical-align: text-top;
+    background-position: center center;
+    background-repeat: no-repeat;
   }
 
-  .print-radar-btn {
-    background: url("../images/printer.svg") no-repeat center;
-    padding: 1% 1% 1% 1%;
+  .print-radar-btn:before {
+    background-image: url("../images/printer.svg");
   }
 
-  .buttons-group {
-    margin: 1% 0 1% 0;
-  }
-
-  .home-link {
-    color: #007bff;
-    margin-bottom: 10px;
-    line-height: normal;
-    cursor: pointer;
-    font-size: $baseFont;
-    text-align: left;
-  }
-
-  .home-link:hover {
-    color: #0056b3;
-  }
-
-  .button {
+  .btn {
     font-size: $baseFont;
     text-transform: capitalize;
     border-radius: 2px;
     cursor: pointer;
     transition: all .2s ease-out;
+    margin: 0;
     background-color: $grey-light;
-    color: $black;
-
-
-    &.no-capitalize {
-      text-transform: none;
-    }
+    border: 1px solid white;
 
     &:hover, &.selected {
 
       transform: translate(0, -2px);
       opacity: .85;
+      background-color: transparent;
 
       &.first {
         color: white;
@@ -116,7 +132,7 @@ header {
       }
     }
 
-    &.full-view {
+    &.colored {
 
       &.first {
         background-color: $green;

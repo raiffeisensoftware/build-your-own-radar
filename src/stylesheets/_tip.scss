@@ -12,12 +12,6 @@
   z-index: 2;
 }
 
-@media screen and (min-width: 800px) {
-  .d3-tip {
-    display: block
-  }
-}
-
 .d3-tip:after {
   box-sizing: border-box;
   display: none;
@@ -27,12 +21,6 @@
   color: rgba(0, 0, 0, .8);
   position: absolute;
   pointer-events: none
-}
-
-@media screen and (min-width: 800px) {
-  .d3-tip:after {
-    display: inline
-  }
 }
 
 .d3-tip.n {
