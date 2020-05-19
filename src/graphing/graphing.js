@@ -8,7 +8,6 @@ import RingCalculator from '../util/ringCalculator';
 import {extractQueryParams} from '../util/util';
 import $ from 'jquery';
 import 'jquery-ui/ui/widgets/autocomplete';
-import {hasDescriptionColumn} from '../util/contentValidator';
 
 const MIN_BLIP_WIDTH = 12;
 const ANIMATION_DURATION = 1000;
@@ -29,7 +28,7 @@ export default class Graphing {
         this._size = size;
         this._radar = radar;
         this.normalizedConfig = getConfig();
-        this.tip = d3Tip.default().attr('class', 'd3-tip d-none d-md-flex').html((text) => {
+        this.tip = d3Tip.default().attr('class', 'd3-tip d-none d-lg-flex').html((text) => {
             return text;
         });
         this.ringCalculator = new RingCalculator(this.normalizedConfig.rings.length, this.center());
@@ -312,32 +311,27 @@ export default class Graphing {
             .attr('class', 'blip-item-description');
 
 
-        if (blip.description && hasDescriptionColumn) {
-            // Disabled until further notice (Share Button)
-            // let blipshareId = 'share-btn-' + blip.number;
-            blipItemDescription.append('p').html(blip.description);
-            // let shareButton = blipItemDescription.append('p').html(blip.description)
-        }
+        blipItemDescription.append('p').html(blip.description);
         // Disabled until further notice (Share Button)
-        /*
-        .append('button')
-        .attr('id', blipshareId)
-        .attr('type', 'button').attr('class', 'btn btn-lg share-btn')
-        .attr('data-toggle', 'tooltip');
+        /* let blipshareId = 'share-btn-' + blip.number;
+        let shareButton = blipItemDescription.append('p').html(blip.description)
+            .append('button')
+            .attr('id', blipshareId)
+            .attr('type', 'button').attr('class', 'btn btn-lg share-btn')
+            .attr('data-toggle', 'tooltip');
 
-    shareButton.on('click', () => {
-        let text = location.href + '&search=' + blip.id;
-        navigator.clipboard.writeText(text).then(() => {
-            let shareTooltip = $('#' + blipshareId).tooltip({title: 'Link in die Zwischenablage kopiert', trigger: 'click'});
+        shareButton.on('click', () => {
+            let text = location.href + '&search=' + blip.id;
+            navigator.clipboard.writeText(text).then(() => {
+                let shareTooltip = $('#' + blipshareId).tooltip({title: 'Link in die Zwischenablage kopiert', trigger: 'click'});
 
-            shareTooltip.tooltip('show');
+                shareTooltip.tooltip('show');
 
-            setTimeout(() => {
-                shareTooltip.tooltip('hide');
-            }, 2000);
-        });
-    });
-}*/
+                setTimeout(() => {
+                    shareTooltip.tooltip('hide');
+                }, 2000);
+            });
+        }); */
 
         let mouseOver = () => {
             selectAll('g.blip-link').attr('opacity', 0.3);
@@ -462,8 +456,8 @@ export default class Graphing {
             .classed('selected', false)
             .classed('colored', true);
 
-        select('.btn-container').classed('no-center',false);
-        select('.btn-container').classed('center',true);
+        select('.btn-container').classed('no-center', false);
+        select('.btn-container').classed('center', true);
         selectAll('.quadrant-table').classed('selected', false);
         selectAll('.home-link').classed('selected', false);
         selectAll('.blip-item-description').classed('expanded', false);
