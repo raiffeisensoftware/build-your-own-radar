@@ -29,7 +29,7 @@ export default class Graphing {
         this._size = size;
         this._radar = radar;
         this.normalizedConfig = getConfig();
-        this.tip = d3Tip.default().attr('class', 'd3-tip').html((text) => {
+        this.tip = d3Tip.default().attr('class', 'd3-tip d-none d-md-flex').html((text) => {
             return text;
         });
         this.ringCalculator = new RingCalculator(this.normalizedConfig.rings.length, this.center());
@@ -503,21 +503,24 @@ export default class Graphing {
         selectAll('.blip-list-item').classed('highlight', false);
         select('#blip-list-item-' + blip.number).classed('highlight', true);
 
-        let timeout;
+        let timeout = 0;
 
-        if (isQuadrantSelected) {
-            this.tip.show(blip.name, group.node());
-            timeout = 300;
-        } else {
-            // need to account for the animation time associated with selecting a quadrant
-            this.tip.hide();
-
-            setTimeout(() => {
+        if (window.innerWidth > 992) {
+            if (isQuadrantSelected) {
                 this.tip.show(blip.name, group.node());
-            }, ANIMATION_DURATION);
+                timeout = 300;
+            } else {
+                // need to account for the animation time associated with selecting a quadrant
+                this.tip.hide();
 
-            timeout = ANIMATION_DURATION + 100;
+                setTimeout(() => {
+                    this.tip.show(blip.name, group.node());
+                }, ANIMATION_DURATION);
+
+                timeout = ANIMATION_DURATION + 100;
+            }
         }
+
         setTimeout(() => {
             if (isIE11) { // check for IE11 because of lacking scrollIntoViewOptions support
                 document.getElementById('blip-description-' + blip.number).scrollIntoView(false);
@@ -571,7 +574,7 @@ export default class Graphing {
             .attr('class', 'row btn-container');
 
         quadrantButtons = buttonsGroup.append('div')
-            .attr('class', 'col-lg-6 btn-group')
+            .attr('class', 'col-lg-6 btn-toolbar')
             .attr('role', 'group')
 
         alternativeDiv = header.append('div')
@@ -601,11 +604,11 @@ export default class Graphing {
                     selectAll('.blip-list-item').classed('highlight', false);
 
                     let timeout = 0;
-                    if (this.isAnyQuadrantSelected()) {
+                    if (this.isAnyQuadrantSelected() && window.innerWidth > 992) {
                         clearTimeout(selectQuadrantTimer);
                         this.redrawFullRadar();
                         timeout = ANIMATION_DURATION;
-                        selectAll('.btn-group button').property('disabled', true);
+                        selectAll('.btn-toolbar button').property('disabled', true);
                     }
                     setTimeout(() => {
                         selectQuadrantTimer = this.selectQuadrant(quadrants[i].order, quadrants[i].startAngle);
@@ -631,11 +634,12 @@ export default class Graphing {
                 });
             }).flat(),
             select: (event, ui) => {
-                selectAll('.btn-group button').property('disabled', true);
+                selectAll('.btn-toolbar button').property('disabled', true);
                 this.redrawFullRadar();
+                const timeout = window.innerWidth > 992 ? ANIMATION_DURATION : 0;
                 setTimeout(() => {
                     this.searchBlip(event, ui)
-                }, ANIMATION_DURATION)
+                }, timeout)
             }
         });
 
@@ -700,7 +704,7 @@ export default class Graphing {
         // remove the stroke width of the horizontal line to align with container
         select('.quadrant-group-' + order).selectAll('#horizontal-line-' + order).transition().duration(ANIMATION_DURATION).attr('stroke-width', 0);
 
-        selectAll('.btn-group button').property('disabled', false);
+        selectAll('.btn-toolbar button').property('disabled', false);
     }
 
     moveQuadrant(order, translateY, transition) {
