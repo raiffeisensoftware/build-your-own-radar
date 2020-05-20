@@ -1,8 +1,8 @@
 import './common';
-import {getConfig} from "./util/normalizedConfig";
-import {extractDomainName, extractQueryParams} from "./util/util";
-import {plotFooter, plotForm, plotHeader, setDocumentTitle} from "./util/factory";
-import CsvDocument from "./util/csvDocument";
+import {getConfig} from './util/normalizedConfig';
+import {extractDomainName, extractQueryParams} from './util/util';
+import {plotFooter, plotForm, plotHeader, setDocumentTitle} from './util/factory';
+import CsvDocument from './util/csvDocument';
 
 let domainName = extractDomainName(window.location.search.substring(1));
 let queryString = window.location.href.match(/\?(.*)/);
