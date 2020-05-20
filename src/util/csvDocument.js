@@ -1,7 +1,7 @@
-import {csv} from 'd3-fetch';
+import { csv } from 'd3-fetch';
 import ContentValidator from './contentValidator';
-import {extractFileName, searchBlipByParam} from './util';
-import {plotRadar} from './factory';
+import { extractFileName, searchBlipByParam } from './util';
+import { plotRadar } from './factory';
 import InputSanitizer from './inputSanitizer';
 
 export default class CsvDocument {

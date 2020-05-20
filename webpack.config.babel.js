@@ -77,13 +77,17 @@ module.exports = {
                             [
                                 '@babel/preset-env',
                                 {
-                                    targets: ">0.25%",
+                                    targets: '>0.25%',
                                     useBuiltIns: 'usage',
                                     corejs: 3
                                 }
                             ]
                         ],
-                        plugins: ['@babel/plugin-transform-modules-commonjs']
+                        plugins: ['@babel/plugin-transform-modules-commonjs',
+                            ['babel-plugin-transform-builtin-extend', {
+                                globals: ['Error', 'Array']
+                            }]
+                        ]
                     }
                 }
             ]

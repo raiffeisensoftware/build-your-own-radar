@@ -7,7 +7,9 @@
     }
   },
   "rules": {
-    "semi": "error"
+    "prefer-const": "warn",
+    "semi": "error",
+    "no-unused-expressions": "warn"
   },
   "env": {
     "es6": true

@@ -10,15 +10,12 @@ const relaxedOptions = {
 
 const restrictedOptions = {
     allowedTags: [],
-    allowedAttributes: {},
-    textFilter: function (text) {
-        return text.replace(/&amp;/, '&');
-    }
+    allowedAttributes: {}
 };
 
 export default class InputSanitizer {
     sanitize(rawBlip) {
-        let blip = this.trimWhiteSpaces(rawBlip);
+        const blip = this.trimWhiteSpaces(rawBlip);
         blip.description = sanitizeHtml(blip.description, relaxedOptions);
         blip.name = sanitizeHtml(blip.name, restrictedOptions);
         blip.isNew = sanitizeHtml(blip.isNew, restrictedOptions);
@@ -29,7 +26,7 @@ export default class InputSanitizer {
     };
 
     sanitizeForProtectedSheet(rawBlip, header) {
-        let blip = this.trimWhiteSpaces(rawBlip);
+        const blip = this.trimWhiteSpaces(rawBlip);
 
         const descriptionIndex = header.indexOf('description');
         const nameIndex = header.indexOf('name');

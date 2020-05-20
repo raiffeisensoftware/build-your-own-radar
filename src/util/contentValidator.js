@@ -1,6 +1,6 @@
-import MalformedDataError from '../../src/exceptions/malformedDataError';
-import ExceptionMessages from './exceptionMessages';
-import {plotErrorMessage} from './factory';
+import { MalformedDataError } from '../exceptions/malformedDataError';
+import { ExceptionMessages } from './exceptionMessages';
+import { plotErrorMessage } from './factory';
 
 const requiredFields = ['id', 'name', 'ring', 'quadrant', 'isNew'];
 export let hasDescriptionColumn = true;

@@ -38,7 +38,7 @@
 
 // link to home
 .home-link {
-  color: #007bff;
+  color: #007bff !important;
   margin-bottom: 10px;
   line-height: normal;
   cursor: pointer;
@@ -47,7 +47,8 @@
 }
 
 .home-link:hover {
-  color: #0056b3;
+  color: #0056b3 !important;
+  text-decoration: underline !important;
 }
 
 @media (max-width: 992px) {

@@ -1,16 +1,16 @@
 import * as d3Tip from 'd3-tip';
-import {event, select, selectAll} from 'd3-selection';
-import {arc} from 'd3-shape';
-import {Chance} from 'chance';
+import { event, select, selectAll } from 'd3-selection';
+import { arc } from 'd3-shape';
+import { Chance } from 'chance';
 import 'd3-transition';
-import {getConfig} from '../util/normalizedConfig';
+import { getConfig } from '../util/normalizedConfig';
 import RingCalculator from '../util/ringCalculator';
-import {extractQueryParams} from '../util/util';
+import { extractQueryParams } from '../util/util';
 import $ from 'jquery';
 import 'jquery-ui/ui/widgets/autocomplete';
 
 const MIN_BLIP_WIDTH = 12;
-const ANIMATION_DURATION = 1000;
+const ANIMATION_DURATION = 1000; // 1s
 
 let svg;
 let radarElement;
@@ -19,9 +19,9 @@ let buttonsGroup;
 let header;
 let alternativeDiv;
 let chance;
-let scale = 1.2;
-let isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
 let selectQuadrantTimer;
+const scale = 1.2;
+const isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
 
 export default class Graphing {
     constructor(size, radar) {
@@ -47,8 +47,8 @@ export default class Graphing {
     }
 
     plotLines(quadrantGroup, quadrant) {
-        let startX = this._size * (1 - (-Math.sin(this.toRadian(quadrant.startAngle)) + 1) / 2);
-        let endX = this._size * (1 - (-Math.sin(this.toRadian(quadrant.startAngle - 90)) + 1) / 2);
+        const startX = this._size * (1 - (-Math.sin(this.toRadian(quadrant.startAngle)) + 1) / 2);
+        const endX = this._size * (1 - (-Math.sin(this.toRadian(quadrant.startAngle - 90)) + 1) / 2);
 
         let startY = this._size * (1 - (Math.cos(this.toRadian(quadrant.startAngle)) + 1) / 2);
         let endY = this._size * (1 - (Math.cos(this.toRadian(quadrant.startAngle - 90)) + 1) / 2);
@@ -72,7 +72,7 @@ export default class Graphing {
     }
 
     plotQuadrant(rings, quadrant) {
-        let quadrantGroup = svg.append('g')
+        const quadrantGroup = svg.append('g')
             .attr('id', 'quadrant-group-' + quadrant.order)
             .attr('class', 'quadrant-group quadrant-group-' + quadrant.order)
             .on('mouseover', () => {
@@ -86,7 +86,7 @@ export default class Graphing {
             });
 
         rings.forEach((ring, i) => {
-            let ringArc = new arc()
+            const ringArc = new arc()
                 .innerRadius(this.ringCalculator.getRadius(i))
                 .outerRadius(this.ringCalculator.getRadius(i + 1))
                 .startAngle(this.toRadian(quadrant.startAngle))
@@ -129,22 +129,11 @@ export default class Graphing {
             .attr('class', order);
     }
 
-    triangleLegend(x, y, group) {
-        return group.append('path').attr('d', 'M412.201,311.406c0.021,0,0.042,0,0.063,0c0.067,0,0.135,0,0.201,0c4.052,0,6.106-0.051,8.168-0.102c2.053-0.051,4.115-0.102,8.176-0.102h0.103c6.976-0.183,10.227-5.306,6.306-11.53c-3.988-6.121-4.97-5.407-8.598-11.224c-1.631-3.008-3.872-4.577-6.179-4.577c-2.276,0-4.613,1.528-6.48,4.699c-3.578,6.077-3.26,6.014-7.306,11.723C402.598,306.067,405.426,311.406,412.201,311.406')
-            .attr('transform', 'scale(' + (22 / 64) + ') translate(' + (-404 + x * (64 / 22) - 17) + ', ' + (-282 + y * (64 / 22) - 17) + ')');
-    }
-
     circle(blip, x, y, order, group) {
         return (group || svg).append('path')
             .attr('d', 'M420.084,282.092c-1.073,0-2.16,0.103-3.243,0.313c-6.912,1.345-13.188,8.587-11.423,16.874c1.732,8.141,8.632,13.711,17.806,13.711c0.025,0,0.052,0,0.074-0.003c0.551-0.025,1.395-0.011,2.225-0.109c4.404-0.534,8.148-2.218,10.069-6.487c1.747-3.886,2.114-7.993,0.913-12.118C434.379,286.944,427.494,282.092,420.084,282.092')
             .attr('transform', 'scale(' + (blip.width / 34) + ') translate(' + (-404 + x * (34 / blip.width) - 17) + ', ' + (-282 + y * (34 / blip.width) - 17) + ')')
             .attr('class', order);
-    }
-
-    circleLegend(x, y, group) {
-        return (group || svg).append('path')
-            .attr('d', 'M420.084,282.092c-1.073,0-2.16,0.103-3.243,0.313c-6.912,1.345-13.188,8.587-11.423,16.874c1.732,8.141,8.632,13.711,17.806,13.711c0.025,0,0.052,0,0.074-0.003c0.551-0.025,1.395-0.011,2.225-0.109c4.404-0.534,8.148-2.218,10.069-6.487c1.747-3.886,2.114-7.993,0.913-12.118C434.379,286.944,427.494,282.092,420.084,282.092')
-            .attr('transform', 'scale(' + (22 / 64) + ') translate(' + (-404 + x * (64 / 22) - 17) + ', ' + (-282 + y * (64 / 22) - 17) + ')');
     }
 
     addRing(ring, order) {
@@ -277,10 +266,10 @@ export default class Graphing {
     }
 
     drawBlipInCoordinates(blip, coordinates, order, quadrantGroup, ringList) {
-        let x = coordinates[0];
-        let y = coordinates[1];
+        const x = coordinates[0];
+        const y = coordinates[1];
 
-        let group = quadrantGroup.append('g').attr('class', 'blip-link').attr('id', 'blip-link-' + blip.number);
+        const group = quadrantGroup.append('g').attr('class', 'blip-link').attr('id', 'blip-link-' + blip.number);
 
         if (blip.isNew) {
             this.triangle(blip, x, y, order, group);
@@ -297,21 +286,23 @@ export default class Graphing {
             .attr('text-anchor', 'middle')
             .text(blip.number);
 
-        let blipListItem = ringList.append('li');
-        let blipText = blip.number + '. ' + blip.name + (blip.topic ? ('. - ' + blip.topic) : '');
+        const blipListItem = ringList.append('li');
+        const blipText = blip.number + '. ' + blip.name + (blip.topic ? ('. - ' + blip.topic) : '');
 
-        let tmpBlipListItem = blipListItem.append('div')
+        const tmpBlipListItem = blipListItem.append('div')
             .attr('class', 'blip-list-item')
             .attr('id', 'blip-list-item-' + blip.number);
 
         blip.isNew ? tmpBlipListItem.html('<i class="oldTech">' + blipText + '</i>') : tmpBlipListItem.html(blipText);
 
-        let blipItemDescription = blipListItem.append('div')
+        const blipItemDescription = blipListItem.append('div')
             .attr('id', 'blip-description-' + blip.number)
             .attr('class', 'blip-item-description');
 
 
-        blipItemDescription.append('p').html(blip.description);
+        if (blip.description) {
+            blipItemDescription.append('p').html(blip.description);
+        }
         // Disabled until further notice (Share Button)
         /* let blipshareId = 'share-btn-' + blip.number;
         let shareButton = blipItemDescription.append('p').html(blip.description)
@@ -333,13 +324,13 @@ export default class Graphing {
             });
         }); */
 
-        let mouseOver = () => {
+        const mouseOver = () => {
             selectAll('g.blip-link').attr('opacity', 0.3);
             group.attr('opacity', 1.0);
             this.tip.show(blip.name, group.node());
         };
 
-        let mouseOut = () => {
+        const mouseOut = () => {
             selectAll('g.blip-link').attr('opacity', 1.0);
             this.tip.hide();
         };
@@ -347,7 +338,7 @@ export default class Graphing {
         blipListItem.on('mouseover', mouseOver).on('mouseout', mouseOut);
         group.on('mouseover', mouseOver).on('mouseout', mouseOut);
 
-        let clickBlip = () => {
+        const clickListItem = () => {
             // check if highlight is already applied to listItem
             let highlightApplied = blipListItem.select('.blip-list-item').classed('highlight');
             // remove non-clicked expanded and highlight 2 attributes
@@ -356,7 +347,6 @@ export default class Graphing {
 
             select('.blip-item-description.expanded').node() !== blipItemDescription.node() &&
             select('.blip-item-description.expanded').classed('expanded', false);
-
 
             // toggle expanded and highlight attributes
             blipItemDescription.classed('expanded', !blipItemDescription.classed('expanded'));
@@ -367,30 +357,28 @@ export default class Graphing {
             });
         };
 
-        if (blip.description) {
-            blipListItem.on('click', clickBlip);
-        }
+        blipListItem.on('click', clickListItem);
 
         group.on('click', () => {
-            let blipNumber = group.select('text').text();
-            let description = select('#blip-description-' + blipNumber);
+            const blipNumber = group.select('text').text();
+            const description = select('#blip-description-' + blipNumber);
 
             // remove non-clicked expanded and highlight 2 attributes
-            let highlightApplied = blipListItem.select('.blip-list-item').classed('highlight');
+            const highlightApplied = blipListItem.select('.blip-list-item').classed('highlight');
             select('.blip-list-item.highlight').node() !== blipListItem.node() &&
             select('.blip-list-item.highlight').classed('highlight', false);
             blipListItem.selectAll('.blip-list-item').classed('highlight', !highlightApplied);
 
             // set all other expanded to false
-            let expanded = description.attr('class').includes('expanded');
+            const expanded = description.attr('class').includes('expanded');
             selectAll('.blip-item-description').classed('expanded', false);
             description.classed('expanded', !expanded);
 
             if (description.attr('class').includes('expanded')) {
                 // Gets the name of the quadrant from the blip parent element (quadrant-group-x) and sets faster timeout if selected to account for transition animation
-                let parent = select(group.node().parentNode).attr('class');
-                let index = parent.indexOf('p-');
-                let timeout = select('.quadrant-table.' + parent.substr(index + 2))
+                const parent = select(group.node().parentNode).attr('class');
+                const index = parent.indexOf('p-');
+                const timeout = select('.quadrant-table.' + parent.substr(index + 2))
                     .attr('class').includes('selected') ? 300 : ANIMATION_DURATION + 100;
 
                 setTimeout(() => {
@@ -416,7 +404,6 @@ export default class Graphing {
                 .attr('class', 'container row py-2');
 
             pageElement.append('a')
-                .attr('href', 'javascript:void(0)')
                 .html('&#171; Zurück zur Radar-Übersicht')
                 .classed('home-link', true)
                 .classed('selected', true)
@@ -522,7 +509,7 @@ export default class Graphing {
 
     plotRadarHeader() {
         header = select('body').insert('header', '#radar').attr('role', 'main').attr('class', 'container');
-        let internPage = window.location.href.includes('intern') || window.location.href.includes('localhost');
+        const internPage = window.location.href.includes('intern') || window.location.href.includes('localhost');
 
         if (getConfig().hint && internPage) {
             header = header.insert('div').attr('class', 'hintContainer');
@@ -540,7 +527,7 @@ export default class Graphing {
 
         header = header.append('div').attr('class', 'container');
 
-        let tmpHeader = header
+        const tmpHeader = header
             .append('div').attr('class', 'row')
             .append('div').attr('class', 'col-sm');
 
@@ -656,7 +643,7 @@ export default class Graphing {
     }
 
     selectQuadrant(order, startAngle) {
-        let quadrantSelected = select('.quadrant-table.' + order).attr('class').includes('selected');
+        const quadrantSelected = select('.quadrant-table.' + order).attr('class').includes('selected');
         if (quadrantSelected) {
             return;
         }
@@ -674,15 +661,15 @@ export default class Graphing {
         selectAll('.quadrant-table').classed('selected', false);
         selectAll('.quadrant-table.' + order).classed('selected', true);
 
-        let adjustX = Math.sin(this.toRadian(startAngle)) - Math.cos(this.toRadian(startAngle));
-        let adjustY = Math.cos(this.toRadian(startAngle)) + Math.sin(this.toRadian(startAngle));
+        const adjustX = Math.sin(this.toRadian(startAngle)) - Math.cos(this.toRadian(startAngle));
+        const adjustY = Math.cos(this.toRadian(startAngle)) + Math.sin(this.toRadian(startAngle));
 
-        let translateY = (-0.9 * (1 - adjustY) * (this._size / 2 - 7) * (scale - 1)) - ((1 - adjustY) / 2.1 * (1 - scale / 2) * this._size);
+        const translateY = (-0.9 * (1 - adjustY) * (this._size / 2 - 7) * (scale - 1)) - ((1 - adjustY) / 2.1 * (1 - scale / 2) * this._size);
 
         this.moveQuadrant(order, translateY, true);
 
-        let translateXAll = (1 - adjustX) / 2 * this._size * scale / 2 + ((1 - adjustX) / 2 * (1 - scale / 2) * this._size);
-        let translateYAll = (1 + adjustY) / 2 * this._size * scale / 2;
+        const translateXAll = (1 - adjustX) / 2 * this._size * scale / 2 + ((1 - adjustX) / 2 * (1 - scale / 2) * this._size);
+        const translateYAll = (1 + adjustY) / 2 * this._size * scale / 2;
 
         selectAll('.quadrant-group').classed('noPointerEvent', false);
 
@@ -700,11 +687,11 @@ export default class Graphing {
     }
 
     moveQuadrant(order, translateY, transition) {
-        let image = document.getElementById('headerimg');
-        let quadrantGroup = document.getElementById('quadrant-group-' + order).getBoundingClientRect();
+        const image = document.getElementById('headerimg');
+        const quadrantGroup = document.getElementById('quadrant-group-' + order).getBoundingClientRect();
 
-        let lgScreenWidth = window.innerWidth > 992;
-        let coordDiff = lgScreenWidth ? (scale * quadrantGroup.width) - quadrantGroup.width : 0; // only consider coordDiff for large screen width
+        const lgScreenWidth = window.innerWidth > 992;
+        const coordDiff = lgScreenWidth ? (scale * quadrantGroup.width) - quadrantGroup.width : 0; // only consider coordDiff for large screen width
 
         let translateX;
 
@@ -725,13 +712,13 @@ export default class Graphing {
                 .attr('transform', 'translate(' + translateX + ',' + translateY + ')scale(' + scale + ')');
         }
 
-        let blipScale = 3 / 4;
-        let blipTranslate = (1 - blipScale) / blipScale;
+        const blipScale = 3 / 4;
+        const blipTranslate = (1 - blipScale) / blipScale;
 
         // move blips
         selectAll('.quadrant-group-' + order + ' .blip-link text').each((d, i, nodes) => {
-            let x = select(nodes[i]).attr('x');
-            let y = select(nodes[i]).attr('y');
+            const x = select(nodes[i]).attr('x');
+            const y = select(nodes[i]).attr('y');
             select(nodes[i].parentNode)
                 .transition()
                 .duration(ANIMATION_DURATION)
@@ -746,13 +733,13 @@ export default class Graphing {
     };
 
     constructSheetUrl(sheetName) {
-        let noParamUrl = window.location.href.substring(0, window.location.href.indexOf(window.location.search));
-        let queryParams = extractQueryParams(window.location.search.substring(1));
+        const noParamUrl = window.location.href.substring(0, window.location.href.indexOf(window.location.search));
+        const queryParams = extractQueryParams(window.location.search.substring(1));
         return noParamUrl + '?sheetId=' + queryParams.sheetId + '&sheetName=' + encodeURIComponent(sheetName);
     }
 
     plotAlternativeRadars(alternatives, currentSheet) {
-        let alternativeSheetButton = alternativeDiv
+        const alternativeSheetButton = alternativeDiv
             .append('div')
             .classed('multiple-sheet-button-group', true);
 
@@ -778,10 +765,10 @@ export default class Graphing {
     };
 
     plotRadar() {
-        let rings = this._radar.rings;
-        let quadrants = this._radar.quadrants;
-        let alternatives = this._radar.alternatives;
-        let currentSheet = this._radar.currentSheetName;
+        const rings = this._radar.rings;
+        const quadrants = this._radar.quadrants;
+        const alternatives = this._radar.alternatives;
+        const currentSheet = this._radar.currentSheetName;
 
         this.plotAlternativeRadars(alternatives, currentSheet);
 
@@ -805,9 +792,9 @@ export default class Graphing {
 
     alignQuadrant() {
         if (this.isAnyQuadrantSelected()) {
-            let order = select('.quadrant-table.selected').attr('class').match(/(first)|(second)|(third)|(fourth)/g).toString();
+            const order = select('.quadrant-table.selected').attr('class').match(/(first)|(second)|(third)|(fourth)/g).toString();
 
-            let translate = this.getTranslation(select('#quadrant-group-' + order).node());
+            const translate = this.getTranslation(select('#quadrant-group-' + order).node());
             select('.quadrant-group-' + order).attr('transform', null);
             this.moveQuadrant(order, translate[1], false);
         }
@@ -819,7 +806,7 @@ export default class Graphing {
 
 
     getTranslation(elem) {
-        let matrix = elem.transform.baseVal.consolidate().matrix;
+        const matrix = elem.transform.baseVal.consolidate().matrix;
         return [matrix.e, matrix.f];
     }
 }

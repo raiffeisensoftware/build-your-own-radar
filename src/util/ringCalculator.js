@@ -12,8 +12,8 @@ export default class RingCalculator {
     };
 
     getRadius(ring) {
-        let total = this.sum(this._numberOfRings);
-        let sum = this.sum(ring);
+        const total = this.sum(this._numberOfRings);
+        const sum = this.sum(ring);
 
         return this._maxRadius * sum / total;
     };

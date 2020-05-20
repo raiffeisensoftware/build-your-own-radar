@@ -1,8 +1,8 @@
-import MalformedDataError from '../exceptions/malformedDataError';
-import ExceptionMessages from '../util/exceptionMessages';
-import {getConfig} from '../util/normalizedConfig';
+import { MalformedDataError } from '../exceptions/malformedDataError';
+import { ExceptionMessages } from '../util/exceptionMessages';
+import { getConfig } from '../util/normalizedConfig';
 import Ring from '../models/ring';
-import {plotErrorMessage} from "../util/factory";
+import { plotErrorMessage } from '../util/factory';
 
 export default class Radar {
 

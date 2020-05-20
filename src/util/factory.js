@@ -1,16 +1,16 @@
 /* eslint no-constant-condition: "off" */
 
-import {getConfig} from './normalizedConfig';
-import {capitalize} from './util';
-import {select, selectAll} from 'd3-selection';
+import { getConfig } from './normalizedConfig';
+import { capitalize } from './util';
+import { select, selectAll } from 'd3-selection';
 import Quadrant from '../models/quadrant';
 import Ring from '../models/ring';
 import Blip from '../models/blip';
 import Radar from '../models/radar';
 import GraphingRadar from '../graphing/graphing';
-import MalformedDataError from '../exceptions/malformedDataError';
-import SheetNotFoundError from '../exceptions/sheetNotFoundError';
-import ExceptionMessages from './exceptionMessages';
+import { MalformedDataError } from '../exceptions/malformedDataError';
+import { SheetNotFoundError } from '../exceptions/sheetNotFoundError';
+import { ExceptionMessages } from './exceptionMessages';
 
 let normalizedConfig = getConfig();
 
@@ -156,6 +156,7 @@ export function plotErrorMessage(exception) {
     if (exception instanceof MalformedDataError) {
         message = message + '<br>' + exception.message;
     } else if (exception instanceof SheetNotFoundError) {
+        console.log('sheet not found')
         message = exception.message;
     } else {
         console.error(exception);

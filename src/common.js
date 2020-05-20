@@ -3,8 +3,8 @@ import './images/tech-radar-landing-page-wide.png';
 import './images/favicon.ico';
 import './images/search-logo-2x.svg';
 import 'es6-promise/auto';
-import {getConfig} from './util/normalizedConfig';
-import {checkForOldIE} from './util/ieCheck';
+import { getConfig } from './util/normalizedConfig';
+import { checkForOldIE } from './util/ieCheck';
 
 checkForOldIE();
 

@@ -1,4 +1,4 @@
-import {select} from "d3-selection";
+import { select } from 'd3-selection';
 
 export function capitalize(string) {
     return string.split(' ').map(part => {
@@ -7,14 +7,14 @@ export function capitalize(string) {
 }
 
 export function extractDomainName(url) {
-    let search = /.+:\/\/([^\\/]+)/;
-    let match = search.exec(decodeURIComponent(url.replace(/\+/g, ' ')));
+    const search = /.+:\/\/([^\\/]+)/;
+    const match = search.exec(decodeURIComponent(url.replace(/\+/g, ' ')));
     return match == null ? null : match[1];
 }
 
 export function extractFileName(url) {
-    let search = /([^\\/]+)$/;
-    let match = search.exec(decodeURIComponent(url.replace(/\+/g, ' ')));
+    const search = /([^\\/]+)$/;
+    const match = search.exec(decodeURIComponent(url.replace(/\+/g, ' ')));
     if (match != null) {
         return match[1];
     }
@@ -22,12 +22,12 @@ export function extractFileName(url) {
 }
 
 export function extractQueryParams(queryString) {
-    let decode = function (s) {
+    const decode = function (s) {
         return decodeURIComponent(s.replace(/\+/g, ' '));
     };
 
-    let search = /([^&=]+)=?([^&]*)/g;
-    let queryParams = {};
+    const search = /([^&=]+)=?([^&]*)/g;
+    const queryParams = {};
     let match;
 
     while ((match = search.exec(queryString))) {
@@ -38,7 +38,7 @@ export function extractQueryParams(queryString) {
 }
 
 export function searchBlipByParam(graphingRadar, searchParam) {
-    let blips = graphingRadar.radar.blips;
+    const blips = graphingRadar.radar.blips;
 
     blips.forEach((b) => {
         b.id = decodeURIComponent(b.id.replace(/\+/g, ' '));
@@ -47,7 +47,7 @@ export function searchBlipByParam(graphingRadar, searchParam) {
     let blip = blips.filter(bl => bl.id === searchParam)[0];
 
     setTimeout(() => {
-        let clickEvent = new Event("click");
+        const clickEvent = new Event('click');
         select('#blip-link-' + blip.number).node().dispatchEvent(clickEvent);
     }, 500);
 }
