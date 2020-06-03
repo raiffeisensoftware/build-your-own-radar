@@ -164,10 +164,10 @@ export default class Graphing {
     }
 
     plotBlips(quadrantGroup, rings, quadrantWrapper) {
-        let quadrant = quadrantWrapper.quadrant;
-        let startAngle = quadrantWrapper.startAngle;
-        let order = quadrantWrapper.order;
-        let blips = quadrant.blips;
+        const quadrant = quadrantWrapper.quadrant;
+        const startAngle = quadrantWrapper.startAngle;
+        const order = quadrantWrapper.order;
+        const blips = quadrant.blips;
 
         let elem = select('.quadrant-table.' + order);
 
@@ -187,23 +187,21 @@ export default class Graphing {
                 return;
             }
 
-            let maxRadius, minRadius;
+            const minRadius = this.ringCalculator.getRadius(i);
+            const maxRadius = this.ringCalculator.getRadius(i + 1);
 
-            minRadius = this.ringCalculator.getRadius(i);
-            maxRadius = this.ringCalculator.getRadius(i + 1);
-
-            let sumRing = ring.name.split('').reduce((p, c) => {
+            const sumRing = ring.name.split('').reduce((p, c) => {
                 return p + c.charCodeAt(0);
             }, 0);
 
-            let sumQuadrant = quadrant.name.split('').reduce((p, c) => {
+            const sumQuadrant = quadrant.name.split('').reduce((p, c) => {
                 return p + c.charCodeAt(0);
             }, 0);
 
             chance = new Chance(Math.PI * sumRing * ring.name.length * sumQuadrant * quadrant.name.length);
 
-            let ringList = this.addRing(ring.name, order);
-            let allBlipCoordinatesInRing = [];
+            const ringList = this.addRing(ring.name, order);
+            const allBlipCoordinatesInRing = [];
 
             ringBlips.forEach((blip) => {
                 this._radar.addBlip(blip);

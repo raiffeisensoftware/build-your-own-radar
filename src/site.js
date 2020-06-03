@@ -14,7 +14,7 @@ if (!sheetId) {
 }
 
 if (((queryParams.sheetId && domainName) || Object.keys(queryParams).length) && sheetId.endsWith('csv')) {
-    let sheet = new CsvDocument(sheetId);
+    const sheet = new CsvDocument(sheetId);
     sheet.createBlips(queryParams);
 } else {
     plotHeader();

@@ -44,10 +44,10 @@ export function searchBlipByParam(graphingRadar, searchParam) {
         b.id = decodeURIComponent(b.id.replace(/\+/g, ' '));
     });
 
-    let blip = blips.filter(bl => bl.id === searchParam)[0];
+    const filteredBlip = blips.filter(bl => bl.id === searchParam)[0];
 
     setTimeout(() => {
         const clickEvent = new Event('click');
-        select('#blip-link-' + blip.number).node().dispatchEvent(clickEvent);
+        select('#blip-link-' + filteredBlip.number).node().dispatchEvent(clickEvent);
     }, 500);
 }

@@ -13,15 +13,16 @@ export default class CsvDocument {
         csv(this._url, {credentials: 'same-origin'})
             .then((data) => {
                 try {
-                    let columnNames = data['columns'];
+                    const columnNames = data['columns'];
                     delete data['columns'];
-                    let contentValidator = new ContentValidator(columnNames);
+                    const contentValidator = new ContentValidator(columnNames);
                     contentValidator.verifyContent();
                     contentValidator.verifyHeaders();
-                    let blips = new InputSanitizer().sanitize(data);
-                    let graphingRadar = plotRadar(extractFileName(this._url), blips, 'CSV File', []);
+                    const blips = new InputSanitizer().sanitize(data);
+                    const graphingRadar = plotRadar(extractFileName(this._url), blips, 'CSV File', []);
 
                     data.forEach(bl => bl.id = decodeURIComponent(bl.id.replace(/\+/g, ' ')));
+
                     if (queryParams.search) {
                         searchBlipByParam(graphingRadar, queryParams.search);
                     }

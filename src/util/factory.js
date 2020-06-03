@@ -19,9 +19,9 @@ export function plotRadar(title, blips, currentRadarName, alternativeRadars) {
     selectAll('.loading').remove();
     normalizedConfig = getConfig(blips);
 
-    let rings = normalizedConfig.rings;
-    let ringMap = {};
-    let maxRings = 4;
+    const rings = normalizedConfig.rings;
+    const ringMap = {};
+    const maxRings = 4;
 
     rings.forEach((ringName, i) => {
         if (i === maxRings) {
@@ -31,13 +31,13 @@ export function plotRadar(title, blips, currentRadarName, alternativeRadars) {
         ringMap[ringName] = new Ring(ringName, i);
     });
 
-    let quadrants = {};
+    const quadrants = {};
     normalizedConfig.quadrants.forEach((name) => {
         quadrants[name] = new Quadrant(capitalize(name));
     });
 
     blips.forEach((blip) => {
-        // errorhandling in case
+        // error handling in case
         const currentQuadrant = quadrants[blip.quadrant] || quadrants[blip.quadrant.toLowerCase()];
         const currentRing = ringMap[blip.ring] || ringMap[blip.ring.toLowerCase()];
         if (!currentQuadrant) {
@@ -48,7 +48,7 @@ export function plotRadar(title, blips, currentRadarName, alternativeRadars) {
         currentQuadrant.add(new Blip(blip.id, blip.name, currentRing, blip.isNew.toLowerCase() === 'true', blip.topic, blip.description));
     });
 
-    let radar = new Radar();
+    const radar = new Radar();
     Object.keys(quadrants).forEach((key) => {
         radar.addQuadrant(quadrants[key]);
     });
@@ -63,7 +63,7 @@ export function plotRadar(title, blips, currentRadarName, alternativeRadars) {
         radar.currentSheetName = currentRadarName;
     }
 
-    let graphingRadar = new GraphingRadar(800, radar);
+    const graphingRadar = new GraphingRadar(800, radar);
     graphingRadar.init();
     graphingRadar.plot();
     graphingRadar.createCustomHomeLink(select('header').select('div.container'));
@@ -84,7 +84,7 @@ export function plotFooter() {
 }
 
 export function plotHeader() {
-    let internPage = window.location.href.includes('intern') || window.location.href.includes('localhost');
+    const internPage = window.location.href.includes('intern') || window.location.href.includes('localhost');
 
     let header = select('body')
         .insert('main').attr('role', 'main').attr('class', 'container');
@@ -96,7 +96,7 @@ export function plotHeader() {
             .html(getConfig().hint);
     }
 
-    let main = select('main');
+    const main = select('main');
     main.append('br');
 
     if (internPage) {
@@ -118,12 +118,12 @@ export function plotHeader() {
 }
 
 export function plotForm() {
-    let content = select('main')
+    const content = select('main')
         .append('div')
         .attr('id', 'form')
         .attr('class', 'container');
 
-    let form = content.append('div')
+    const form = content.append('div')
         .attr('class', 'row')
         .append('form')
         .attr('method', 'get')
@@ -148,7 +148,7 @@ export function plotErrorMessage(exception) {
     plotHeader();
     let message = 'Oops! It seems like there are some problems with loading your data. ';
 
-    let content = select('main');
+    const content = select('main');
     setDocumentTitle();
 
     selectAll('.loading').remove();
@@ -163,7 +163,7 @@ export function plotErrorMessage(exception) {
     }
 
     const container = content.append('div').attr('class', 'error-container');
-    let errorContainer = container.append('div')
+    const errorContainer = container.append('div')
         .attr('class', 'error-container__message');
     errorContainer.append('div').append('p')
         .html(message);
@@ -172,7 +172,7 @@ export function plotErrorMessage(exception) {
 
     let homePageURL = window.location.protocol + '//' + window.location.hostname;
     homePageURL += (window.location.port === '' ? '' : ':' + window.location.port);
-    let homePage = '<a href=' + homePageURL + '>GO BACK</a>';
+    const homePage = '<a href=' + homePageURL + '>GO BACK</a>';
 
     errorContainer.append('div').append('p')
         .html(homePage);
