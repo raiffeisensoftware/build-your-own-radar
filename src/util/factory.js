@@ -45,7 +45,7 @@ export function plotRadar(title, blips, currentRadarName, alternativeRadars) {
         } else if (!currentRing) {
             throw new Error(`Invalid ring ${blip.ring} in Sheet entry ${blip.name}`);
         }
-        currentQuadrant.add(new Blip(blip.id, blip.name, currentRing, blip.isNew.toLowerCase() === 'true', blip.topic, blip.description));
+        currentQuadrant.add(new Blip(blip.id, blip.name, currentRing, blip.isNew.toLowerCase() === 'true', blip.topic, blip.description, blip.quadrant));
     });
 
     const radar = new Radar();

@@ -1,7 +1,7 @@
 const IDEAL_BLIP_WIDTH = 22;
 
 export default class Blip {
-    constructor(id, name, ring, isNew, topic, description) {
+    constructor(id, name, ring, isNew, topic, description, quadrant) {
         this._id = id;
         this._number = -1;
         this._width = IDEAL_BLIP_WIDTH;
@@ -10,6 +10,7 @@ export default class Blip {
         this._isNew = isNew;
         this._topic = topic;
         this._description = description;
+        this._quadrant = quadrant;
     }
 
     get id() {
@@ -54,5 +55,13 @@ export default class Blip {
 
     set width(newWidth) {
         this._width = newWidth;
+    }
+
+    get quadrant() {
+        return this._quadrant;
+    }
+
+    set quadrant(newQuadrant) {
+        this._quadrant = newQuadrant;
     }
 }

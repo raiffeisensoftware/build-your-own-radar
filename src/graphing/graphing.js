@@ -360,7 +360,6 @@ export default class Graphing {
         group.on('click', () => {
             const blipNumber = group.select('text').text();
             const description = select('#blip-description-' + blipNumber);
-
             // remove non-clicked expanded and highlight 2 attributes
             const highlightApplied = blipListItem.select('.blip-list-item').classed('highlight');
             select('.blip-list-item.highlight').node() !== blipListItem.node() &&
@@ -373,11 +372,8 @@ export default class Graphing {
             description.classed('expanded', !expanded);
 
             if (description.attr('class').includes('expanded')) {
-                // Gets the name of the quadrant from the blip parent element (quadrant-group-x) and sets faster timeout if selected to account for transition animation
-                const parent = select(group.node().parentNode).attr('class');
-                const index = parent.indexOf('p-');
-                const timeout = select('.quadrant-table.' + parent.substr(index + 2))
-                    .attr('class').includes('selected') ? 300 : ANIMATION_DURATION + 100;
+                const selectedBtn = select('.btn-toolbar button.selected');
+                const timeout = selectedBtn && selectedBtn.node() && selectedBtn.text() === blip.quadrant ? 300 : ANIMATION_DURATION + 100;
 
                 setTimeout(() => {
                     if (isIE11) { // workaround for IE11 because of lacking scrollIntoViewOptions support

@@ -117,6 +117,12 @@
     }
   }
 
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    svg#radar-plot {
+      overflow: hidden !important;
+    }
+  }
+
   div.quadrant-table {
     z-index: 1;
     display: none;
