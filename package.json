@@ -7,6 +7,7 @@
     "test": "node_modules/.bin/karma start",
     "dev": "webpack-dev-server -d --mode development --inline",
     "build": "webpack --mode production",
+    "build-dev": "webpack --mode development",
     "analyze-bundle": "webpack --mode production --json > stats.json && webpack-bundle-analyzer stats.json"
   },
   "author": "Raiffeisen Software GmbH",
