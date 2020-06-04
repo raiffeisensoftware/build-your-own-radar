@@ -387,7 +387,7 @@ export default class Graphing {
                     }
                 }, timeout);
             }
-            quadrantGroup.node().dispatchEvent(new MouseEvent('click'));
+            quadrantGroup.node().dispatchEvent(new Event('click'));
         });
     }
 
