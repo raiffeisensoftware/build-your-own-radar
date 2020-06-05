@@ -9,7 +9,7 @@
 
 @media screen {
 
-  html {
+  body {
     overflow-y: scroll;
   }
 
@@ -23,7 +23,7 @@
     position: relative;
 
     #radar-container {
-      height: 938px;
+      height: 100%;
       position: relative;
     }
 
@@ -40,7 +40,7 @@
       overflow: visible;
       left: 0;
       right: 0;
-      height: 100%;
+      height: 938px;
       width: 100%;
 
       path {

@@ -21,7 +21,6 @@ let alternativeDiv;
 let chance;
 let selectQuadrantTimer;
 const scale = 1.2;
-const isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
 
 export default class Graphing {
     constructor(size, radar) {
@@ -376,11 +375,7 @@ export default class Graphing {
                 const timeout = selectedBtn && selectedBtn.node() && selectedBtn.text() === blip.quadrant ? 300 : ANIMATION_DURATION + 100;
 
                 setTimeout(() => {
-                    if (isIE11) { // workaround for IE11 because of lacking scrollIntoViewOptions support
-                        document.getElementById('blip-description-' + blipNumber).scrollIntoView(false);
-                    } else {
-                        document.getElementById('blip-description-' + blipNumber).scrollIntoView({block: 'center', behavior: 'smooth'});
-                    }
+                    document.getElementById('blip-description-' + blipNumber).scrollIntoView({block: 'center', behavior: 'smooth'});
                 }, timeout);
             }
             quadrantGroup.node().dispatchEvent(new Event('click'));
@@ -493,11 +488,7 @@ export default class Graphing {
         }
 
         setTimeout(() => {
-            if (isIE11) { // check for IE11 because of lacking scrollIntoViewOptions support
-                document.getElementById('blip-description-' + blip.number).scrollIntoView(false);
-            } else {
-                document.getElementById('blip-description-' + blip.number).scrollIntoView({block: 'center', behavior: 'smooth'});
-            }
+            document.getElementById('blip-description-' + blip.number).scrollIntoView({block: 'center', behavior: 'smooth'});
         }, timeout);
     }
 

@@ -33,6 +33,7 @@
     "jquery": "^3.5.1",
     "jquery-ui": "^1.12.1",
     "sanitize-html": "^1.26.0",
+    "smoothscroll-polyfill": "^0.4.4",
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {

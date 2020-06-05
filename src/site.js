@@ -4,6 +4,9 @@ import { extractDomainName, extractQueryParams } from './util/util';
 import { plotFooter, plotForm, plotHeader, setDocumentTitle } from './util/factory';
 import CsvDocument from './util/csvDocument';
 import 'events-polyfill';
+import smoothscroll from 'smoothscroll-polyfill';
+
+smoothscroll.polyfill();
 
 const domainName = extractDomainName(window.location.search.substring(1));
 const queryString = window.location.href.match(/\?(.*)/);
