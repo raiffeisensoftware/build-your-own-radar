@@ -1,207 +1,210 @@
-// Optional hint
-
-.hintContainer {
-  position: fixed;
-  z-index: 3;
-  left: 0;
-  top: 0;
-  width: 100%;
-  background-color: #007179;
-  color: white;
-  text-align: center;
-  overflow: hidden;
-}
-
-@media (max-width: 768px) {
-  .hint {
-    text-align: center;
-    padding: 0.4%;
-    font-size: 60%;
-  }
-}
-
-@media (min-width: 768px) {
-  .hint {
-    text-align: center;
-    padding: 0.4%;
-    font-size: 75%;
-  }
-}
-
-@media (min-width: 992px) {
-  .hint {
-    text-align: center;
-    padding: 0.4%;
-    font-size: 100%;
-  }
-}
-
-// link to home
-.home-link {
-  color: #007bff !important;
-  margin-bottom: 10px;
-  line-height: normal;
-  cursor: pointer;
-  font-size: $baseFont;
-  text-align: left;
-}
-
-.home-link:hover {
-  color: #0056b3 !important;
-  text-decoration: underline !important;
-}
-
-@media (max-width: 992px) {
-  #home-link {
-    justify-content: center;
-  }
-}
-
-header {
-  text-align: center;
-
-  .btn-container {
-    align-items: center;
-    padding: 1% 1% 1% 0;
-  }
-
-  @media(max-width: 992px) {
-    .center {
-      padding-top: 35%;
-      transition: padding-top 0.5s;
-    }
-
-    .no-center {
-      padding-top: 1%;
-      transition: padding-top 0.5s;
-    }
-  }
-
-  // print radar button
-  .print-btn-image {
-    background: white !important;
-  }
-
-  .print-btn-image:before {
-    content: "";
+@media screen {
+  // Optional hint
+  .hintContainer {
+    position: fixed;
+    z-index: 3;
+    left: 0;
+    top: 0;
     width: 100%;
-    height: 30px;
-    display: inline-block;
-    vertical-align: text-top;
-    background-position: center center;
-    background-repeat: no-repeat;
+    background-color: #007179;
+    color: white;
+    text-align: center;
+    overflow: hidden;
   }
 
-  .print-radar-btn:before {
-    background-image: url("../images/printer.svg");
+  @media (max-width: 768px) {
+    .hint {
+      text-align: center;
+      padding: 0.4%;
+      font-size: 60%;
+    }
   }
 
-  .btn {
-    font-size: $baseFont;
-    text-transform: capitalize;
-    border-radius: 2px;
+  @media (min-width: 768px) {
+    .hint {
+      text-align: center;
+      padding: 0.4%;
+      font-size: 75%;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .hint {
+      text-align: center;
+      padding: 0.4%;
+      font-size: 100%;
+    }
+  }
+
+  // link to home
+  .home-link {
+    color: #007bff !important;
+    margin-bottom: 10px;
+    line-height: normal;
     cursor: pointer;
-    transition: all .2s ease-out;
-    margin: 0;
-    background-color: $grey-light;
-    border: 1px solid white;
+    font-size: $baseFont;
+    text-align: left;
+  }
 
-    &:hover, &.selected {
+  .home-link:hover {
+    color: #0056b3 !important;
+    text-decoration: underline !important;
+  }
 
-      transform: translate(0, -2px);
-      opacity: .85;
-      background-color: transparent;
+  @media (max-width: 992px) {
+    #home-link {
+      justify-content: center;
+    }
+  }
 
-      &.first {
-        color: white;
-        background-color: $green;
+  header {
+    text-align: center;
+
+    .btn-container {
+      align-items: center;
+      padding: 1% 1% 1% 0;
+    }
+
+    @media(max-width: 992px) {
+      .center {
+        padding-top: 35%;
+        transition: padding-top 0.5s;
       }
 
-      &.second {
-        color: white;
-        background-color: $blue;
-      }
-
-      &.third {
-        color: white;
-        background-color: $orange;
-      }
-
-      &.fourth {
-        color: white;
-        background-color: $violet;
+      .no-center {
+        padding-top: 1%;
+        transition: padding-top 0.5s;
       }
     }
 
-    &.colored {
+    // print radar button
+    .print-btn-image {
+      background: white !important;
+    }
 
-      &.first {
-        background-color: $green;
-        color: $white;
+    .print-btn-image:before {
+      content: "";
+      width: 100%;
+      height: 30px;
+      display: inline-block;
+      vertical-align: text-top;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+
+    .print-radar-btn:before {
+      background-image: url("../images/printer.svg");
+    }
+
+    .btn {
+      font-size: $baseFont;
+      text-transform: capitalize;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all .2s ease-out;
+      margin: 0;
+      background-color: $grey-light;
+      border: 1px solid white;
+
+      &:hover, &.selected {
+
+        transform: translate(0, -2px);
+        opacity: .85;
+        background-color: transparent;
+
+        &.first {
+          color: white;
+          background-color: $green;
+        }
+
+        &.second {
+          color: white;
+          background-color: $blue;
+        }
+
+        &.third {
+          color: white;
+          background-color: $orange;
+        }
+
+        &.fourth {
+          color: white;
+          background-color: $violet;
+        }
       }
 
-      &.second {
-        background-color: $blue;
-        color: $white;
+      &.colored {
+
+        &.first {
+          background-color: $green;
+          color: $white;
+        }
+
+        &.second {
+          background-color: $blue;
+          color: $white;
+        }
+
+        &.third {
+          background-color: $orange;
+          color: $white;
+        }
+
+        &.fourth {
+          background-color: $violet;
+          color: $white;
+        }
+      }
+    }
+
+    #alternative-buttons {
+      margin-bottom: 50px;
+
+      .highlight {
+        border-bottom: none;
+        font-weight: bold;
       }
 
-      &.third {
-        background-color: $orange;
-        color: $white;
+      p {
+        font-size: 16px;
+        font-weight: 700;
+        margin-top: 0;
+        margin-bottom: 10px;
       }
 
-      &.fourth {
-        background-color: $violet;
-        color: $white;
+      .multiple-sheet-button {
+        margin-right: 10px;
+      }
+
+      input {
+        padding-left: 35px;
+        width: 275px;
       }
     }
   }
 
-  #alternative-buttons {
-    margin-bottom: 50px;
+  .search-radar {
+    border: 1px solid #aaa;
+    background-color: inherit;
+    background-image: url("../images/search-logo-2x.svg");
+    background-repeat: no-repeat;
+    background-position: 10px;
+    padding-left: 35px;
+  }
 
-    .highlight {
-      border-bottom: none;
-      font-weight: bold;
-    }
+  .ui-autocomplete {
+    width: 275px !important;
 
-    p {
-      font-size: 16px;
-      font-weight: 700;
-      margin-top: 0;
-      margin-bottom: 10px;
-    }
+    .ui-menu-item {
+      white-space: normal;
+      font-size: 14px;
+      font-weight: 400;
 
-    .multiple-sheet-button {
-      margin-right: 10px;
-    }
-
-    input {
-      padding-left: 35px;
-      width: 275px;
+      .ui-menu-item-wrapper {
+        padding: 5px 10px;
+      }
     }
   }
-}
 
-.search-radar {
-  border: 1px solid #aaa;
-  background-color: inherit;
-  background-image: url("../images/search-logo-2x.svg");
-  background-repeat: no-repeat;
-  background-position: 10px;
-  padding-left: 35px;
-}
 
-.ui-autocomplete {
-  width: 275px !important;
-
-  .ui-menu-item {
-    white-space: normal;
-    font-size: 14px;
-    font-weight: 400;
-
-    .ui-menu-item-wrapper {
-      padding: 5px 10px;
-    }
-  }
 }
