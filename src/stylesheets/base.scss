@@ -117,7 +117,15 @@
     }
   }
 
+  // Fixes side scrolling behaviour on IE11 when clicking on a blip
   @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    svg#radar-plot {
+      overflow: hidden !important;
+    }
+  }
+
+  // Fixes side scrolling behaviour on old MS Edge when clicking on a blip
+  @supports (-ms-ime-align: auto) {
     svg#radar-plot {
       overflow: hidden !important;
     }
