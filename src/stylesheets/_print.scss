@@ -10,13 +10,20 @@
     overflow: visible;
   }
 
+  footer,
+  #radar-plot,
+  #home-link,
+  .error-container {
+    display: none;
+  }
+
   .hintContainer {
     width: 100%;
     border: 1px solid red;
     text-align: center;
   }
 
-  .btn-container {
+  header {
 
     .btn-toolbar {
       display: none;
@@ -34,23 +41,6 @@
       display: block;
       text-align: center;
     }
-  }
-
-
-  #home-link {
-    display: none;
-  }
-
-  #radar-plot {
-    display: none;
-  }
-
-  .error-container {
-    display: none;
-  }
-
-  footer {
-    display: none;
   }
 
   #radar-container {

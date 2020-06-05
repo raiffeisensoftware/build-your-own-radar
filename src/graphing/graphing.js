@@ -578,7 +578,7 @@ export default class Graphing {
                 });
         });
 
-        buttonsGroup.append('div').attr('class', 'col-12 col-lg-2 py-2 platform')
+        buttonsGroup.append('div').attr('class', 'col-12 col-lg-3 py-2 platform')
             .html('Plattform: <strong>' + document.title + '</strong>');
 
         buttonsGroup.append('div')
@@ -604,12 +604,12 @@ export default class Graphing {
                 }, timeout)
             }
         });
-
-        buttonsGroup.append('button')
+        // TODO: Commented out for the time being because of totally different views on browser
+/*        buttonsGroup.append('button')
             .attr('class', 'btn print-btn-image print-radar-btn d-none d-lg-block col-1')
             .on('click', () => {
                 window.print();
-            });
+            });*/
     }
 
     plotRadarFooter() {
