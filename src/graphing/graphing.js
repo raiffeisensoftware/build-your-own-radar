@@ -176,6 +176,11 @@ export default class Graphing {
             .attr('class', 'quadrant-table__name')
             .text(quadrant.name);
 
+        if(blips.length === 0){
+            elem.append('div').attr('class', 'emptyQuadrant').text(this.normalizedConfig.emptyQuadrantText);
+            return;
+        }
+
         rings.forEach((ring, i) => {
 
             let ringBlips = blips.filter((blip) => {
@@ -605,11 +610,11 @@ export default class Graphing {
             }
         });
         // TODO: Commented out for the time being because of totally different views on browser
-/*        buttonsGroup.append('button')
-            .attr('class', 'btn print-btn-image print-radar-btn d-none d-lg-block col-1')
-            .on('click', () => {
-                window.print();
-            });*/
+        /*        buttonsGroup.append('button')
+                    .attr('class', 'btn print-btn-image print-radar-btn d-none d-lg-block col-1')
+                    .on('click', () => {
+                        window.print();
+                    });*/
     }
 
     plotRadarFooter() {
@@ -764,6 +769,7 @@ export default class Graphing {
             .attr('class', 'd-none d-lg-block')
             .attr('viewBox', '0 0 800 938')
             .attr('preserveAspectRatio', 'xMidYMin meet');
+
         quadrants.forEach((quadrant) => {
             let quadrantGroup = this.plotQuadrant(rings, quadrant);
             this.plotLines(quadrantGroup, quadrant);

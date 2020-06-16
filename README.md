@@ -28,6 +28,7 @@ config.json properties:
 - `platformPath` If set, shows a link in the top left with the a link to the specified path
 - `CsvQueryParams` allows you to use set queryParameters to replace `radarBaseUrl` placeholders of the same name by a queryParameter or if none is provided, a default value stored as the value of the placeholder entry.
 - `footerText` Sets the text for the footer allowing customization.
+- `emptyQuadrantText` When set displays a message instead of a empty Quadrant Table
 
 ## How To Use
 
