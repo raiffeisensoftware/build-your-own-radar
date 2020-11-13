@@ -29,6 +29,8 @@ config.json properties:
 - `CsvQueryParams` allows you to use set queryParameters to replace `radarBaseUrl` placeholders of the same name by a queryParameter or if none is provided, a default value stored as the value of the placeholder entry.
 - `footerText` Sets the text for the footer allowing customization.
 - `emptyQuadrantText` When set displays a message instead of a empty Quadrant Table
+- `radarSearchText` Changes the default placeholder in the search field
+- `backToHomeText` Changes the default text for the 'Back to Radar home' field
 
 ## How To Use
 

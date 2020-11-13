@@ -397,8 +397,9 @@ export default class Graphing {
                 .attr('id', 'home-link')
                 .attr('class', 'container row py-2');
 
+            const backToOverviewText = getConfig().backToHomeText || 'Back to Radar home';
             pageElement.append('a')
-                .html('&#171; Zurück zur Radar-Übersicht')
+                .html('&#171; ' + backToOverviewText)
                 .classed('home-link', true)
                 .classed('selected', true)
                 .on('click', () => {
@@ -586,11 +587,12 @@ export default class Graphing {
         buttonsGroup.append('div').attr('class', 'col-12 col-lg-3 py-2 platform')
             .html('Plattform: <strong>' + document.title + '</strong>');
 
+        const searchText = getConfig().radarSearchText || 'Search';
         buttonsGroup.append('div')
             .attr('class', 'search-box col-8 offset-2 col-lg-3 offset-lg-0')
             .append('input')
             .attr('id', 'auto-complete')
-            .attr('placeholder', 'Suchen im Radar')
+            .attr('placeholder', searchText)
             .classed('search-radar', true);
 
         $('#auto-complete').autocomplete({
